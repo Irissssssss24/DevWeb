@@ -1,97 +1,66 @@
 <?php
 session_start();
-$_SESSION["identifiant"]=$_POST['id'];
-$_SESSION["motdepasse"]=$_POST['mdp'];
 
-
-if (($handle = fopen("infos_Salarié.csv", "r"))) {
-   while (($data = fgetcsv($handle, 1000, ";"))) {
-
-
-    if ($data[6] == $_POST['id'] && password_verify($_POST['mdp'], $data[7])) {
-            $_SESSION["nom"]=$data[0];
-            $_SESSION["prénom"]=$data[1];
-            $_SESSION["date_de_naissance"]=$data[2];
-            $_SESSION["mail"]=$data[3];
-            $_SESSION["téléphone"]=$data[4];
-            $_SESSION["num_sécu"]=$data[5];
-            $_SESSION["salariés"] = $_SESSION["nom"]. " ".$_SESSION["prénom"] ;
-            $_SESSION["section"] = $data[8];
-            $_SESSION["identifiant"]=$data[6];
-            $_SESSION["motSecret"]=$data[7];
-            $_SESSION["statut"]="salarie";
-            $_SESSION["role"]="salarie";
-            header('Location: premiereCo.php');
-            exit();
-        }
-    }
-    fclose($handle);
-}
-if (($handle1 = fopen("infos_Admin1.csv", "r"))) {
-    while (($data = fgetcsv($handle1, 1000, ";"))) {
-        if ($data[6]==$_POST['id'] && password_verify($_POST['mdp'], $data[7])){
-            $_SESSION["nom"]=$data[0];
-            $_SESSION["prénom"]=$data[1];
-            $_SESSION["date_de_naissance"]=$data[2];
-            $_SESSION["mail"]=$data[3];
-            $_SESSION["téléphone"]=$data[4];
-            $_SESSION["num_sécu"]=$data[5];
-            $_SESSION["admin1"] = $_SESSION["nom"]. " ".$_SESSION["prénom"];
-            $_SESSION["identifiant"]=$data[6];
-            $_SESSION["motSecret"]=$data[7];
-            $_SESSION["role"]="admin1";
-            header('Location: admin1.php');
-            exit();
-        }
-    }
-    fclose($handle1);
-}
-if (($handle = fopen("infos_Admin.csv", "r"))) {
-    while (($data = fgetcsv($handle, 1000, ";"))) {
-        
-        if ($data[6]==$_POST['id'] && password_verify($_POST['mdp'], $data[7])){
-            $_SESSION["nom"]=$data[0];
-            $_SESSION["prénom"]=$data[1];
-            $_SESSION["date_de_naissance"]=$data[2];
-            $_SESSION["mail"]=$data[3];
-            $_SESSION["téléphone"]=$data[4];
-            $_SESSION["num_sécu"]=$data[5];
-            $_SESSION["admin"] = $_SESSION["nom"]. " ".$_SESSION["prénom"];
-            $_SESSION["identifiant"]=$data[6];
-            $_SESSION["motSecret"]=$data[7];
-            $_SESSION["role"]="admin";
-            header('Location: admin.php');
-            exit();
-        }
-        
-    }
-    fclose($handle);
+// Vérification de la méthode de requête
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: Portail_Connexion.php');
+    exit();
 }
 
-if (($handle = fopen("delegation.csv", "r"))) {
-    while (($data = fgetcsv($handle, 1000, ";"))) {
-        
-        if ($data[6]==$_POST['id'] && password_verify($_POST['mdp'], $data[7])){
-            $_SESSION["nom"]=$data[0];
-            $_SESSION["prénom"]=$data[1];
-            $_SESSION["date_de_naissance"]=$data[2];
-            $_SESSION["mail"]=$data[3];
-            $_SESSION["téléphone"]=$data[4];
-            $_SESSION["num_sécu"]=$data[5];
-            $_SESSION["delegation"] = $_SESSION["nom"]. " ".$_SESSION["prénom"];
-
-            $_SESSION["identifiant"]=$data[6];
-            $_SESSION["motSecret"]=$data[7];
-            $_SESSION["role"]="delegation";
-            header('Location: delegation.php');
-            exit();
-        }
-        
-    }
-    fclose($handle);
+//si les champs sont vides, on redirige vers la page de connexion avec un message d'erreur
+if (empty($_POST['email']) || empty($_POST['password'])) {
+    header('Location: Portail_Connexion.php?error=champs_vides');
+    exit();
 }
 
+// Connexion à la base de données
+require_once __DIR__ . '/config.php';
 
+// Récupération de l'utilisateur à partir de la base de données
+$email = trim($_POST['email']);
+$mdp   = $_POST['password'];
 
-header('Location: Portail_Connexion.php');
+//stmt est la variable qui récupére les informations de l'utilisateur 
+//pdo est la variable de connexion à la base de données
+//prepare est une méthode permettant l'execution de requêtes SQL sécurisées
+$stmt = $pdo->prepare(
+    'SELECT id_utilisateur, nom, prenom, email, mot_de_passe, role, first_login
+     FROM Utilisateur WHERE email = :email LIMIT 1'
+);
+//execute est une méthode qui exécute la requête préparée en remplaçant les paramètres par les valeurs fournies
+$stmt->execute(['email' => $email]);
+//fetch est une méthode qui récupère la ligne suivante dans la base de données
+$user = $stmt->fetch();
+
+// Vérification du mot de passe
+//password_verify pour la vérification hash
+if ($user && password_verify($mdp, $user['mot_de_passe'])) {
+
+    //on stocke les informations de l'utilisateur dans la session afin d'éviter plusieurs connexions à la base de données
+    $_SESSION['user_id'] = $user['id_utilisateur'];
+    $_SESSION['nom']     = $user['nom'];
+    $_SESSION['prenom']  = $user['prenom'];
+    $_SESSION['email']   = $user['email'];
+    $_SESSION['role']    = $user['role'];
+
+    // Faire première connexion 
+
+    // Redirection selon le rôle
+    $redirections = [
+        'etudiant'   => 'etudiant.php',
+        'entreprise' => 'entreprise.php',
+        'tuteur'     => 'tuteur.php',
+        'jury'       => 'jury.php',
+        'admin'      => 'admin.php',
+    ];
+
+    // on redirige vers la page d'accueil correspondant au rôle de l'utilisateur, ou vers la page de connexion en cas de rôle inconnu
+    $dest = $redirections[$user['role']] ?? 'Portail_Connexion.php';
+    header('Location: ' . $dest);
+    exit();
+}
+
+// si la connexion échoue
+header('Location: Portail_Connexion.php?error=identifiants_invalides');
+exit();
 ?>

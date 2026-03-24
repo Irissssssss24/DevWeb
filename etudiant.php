@@ -16,7 +16,7 @@ if (!isset($_SESSION["role"])){
     <body>
         <!-- barre de navigation -->
         <?php
-            include "barre_nav_admin.php";
+            include "barre_nav.php";
         ?>
         <div class="statut">
             <h1>Ma demande de Stage</h1>

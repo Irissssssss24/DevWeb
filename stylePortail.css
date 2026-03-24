@@ -1,0 +1,102 @@
+/* Variables de couleurs */
+:root {
+    --bleu-primaire: #0056b3;
+    --bleu-survol: #004494;
+    --fond-leger: #f4f7f9;
+    --texte-sombre: #333;
+    --blanc: #ffffff;
+    --bordure-grise: #ddd;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--fond-leger);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Boîte principale du portail */
+.conteneur-connexion {
+    background-color: var(--blanc);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+h1 {
+    color: var(--bleu-primaire);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.6rem;
+}
+
+/* Groupement des champs */
+.groupe-formulaire {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--texte-sombre);
+}
+
+.champ-saisie {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--bordure-grise);
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.champ-saisie:focus {
+    outline: none;
+    border-color: var(--bleu-primaire);
+    box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
+}
+
+/* Bouton d'action */
+.bouton-connexion {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--bleu-primaire);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.bouton-connexion:hover {
+    background-color: var(--bleu-survol);
+}
+
+/* Liens en bas de page */
+.liens-bas {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.lien-secondaire {
+    color: var(--bleu-primaire);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.lien-secondaire:hover {
+    text-decoration: underline;
+}
