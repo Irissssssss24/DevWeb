@@ -1,22 +1,11 @@
-CREATE database IF NOT EXISTS projetStage;
+-- Création de la base (à exécuter séparément si besoin)
+-- CREATE DATABASE projetstage;
 
-DROP TABLE Utilisateur;
-DROP TABLE Etudiant;
-DROP TABLE Entreprise;
-DROP TABLE Tuteur;
-DROP TABLE Jury;
-DROP TABLE Offre_stage;
-DROP TABLE Stage;
-DROP TABLE Document;
-DROP TABLE Remarque;
-DROP TABLE Suivi;
-DROP TABLE Authentification;
-
-use projetStage;
-
+-- =========================
 -- TABLE UTILISATEUR
-CREATE TABLE Utilisateur (
-    id_utilisateur PRIMARY KEY AUTO_INCREMENT,
+-- =========================
+CREATE TABLE utilisateur (
+    id_utilisateur SERIAL PRIMARY KEY,
     nom VARCHAR(100),
     prenom VARCHAR(100),
     email VARCHAR(150) UNIQUE,
@@ -24,140 +13,194 @@ CREATE TABLE Utilisateur (
     role VARCHAR(50)
 );
 
+-- =========================
 -- TABLE ETUDIANT
-CREATE TABLE Etudiant (
-    id_etudiant INTEGER(20) primary key AUTO_INCREMENT,
-    id_utilisateur INTEGER(20),
+-- =========================
+CREATE TABLE etudiant (
+    id_etudiant SERIAL PRIMARY KEY,
+    id_utilisateur INTEGER,
     filiere VARCHAR(100),
     niveau VARCHAR(50),
     cv TEXT,
-    FOREIGN KEY fk_util(id_utilisateur) REFERENCES Utilisateur(id_utilisateur)
-
+    CONSTRAINT fk_etudiant_utilisateur FOREIGN KEY (id_utilisateur)
+        REFERENCES utilisateur(id_utilisateur)
+        ON DELETE CASCADE
 );
 
+-- =========================
 -- TABLE ENTREPRISE
-CREATE TABLE Entreprise (
-    id_entreprise INTEGER(20) PRIMARY KEY AUTO_INCREMENT,
-    id_utilisateur INTEGER(20),
+-- =========================
+CREATE TABLE entreprise (
+    id_entreprise SERIAL PRIMARY KEY,
+    id_utilisateur INTEGER,
     nom_entreprise VARCHAR(150),
     adresse TEXT,
     secteur VARCHAR(100),
-    FOREIGN KEY fk_util(id_utilisateur) REFERENCES Utilisateur(id_utilisateur)
+    CONSTRAINT fk_entreprise_utilisateur FOREIGN KEY (id_utilisateur)
+        REFERENCES utilisateur(id_utilisateur)
+        ON DELETE CASCADE
 );
 
+-- =========================
 -- TABLE TUTEUR
-CREATE TABLE Tuteur (
-    id_tuteur INTEGER(20) PRIMARY KEY AUTO_INCREMENT,
-    id_utilisateur INTEGER(20),
+-- =========================
+CREATE TABLE tuteur (
+    id_tuteur SERIAL PRIMARY KEY,
+    id_utilisateur INTEGER,
     specialite VARCHAR(100),
-    FOREIGN KEY fk_util(id_utilisateur) REFERENCES Utilisateur(id_utilisateur)
-
+    CONSTRAINT fk_tuteur_utilisateur FOREIGN KEY (id_utilisateur)
+        REFERENCES utilisateur(id_utilisateur)
+        ON DELETE CASCADE
 );
 
+-- =========================
 -- TABLE JURY
-CREATE TABLE Jury (
-    id_jury INTEGER(20) PRIMARY KEY AUTO_INCREMENT,
-    id_utilisateur INTEGER(20),
-    FOREIGN KEY fk_util(id_utilisateur) REFERENCES Utilisateur(id_utilisateur)
+-- =========================
+CREATE TABLE jury (
+    id_jury SERIAL PRIMARY KEY,
+    id_utilisateur INTEGER,
+    CONSTRAINT fk_jury_utilisateur FOREIGN KEY (id_utilisateur)
+        REFERENCES utilisateur(id_utilisateur)
+        ON DELETE CASCADE
 );
 
+-- =========================
 -- TABLE OFFRE DE STAGE
-CREATE TABLE Offre_stage (
-    id_offre INTEGER(20) PRIMARY KEY AUTO_INCREMENT,
+-- =========================
+CREATE TABLE offre_stage (
+    id_offre SERIAL PRIMARY KEY,
     titre VARCHAR(150),
     description TEXT,
     competences TEXT,
     duree VARCHAR(50),
     missions TEXT,
-    id_entreprise INTEGER(20,)
-    FOREIGN KEY fk_entr(id_entreprise) REFERENCES Entreprise(id_entreprise)
+    id_entreprise INTEGER,
+    CONSTRAINT fk_offre_entreprise FOREIGN KEY (id_entreprise)
+        REFERENCES entreprise(id_entreprise)
+        ON DELETE CASCADE
 );
 
+-- =========================
 -- TABLE STAGE
-CREATE TABLE Stage (
-    id_stage INTGER(20) PRIMARY KEY AUTO_INCREMENT,
-    id_etudiant INTEGER(20),
-    id_offre INTEGER(20),
-    id_tuteur INTEGER(20),
+-- =========================
+CREATE TABLE stage (
+    id_stage SERIAL PRIMARY KEY,
+    id_etudiant INTEGER,
+    id_offre INTEGER,
+    id_tuteur INTEGER,
     statut VARCHAR(50),
-    date_debut DATE,
-    date_fin DATE,
-    FOREIGN KEY fk_etu(id_etudiant) REFERENCES Etudiant(id_etudiant),
-    FOREIGN KEY fk_ofr(id_offre) REFERENCES Offre_stage(id_offre)
+    date_debut TIMESTAMP,
+    date_fin TIMESTAMP,
+    CONSTRAINT fk_stage_etudiant FOREIGN KEY (id_etudiant)
+        REFERENCES etudiant(id_etudiant)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_stage_offre FOREIGN KEY (id_offre)
+        REFERENCES offre_stage(id_offre)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_stage_tuteur FOREIGN KEY (id_tuteur)
+        REFERENCES tuteur(id_tuteur)
+        ON DELETE SET NULL
 );
 
+-- =========================
 -- TABLE DOCUMENT
-CREATE TABLE Document (
-    id_document INTEGER(20) PRIMARY KEY AUTO_INCREMENT,
+-- =========================
+CREATE TABLE document (
+    id_document SERIAL PRIMARY KEY,
     type VARCHAR(50),
     fichier TEXT,
-    id_stage INTEGER(20),
-    FOREIGN KEY fk_st(id_stage) REFERENCES Stage(id_stage)
+    id_stage INTEGER,
+    CONSTRAINT fk_document_stage FOREIGN KEY (id_stage)
+        REFERENCES stage(id_stage)
+        ON DELETE CASCADE
 );
 
+-- =========================
 -- TABLE REMARQUE
-CREATE TABLE Remarque (
-    id_remarque INTEGER(20) PRIMARY KEY AUTO_INCREMENT,
+-- =========================
+CREATE TABLE remarque (
+    id_remarque SERIAL PRIMARY KEY,
     contenu TEXT,
     date TIMESTAMP,
-    id_stage INTEGER(20),
-    id_utilisateur INTEGER(20),
-    FOREIGN KEY fk_st(id_stage) REFERENCES Stage(id_stage),
-    FOREIGN KEY fk_util(id_utilisateur) REFERENCES Utilisateur(id_utilisateur)
+    id_stage INTEGER,
+    id_utilisateur INTEGER,
+    CONSTRAINT fk_remarque_stage FOREIGN KEY (id_stage)
+        REFERENCES stage(id_stage)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_remarque_utilisateur FOREIGN KEY (id_utilisateur)
+        REFERENCES utilisateur(id_utilisateur)
+        ON DELETE CASCADE
 );
 
+-- =========================
 -- TABLE SUIVI
-CREATE TABLE Suivi (
-    id_suivi INTEGER(20) PRIMARY KEY AUTO_INCREMENT,
+-- =========================
+CREATE TABLE suivi (
+    id_suivi SERIAL PRIMARY KEY,
     avancement TEXT,
     date TIMESTAMP,
-    id_stage INTEGER(20),
-    FOREIGN KEY fk_st(id_stage) REFERENCES Stage(id_stage)
-
+    id_stage INTEGER,
+    CONSTRAINT fk_suivi_stage FOREIGN KEY (id_stage)
+        REFERENCES stage(id_stage)
+        ON DELETE CASCADE
 );
 
--- TABLE AUTHENTIFICATION (2FA)
-CREATE TABLE Authentification (
-    id_auth INTEGER(20) PRIMARY KEY AUTO_INCREMENT,
-    id_utilisateur INTEGER(20),
+-- =========================
+-- TABLE AUTHENTIFICATION
+-- =========================
+CREATE TABLE authentification (
+    id_auth SERIAL PRIMARY KEY,
+    id_utilisateur INTEGER,
     code_2fa VARCHAR(10),
     date_expiration TIMESTAMP,
-    FOREIGN KEY fk_util(id_utilisateur) REFERENCES Utilisateur(id_utilisateur)
+    CONSTRAINT fk_auth_utilisateur FOREIGN KEY (id_utilisateur)
+        REFERENCES utilisateur(id_utilisateur)
+        ON DELETE CASCADE
 );
 
+-- =========================
+-- INSERTS DE TEST
+-- =========================
 
--- Ajout test
+-- Utilisateur
+INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, role) VALUES
+('Rollet', 'Killian', 'killianrollet@gmail.com', 'mdp_test', 'etudiant'),
+('GEYER', 'Iris', 'iris.geyer@etu.cyu.fr', 'mdp_test', 'entreprise'),
+('Rollet', 'Killian', 'killian.rollet@etu.cyu.fr', 'mdp_test', 'jury'),
+('Meddour', 'Sylia', 'sylia.meddour@etu.cyu.fr', 'mdp_test', 'tuteur');
 
--- Ajout Utilisateur
-INSERT INTO Utilisateur VALUES(null,"Rollet", "Killian", "killianrollet@gmail.com", "mdp_test", "etudiant");
-INSERT INTO Utilisateur VALUES(null,"GEYER", "Iris", "iris.geyer@etu.cyu.fr", "mdp_test", "entreprise");
-INSERT INTO Utilisateur VALUES(null,"Rollet", "Killian", "killian.rollet@etu.cyu.fr", "mdp_test", "jury");
-INSERT INTO Utilisateur VALUES(null,"Meddour", "Sylia", "sylia.meddour@etu.cyu.fr", "mdp_test", "tuteur");
+-- Etudiant
+INSERT INTO etudiant (id_utilisateur, filiere, niveau, cv) VALUES
+(1, 'GI', 'ING1', './document/utilisateur/1/ROLLET_Killian_Keio.pdf');
 
---Ajout Etudiant
-INSERT INTO Etudiant VALUES(null,1,"GI","ING1","./document/utilisateur/1/ROLLET_Killian_Keio.pdf");
+-- Entreprise
+INSERT INTO entreprise (id_utilisateur, nom_entreprise, adresse, secteur) VALUES
+(2, 'GEYER & CO', '9 Avenue Pierre Massé', 'Informatique');
 
---Ajout ENTREPRISE
-INSERT INTO Entreprise VALUES(null,2,"GEYER & CO","9 Avenue Pierre Massé", "Informatique");
+-- Tuteur
+INSERT INTO tuteur (id_utilisateur, specialite) VALUES
+(4, 'Programmation procédurale');
 
---Ajout Tuteur
-INSERT INTO Tuteur Values(null,4,"Programation procédurale");
+-- Jury
+INSERT INTO jury (id_utilisateur) VALUES
+(3);
 
---Ajout Jury
-INSERT INTO Jury VALUES(null,3);
+-- Offre de stage
+INSERT INTO offre_stage (titre, description, competences, duree, missions, id_entreprise) VALUES
+('TOTAL', 'stage chez total', 'HTML5,CSS,PHP,JS', '1 mois', 'faire un site web', 1);
 
---Ajout OFFRE DE STAGE
-INSERT INTO Offre_stage VALUES (null,"TOTAL","stage chez total","HTML5,CSS,PHP,JS","1 mois","faire un site web",1);
+-- Stage
+INSERT INTO stage (id_etudiant, id_offre, id_tuteur, statut, date_debut, date_fin) VALUES
+(1, 1, 1, 'En cours', '2026-06-26 08:00:00', '2026-07-27 17:00:00');
 
---Ajout Stage
-INSERT INTO Stage VALUES(null,1,1,1,"En cours",FROM_UNIXTIME(UNIX_TIMESTAMP('2026-06-26 8:00:00')),FROM_UNIXTIME(UNIX_TIMESTAMP('2026-07-27 17:00:00')));
+-- Document
+INSERT INTO document (type, fichier, id_stage) VALUES
+('rapport', './document/stage/01/rapport.txt', 1);
 
---Ajout Document
-INSERT INTO Document VALUES(null,"rapport","./document/stage/01/rapport.txt",1);
+-- Remarque
+INSERT INTO remarque (contenu, date, id_stage, id_utilisateur) VALUES
+('travaille bien', '2026-06-30 16:45:00', 1, 2);
 
---Ajout Remarque
-INSERT INTO Remarque VALUES(null,"travaille bien",FROM_UNIXTIME(UNIX_TIMESTAMP('2026-06-30 16:45:00')),1,2);
-
---Ajout SUIVI
-INSERT INTO Suivi VALUES(null,"à fini la page de connexion",FROM_UNIXTIME(UNIX_TIMESTAMP('2026-06-28 8:15:15')),1);
-
+-- Suivi
+INSERT INTO suivi (avancement, date, id_stage) VALUES
+('à fini la page de connexion', '2026-06-28 08:15:15', 1);
