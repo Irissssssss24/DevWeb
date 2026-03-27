@@ -1,6 +1,9 @@
 -- Création de la base (à exécuter séparément si besoin)
 -- CREATE DATABASE projetstage;
 
+-- Donne le droit de se connecter à la base
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO iris;
+
 -- =========================
 -- TABLE UTILISATEUR
 -- =========================
@@ -21,7 +24,7 @@ CREATE TABLE etudiant (
     id_utilisateur INTEGER,
     filiere VARCHAR(100),
     niveau VARCHAR(50),
-    cv TEXT,
+    cv TEXT, -- chemin vers le CV de l'étudiant
     CONSTRAINT fk_etudiant_utilisateur FOREIGN KEY (id_utilisateur)
         REFERENCES utilisateur(id_utilisateur)
         ON DELETE CASCADE
@@ -94,6 +97,7 @@ CREATE TABLE stage (
     CONSTRAINT fk_stage_etudiant FOREIGN KEY (id_etudiant)
         REFERENCES etudiant(id_etudiant)
         ON DELETE CASCADE,
+    --lien entre stage et offre de stage
     CONSTRAINT fk_stage_offre FOREIGN KEY (id_offre)
         REFERENCES offre_stage(id_offre)
         ON DELETE CASCADE,
@@ -105,6 +109,7 @@ CREATE TABLE stage (
 -- =========================
 -- TABLE DOCUMENT
 -- =========================
+-- peut être un rapport, un cahier de stage,...
 CREATE TABLE document (
     id_document SERIAL PRIMARY KEY,
     type VARCHAR(50),
@@ -127,6 +132,7 @@ CREATE TABLE remarque (
     CONSTRAINT fk_remarque_stage FOREIGN KEY (id_stage)
         REFERENCES stage(id_stage)
         ON DELETE CASCADE,
+    -- peu importe le rôle il peut laisser une remarque
     CONSTRAINT fk_remarque_utilisateur FOREIGN KEY (id_utilisateur)
         REFERENCES utilisateur(id_utilisateur)
         ON DELETE CASCADE
@@ -148,6 +154,8 @@ CREATE TABLE suivi (
 -- =========================
 -- TABLE AUTHENTIFICATION
 -- =========================
+-- pour la 2FA, on stocke le code et sa date d'expiration
+-- sert lors de la création d'un compte UNIQUEMENT
 CREATE TABLE authentification (
     id_auth SERIAL PRIMARY KEY,
     id_utilisateur INTEGER,

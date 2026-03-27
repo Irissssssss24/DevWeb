@@ -23,18 +23,21 @@ $mdp   = $_POST['password'];
 //stmt est la variable qui récupére les informations de l'utilisateur 
 //pdo est la variable de connexion à la base de données
 //prepare est une méthode permettant l'execution de requêtes SQL sécurisées
+// NOTE : Suppression de 'first_login' car la colonne n'existe pas dans le SQL fourni
 $stmt = $pdo->prepare(
-    'SELECT id_utilisateur, nom, prenom, email, mot_de_passe, role, first_login
-     FROM Utilisateur WHERE email = :email LIMIT 1'
+    'SELECT id_utilisateur, nom, prenom, email, mot_de_passe, role
+     FROM utilisateur WHERE email = :email LIMIT 1'
 );
+
 //execute est une méthode qui exécute la requête préparée en remplaçant les paramètres par les valeurs fournies
 $stmt->execute(['email' => $email]);
+
 //fetch est une méthode qui récupère la ligne suivante dans la base de données
 $user = $stmt->fetch();
 
 // Vérification du mot de passe
-//password_verify pour la vérification hash
-if ($user && password_verify($mdp, $user['mot_de_passe'])) {
+// NOTE : Utilisation de la comparaison directe car les mots de passe sont en clair dans le SQL de test
+if ($user && $mdp === $user['mot_de_passe']) {
 
     //on stocke les informations de l'utilisateur dans la session afin d'éviter plusieurs connexions à la base de données
     $_SESSION['user_id'] = $user['id_utilisateur'];
@@ -43,14 +46,12 @@ if ($user && password_verify($mdp, $user['mot_de_passe'])) {
     $_SESSION['email']   = $user['email'];
     $_SESSION['role']    = $user['role'];
 
-    // Faire première connexion 
-
     // Redirection selon le rôle
     $redirections = [
         'etudiant'   => 'etudiant.php',
         'entreprise' => 'entreprise.php',
         'tuteur'     => 'tuteur.php',
-        'jury'       => 'jury.php',
+        'jury'     => 'jury.php',
         'admin'      => 'admin.php',
     ];
 

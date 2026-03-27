@@ -1,33 +1,25 @@
 
 <?php
-session_start();
-
-// --- BLOC DE TEST TEMPORAIRE ---
-// On commente la sécurité pour ne pas être redirigé
-/*
-if (!isset($_SESSION["role"])){
+// On inclut la barre de navigation qui gère déjà le session_start() et la vérification de connexion
+include "barre_nav.php";
+// Sécurité supplémentaire : vérifier que c'est bien un étudiant
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'etudiant') {
     header('Location: Portail_Connexion.php');
+    exit();
 }
-*/
 
-// On remplit la session avec des fausses données pour que la page s'affiche
-$_SESSION['user_id'] = 1;
-$_SESSION["nom"] = "DUPONT";
-$_SESSION["prenom"] = "Jean";
-$_SESSION["role"] = "etudiant";
-// ------------------------------
+// Simulation des chemins de fichiers (À remplacer plus tard par une requête SQL sur la table 'document')
+$RapportDeStage = "#"; 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Page de <?php echo $_SESSION["nom"]. " ". $_SESSION["prenom"]?></title>
+        <title>Page de <?php echo htmlspecialchars($_SESSION["nom"] . " " . $_SESSION["prenom"]); ?></title> 
         <link rel="stylesheet" href="Adminstyle.css">
         <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
     </head>
 <body>
-    <?php include "barre_nav.php"; ?>
-
     <main> 
         <div class="partie-gauche">
             
