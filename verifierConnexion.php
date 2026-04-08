@@ -35,9 +35,11 @@ $stmt->execute(['email' => $email]);
 //fetch est une méthode qui récupère la ligne suivante dans la base de données
 $user = $stmt->fetch();
 
-// Vérification du mot de passe
-// NOTE : Utilisation de la comparaison directe car les mots de passe sont en clair dans le SQL de test
-if ($user && $mdp === $user['mot_de_passe']) {
+// Vérification du mot de passe - utilisation de password_verify pour hashes
+if ($user && password_verify($mdp, $user['mot_de_passe'])) {
+
+    // Prévenir la session fixation : régénérer l'ID de session
+    session_regenerate_id(true);
 
     //on stocke les informations de l'utilisateur dans la session afin d'éviter plusieurs connexions à la base de données
     $_SESSION['user_id'] = $user['id_utilisateur'];
