@@ -88,3 +88,7 @@ normalement toute les routes sont faite, d'ailleurs c'est pas exactement comme �
 # docker
 
  Normalement il y a des fichiers docker, ceux ci ne fonctionne pas encore mais il sont là, n'y préter pas attention
+
+
+# chemin 
+il faut penser a bien renvoyer vers les bon fichiers avec le bon chemin mettre / pour aller à la racine du projet et ensuite mettre le chemin en entier par exemple pour faire appel au fichier etudiant.css il faut faire /public/css/etudiant.css
