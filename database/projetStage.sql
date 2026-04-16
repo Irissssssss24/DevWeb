@@ -1,7 +1,8 @@
 -- Création de la base (à exécuter séparément si besoin)
--- CREATE DATABASE projetstage;
+CREATE DATABASE projetstage;
 
 -- Donne le droit de se connecter à la base
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO sylia;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO iris;
 
 -- =========================

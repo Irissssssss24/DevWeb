@@ -4,8 +4,8 @@
     $port   = '5432';
     $dbname = 'projetstage'; // Mis en minuscules pour correspondre au SQL
     //A CHANGER EN FONCTION DE VOTRE CONFIGURATION POSTGRESQL
-    $user   = 'iris';        //  utilisateur PostgreSQL
-    $pass   = 'iris';        //  mot de passe
+    $user   = 'sylia';        //  utilisateur PostgreSQL
+    $pass   = 'sylia';        //  mot de passe
     
     try {
         // DSN (Data Source Name) pour PostgreSQL

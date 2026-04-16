@@ -22,7 +22,7 @@ $role = strtolower($_SESSION['role']);
     </div>
     <ul>
         <li><a href="Portail_Connexion.php">Accueil</a></li>
-
+        <li><a href="Profil.php">Mon Profil</a></li>
         <?php if ($role === 'etudiant'): ?>
             <li><a href="offres.php">Voir les offres de stage</a></li>
             <li><a href="etudiant.php">Mon avancement</a></li>
