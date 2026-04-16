@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion — ProjetStage</title>
+    <link rel="stylesheet" href="/css/stylePortail.css">
+</head>
+<body>
+
+    <div class="conteneur-connexion">
+        <h1>ProjetStage — Connexion</h1>
+ 
+        <form action="/connexion" method="POST">
+            <input type="hidden" name="_token" value="<?= csrf_token() ?>">
+ 
+            <div class="groupe-formulaire">
+                <label for="email">Adresse e-mail</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="champ-saisie"
+                    placeholder="nom@exemple.fr"
+                    required
+                    autocomplete="email"
+                    value="<?php echo isset($_GET['email']) ? htmlspecialchars($_GET['email']) : ''; ?>"
+                >
+            </div>
+ 
+            <div class="groupe-formulaire">
+                <label for="password">Mot de passe</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="champ-saisie"
+                    placeholder="Votre mot de passe"
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+ 
+            <button type="submit" class="bouton-connexion">Se connecter</button>
+ 
+        </form>
+ 
+        <div class="liens-bas">
+            <a href="MotdePasseOublie.php" class="lien-secondaire">Mot de passe oublié ?</a>
+        </div>
+    </div>
+
+</body>
+</html>

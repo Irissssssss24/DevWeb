@@ -1,0 +1,58 @@
+version: '3.7'
+services:
+
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: gdd/laravel
+    container_name: myapp
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: myapp
+      SERVICE_TAGS: dev
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - mynet
+
+  nginx:
+    container_name: lara-nginx
+    image: nginx:alpine
+    working_dir: /var/www/html
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www/html
+      - ./nginx:/etc/nginx/conf.d
+    networks:
+      - mynet
+
+  db:
+    image: postgres
+    restart: always
+    tty: true
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: laravel
+      POSTGRES_DB: projetstage
+      POSTGRES_PASSWORD: projetstage
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - mysqldata:/var/lib/postgresql/data
+
+#Docker Networks
+networks:
+  mynet:
+    driver: bridge
+#Volumes
+volumes:
+  mysqldata:
+    driver: local
