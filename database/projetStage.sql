@@ -3,7 +3,7 @@ CREATE DATABASE projetstage;
 
 -- Donne le droit de se connecter à la base
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO sylia;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO iris;
+
 
 -- =========================
 -- TABLE UTILISATEUR
@@ -171,12 +171,13 @@ CREATE TABLE authentification (
 -- INSERTS DE TEST
 -- =========================
 
+-- les mots de passe sont mdp_test
 -- Utilisateur
 INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, role) VALUES
-('Rollet', 'Killian', 'killianrollet@gmail.com', 'mdp_test', 'etudiant'),
-('GEYER', 'Iris', 'iris.geyer@etu.cyu.fr', 'mdp_test', 'entreprise'),
-('Rollet', 'Killian', 'killian.rollet@etu.cyu.fr', 'mdp_test', 'jury'),
-('Meddour', 'Sylia', 'sylia.meddour@etu.cyu.fr', 'mdp_test', 'tuteur');
+('Rollet', 'Killian', 'killianrollet@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'etudiant'),
+('GEYER', 'Iris', 'iris.geyer@etu.cyu.fr', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'entreprise'),
+('Rollet', 'Killian', 'killian.rollet@etu.cyu.fr', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'jury'),
+('Meddour', 'Sylia', 'sylia.meddour@etu.cyu.fr', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'tuteur');
 
 -- Etudiant
 INSERT INTO etudiant (id_utilisateur, filiere, niveau, cv) VALUES

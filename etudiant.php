@@ -1,4 +1,3 @@
-
 <?php
 // On inclut la barre de navigation qui gère déjà le session_start() et la vérification de connexion
 include "barre_nav.php";

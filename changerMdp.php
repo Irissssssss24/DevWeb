@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         //stockage du nouveau mot de passe dans la base de données
         $stmt = $pdo->prepare(
-            'UPDATE Utilisateur SET mot_de_passe = :mdp
+            'UPDATE utilisateur SET mot_de_passe = :mdp
              WHERE id_utilisateur = :id'
         );
         //on execute la requete en remplaçant les paramètres par les valeurs fournies dans la session
