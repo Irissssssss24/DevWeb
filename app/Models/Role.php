@@ -9,7 +9,7 @@ class Role extends Model
     protected $table = 'role';
     protected $primaryKey = 'id_utilisateur';
     public $incrementing = false;
-    public $timestamps = false; // 👈 ajoute cette ligne
+    public $timestamps = false;
     protected $fillable = [
         'id_utilisateur', 'administrateur', 'etudiant',
         'entreprise', 'tuteur', 'jury'

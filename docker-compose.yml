@@ -1,58 +1,48 @@
-version: '3.7'
 services:
-
   app:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
-    image: gdd/laravel
-    container_name: myapp
+    container_name: projetstage_app
     restart: unless-stopped
-    tty: true
-    environment:
-      SERVICE_NAME: myapp
-      SERVICE_TAGS: dev
-    working_dir: /var/www/html
+    working_dir: /var/www
     volumes:
-      - ./:/var/www/html
+      - .:/var/www
     networks:
-      - mynet
+      - projetstage
 
   nginx:
-    container_name: lara-nginx
-    image: nginx:alpine
-    working_dir: /var/www/html
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    container_name: projetstage_nginx
     restart: unless-stopped
-    tty: true
     ports:
-      - "80:80"
-      - "443:443"
+      - "8000:80"
     volumes:
-      - ./:/var/www/html
-      - ./nginx:/etc/nginx/conf.d
+      - .:/var/www
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     networks:
-      - mynet
+      - projetstage
 
-  db:
-    image: postgres
-    restart: always
-    tty: true
+  postgres:
+    image: postgres:16
+    container_name: projetstage_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: projetstage
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_USER: laravel
-      POSTGRES_DB: projetstage
-      POSTGRES_PASSWORD: projetstage
-      PGDATA: /var/lib/postgresql/data/pgdata
-      POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
-      - mysqldata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - projetstage
 
-#Docker Networks
 networks:
-  mynet:
+  projetstage:
     driver: bridge
-#Volumes
+
 volumes:
-  mysqldata:
-    driver: local
+  postgres_data:

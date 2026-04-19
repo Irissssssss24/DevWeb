@@ -1,94 +1,40 @@
-dans le terminal: 
+# Installer docker
+'''bash
+sudo apt install docker 
+'''
 
-# Installer les dépendances PHP
-composer install
+# Installer docker-compose
+'''bash
+sudo apt install docker-compose
+'''
 
-# Installer les dépendances JS
-npm install
+# Cloner le Projet 
+'''bash
+git clone https://github.com/Irissssssss24/DevWeb.git
+cd DevWeb
+'''
 
 # Copier le fichier d'environnement
+'''bash
 cp .env.example .env
+'''
 
-+ changer le .env avec le vrai DB_USERNAME et le vrau DB_PASSWORD
+# Lancer le Docker 
+'''bash
+docker-compose up -d --build 
+'''
 
-# Générer la clé de l'application
-php artisan key:generate
+# Générer la clé de l'application 
+'''bash 
+docker-compose exec app php artisan key:generate
+'''
 
-# Créer leur base de données PostgreSQL
-psql -U postgres -c "CREATE DATABASE projetstage;"
+# Créer les tables et les données tests
+'''bash
+docker-compose exec app php artisan migrate --seed
+'''
 
-# Lancer les migrations
-php artisan migrate
+# Accéder au projet 
 
-# Lancer le projet 
-php artisan serve 
+Le projet est accesible sur http://localhost:8000
 
-
-
-# Ce qui a changé et ce qu'il faut changer pour la suite:
-
-# BDD
-on utilise les migration laravel donc plus besoin d'importer le fichier .sql
-
-# fichier supprimé/renomé
-config.php devient .env
-
-hashage.php est remplacé par Hash::make() et Hash::check()  (désolé iris avec laravel ça marchait pas)
-
-verifierConnexion.php est remplacé et est dans app/Http/Controllers/Auth/LoginController.php 
-(désolé à la personne qui l'avait fait vu que les sessions marche différement dans laravel j'ai du changé qql truc)
-
-norlement la deconnexion est géré aussi dans ce fichier 
-
-Le Mot de passe teste redevient mdp_test
-
-# sessions
-pour stocker une valeur maintenant c'est session()->put('clé','valeur');
-
-pour recup un valeur c'est session('clé');
-
-pour voir si une valeur existe c'est session()->has('clé');
-
-
-# redirection 
-
-ce n'est plus avec les headers de mes souvenirs avant c'était header('location : la location');
-
-maintenant il faut faire return redirect('/la redirection') il faut bien mettre le /
-
-et ensuite placer les routes/view dans routes/web.php
-
-
-# où placer les dossier 
-
-toute les pages (vues) doivent être dans ressources/view/ donc les pages etudiant et autre 
-
-les fichiers css dans public/css/
-
-a chaque POST ajouter <input type="hidden" name="_token" value="<?= csrf_token() ?>">
-
-et dans les liens html il faut faire href="/lapage" 
-
-
-
-# explication plus précise des routes: 
-
-dans les liens html : href="/lapage/
-
-on va faire appel à la route : 
-/lapage 
-donc dans route vous aller creer une vue par rapport aux lien /lapage qui envoie vers la page en question, exemple dans etudiant.php on fait un lien vers /etudiant et dans route on créer la vue par 
-
-Route::get('/etudiant', function() {
-    include resource_path('views/etudiant/etudiant.php');
-});
-
-normalement toute les routes sont faite, d'ailleurs c'est pas exactement comme ça car j'ai aussi ajouter les vérification de role dans web.php (beaucoup plus simple si l'utilisateur à plusieur rôles)
-
-# docker
-
- Normalement il y a des fichiers docker, ceux ci ne fonctionne pas encore mais il sont là, n'y préter pas attention
-
-
-# chemin 
-il faut penser a bien renvoyer vers les bon fichiers avec le bon chemin mettre / pour aller à la racine du projet et ensuite mettre le chemin en entier par exemple pour faire appel au fichier etudiant.css il faut faire /public/css/etudiant.css
