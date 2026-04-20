@@ -38,3 +38,24 @@ docker-compose exec app php artisan migrate --seed
 
 Le projet est accesible sur http://localhost:8000
 
+# Problème de port
+
+si il y a un problème de port (ports 5432 already use) 
+il faut changer le port utiliser (le port est déjà utiliser)
+
+'''YAML 
+/docker-compose.yml 
+ports:
+      - "5433:5432" -- changer cette ligne en mettant le port 5433 côté machine ou plus (jusqu'à trouver un port libre)
+'''
+
+# Probleme dossier non trouver 
+
+si problème du type No such file or directory /var/www/artisan
+
+faire:
+
+'''bash 
+docker-compose exec app composer install
+'''
+

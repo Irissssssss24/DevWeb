@@ -4,7 +4,6 @@ include resource_path('views/layouts/barre_nav.php');
 
 
 
-// Simulation des chemins de fichiers (À remplacer plus tard par une requête SQL sur la table 'document')
 $RapportDeStage = "#"; 
 ?>
 <!DOCTYPE html>
