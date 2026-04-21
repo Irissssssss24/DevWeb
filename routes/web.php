@@ -54,8 +54,14 @@ Route::get('/admin', function() {
     include resource_path('views/admin/admin.php');
 });
 
+<<<<<<< HEAD
 Route::get('/etudiant/profil', function() {
     if (!session()->has('user_id')) return redirect('/connexion');
     if (!in_array('etudiant', session('roles', []))) return redirect('/connexion');
     include resource_path('views/etudiant/profil.php');
+=======
+Route::get('/changer_mdp', function() {
+    include resource_path('views/auth/changerMdp.php');
+
+>>>>>>> c886b7c2b71332508348c06a66efd1fa61f87b15
 });

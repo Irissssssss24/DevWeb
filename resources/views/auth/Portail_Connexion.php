@@ -47,9 +47,13 @@
         </form>
  
         <div class="liens-bas">
+<<<<<<< HEAD
             <a href="MotdePasseOublie.php" class="lien-secondaire">Mot de passe oublié ?</a>
             <br>
             <a href="/inscription" class="lien-secondaire">S'inscrire</a>
+=======
+            <a href="/changer_mdp" class="lien-secondaire">Mot de passe oublié ?</a>
+>>>>>>> c886b7c2b71332508348c06a66efd1fa61f87b15
         </div>
     </div>
 
