@@ -199,6 +199,7 @@ INSERT INTO jury (id_utilisateur) VALUES
 INSERT INTO offre_stage (titre, description, competences, duree, missions, id_entreprise) VALUES
 ('TOTAL', 'stage chez total', 'HTML5,CSS,PHP,JS', '1 mois', 'faire un site web', 1);
 
+
 -- Stage
 INSERT INTO stage (id_etudiant, id_offre, id_tuteur, statut, date_debut, date_fin) VALUES
 (1, 1, 1, 'En cours', '2026-06-26 08:00:00', '2026-07-27 17:00:00');
