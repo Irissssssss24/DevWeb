@@ -33,7 +33,7 @@ $roles  = session('roles', []);
         <?php endif; ?>
 
         <!-- Lien de déconnexion -->
-        <li style="margin-top: 10px; list-style: none;">
+        <li style="margin-bottom: 10px; list-style: none;">
             <a href="/deconnexion" style="color: red;">Déconnexion</a>
         </li>
     </ul>
