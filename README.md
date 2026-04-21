@@ -1,2 +1,61 @@
-# DevWeb
-Création d'une application web visant à gérer des annonces de stage
+# Installer docker
+'''bash
+sudo apt install docker 
+'''
+
+# Installer docker-compose
+'''bash
+sudo apt install docker-compose
+'''
+
+# Cloner le Projet 
+'''bash
+git clone https://github.com/Irissssssss24/DevWeb.git
+cd DevWeb
+'''
+
+# Copier le fichier d'environnement
+'''bash
+cp .env.example .env
+'''
+
+# Lancer le Docker 
+'''bash
+docker-compose up -d --build 
+'''
+
+# Générer la clé de l'application 
+'''bash 
+docker-compose exec app php artisan key:generate
+'''
+
+# Créer les tables et les données tests
+'''bash
+docker-compose exec app php artisan migrate --seed
+'''
+
+# Accéder au projet 
+
+Le projet est accesible sur http://localhost:8000
+
+# Problème de port
+
+si il y a un problème de port (ports 5432 already use) 
+il faut changer le port utiliser (le port est déjà utiliser)
+
+'''YAML 
+/docker-compose.yml 
+ports:
+      - "5433:5432" -- changer cette ligne en mettant le port 5433 côté machine ou plus (jusqu'à trouver un port libre)
+'''
+
+# Probleme dossier non trouver 
+
+si problème du type No such file or directory /var/www/artisan
+
+faire:
+
+'''bash 
+docker-compose exec app composer install
+'''
+

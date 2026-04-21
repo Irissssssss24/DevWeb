@@ -1,21 +1,17 @@
 <?php
-// On inclut la barre de navigation qui gère déjà le session_start() et la vérification de connexion
-include "barre_nav.php";
-// Sécurité supplémentaire : vérifier que c'est bien un étudiant
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'etudiant') {
-    header('Location: Portail_Connexion.php');
-    exit();
-}
+// On inclut la barre de navigation
+include resource_path('views/layouts/barre_nav.php');
 
-// Simulation des chemins de fichiers (À remplacer plus tard par une requête SQL sur la table 'document')
+
+
 $RapportDeStage = "#"; 
 ?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Page de <?php echo htmlspecialchars($_SESSION["nom"] . " " . $_SESSION["prenom"]); ?></title> 
-        <link rel="stylesheet" href="Adminstyle.css">
+        <title>Page de <?php echo htmlspecialchars(session('nom') . " " . session('prenom')); ?></title> 
+        <link rel="stylesheet" href="/css/Adminstyle.css">
         <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
     </head>
 <body>
@@ -25,14 +21,14 @@ $RapportDeStage = "#";
             <div class="statut">
                 <h1>Mon Stage Actuel</h1>
                 <div class="demandesS">
-                    <a class="bouton" href="ajoutremarque.php">Ajouter une remarque</a>
-                    <a class="bouton" href="informetuteur.php">Informer le tuteur</a>
+                    <a class="bouton" href="/ajout-remarque">Ajouter une remarque</a>
+                    <a class="bouton" href="/informe-tuteur">Informer le tuteur</a>
                 </div>
             </div>
 
             <div class="documents">
                 <h1>Dépôt des Documents</h1>
-                <form action="upload.php" method="POST" enctype="multipart/form-data">
+                <form action="/upload" method="POST" enctype="multipart/form-data">
                     <div class="ligne">
                         <p>Rapport de stage :</p>
                         <input type="file" name="rapportstage">
@@ -56,7 +52,7 @@ $RapportDeStage = "#";
         </div> 
         <div class="cahierStage">
             <h1>Mon Cahier de Stage</h1>
-            <form method="post" action="journalnotes.php">
+            <form method="post" action="/journal-notes">
                 <p>
                     <label for="note">Saisir une note :</label><br>
                     <textarea name="note" id="note" rows="15"></textarea>
@@ -68,4 +64,3 @@ $RapportDeStage = "#";
     </main>
 </body>
 </html>
-

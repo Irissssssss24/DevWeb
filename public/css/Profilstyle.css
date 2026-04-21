@@ -1,0 +1,186 @@
+/* --- COULEURS PRINCIPALES --- */
+:root {
+    --bleu-cy: #0062AD;
+    --gris-fond: #f4f7f6;
+    --blanc: #ffffff;
+    --gris-bordure: #ddd;
+    --texte-sombre: #333;
+    --vert-success: #27ae60;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--gris-fond);
+    color: var(--texte-sombre);
+    line-height: 1.6;
+}
+
+/* --- CONTENEUR PRINCIPAL --- */
+.Profil {
+    max-width: 700px;
+    margin: 30px auto;
+    background-color: var(--blanc);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: var(--bleu-cy);
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    border-bottom: 3px solid var(--bleu-cy);
+    padding-bottom: 15px;
+}
+
+h3 {
+    color: var(--bleu-cy);
+    font-size: 1.2rem;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+/* --- SECTION COORDONNEES --- */
+.coordonnees {
+    background-color: #f9fbfc;
+    padding: 20px;
+    border-left: 4px solid var(--bleu-cy);
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+.coordonnees p {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+.coordonnees strong {
+    color: var(--bleu-cy);
+    font-weight: 600;
+    min-width: 80px;
+}
+
+/* --- SECTION CV --- */
+.cv {
+    background-color: #f9fbfc;
+    padding: 20px;
+    border-left: 4px solid var(--vert-success);
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+.cv form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cv input[type="file"] {
+    padding: 10px;
+    border: 2px dashed var(--bleu-cy);
+    border-radius: 5px;
+    background-color: rgba(0, 98, 173, 0.05);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+.cv input[type="file"]:hover {
+    background-color: rgba(0, 98, 173, 0.1);
+}
+
+/* --- SECTION MODIFICATION MOT DE PASSE --- */
+.modification {
+    background-color: #f9fbfc;
+    padding: 20px;
+    border-left: 4px solid var(--bleu-cy);
+    border-radius: 5px;
+}
+
+.modification form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+label {
+    font-weight: 600;
+    color: var(--bleu-cy);
+    font-size: 0.95rem;
+}
+
+input[type="text"],
+input[type="file"] {
+    padding: 10px;
+    border: 1px solid var(--gris-bordure);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--bleu-cy);
+    box-shadow: 0 0 0 3px rgba(0, 98, 173, 0.1);
+}
+
+/* --- BOUTONS --- */
+button {
+    background-color: var(--bleu-cy);
+    color: var(--blanc);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #004a85;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button.valider {
+    background-color: var(--vert-success);
+    width: 100%;
+}
+
+button.valider:hover {
+    background-color: #229954;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .Profil {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .coordonnees,
+    .cv,
+    .modification {
+        padding: 15px;
+    }
+}

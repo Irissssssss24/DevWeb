@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion — ProjetStage</title>
-    <link rel="stylesheet" href="stylePortail.css">
+    <link rel="stylesheet" href="/css/stylePortail.css">
 </head>
 <body>
 
     <div class="conteneur-connexion">
         <h1>ProjetStage — Connexion</h1>
  
-        <form action="verifierConnexion.php" method="POST">
+        <form action="/connexion" method="POST">
+            <input type="hidden" name="_token" value="<?= csrf_token() ?>">
  
             <div class="groupe-formulaire">
                 <label for="email">Adresse e-mail</label>
