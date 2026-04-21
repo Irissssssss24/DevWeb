@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,6 +12,11 @@ Route::get('/', function () {
 Route::get('/connexion', [LoginController::class, 'index']);
 Route::post('/connexion', [LoginController::class, 'verifier']);
 Route::get('/deconnexion', [LoginController::class, 'deconnexion']);
+
+// Routes d'inscription
+//nom de la classe et de la méthode à appeler 
+Route::get('/inscription', [RegisterController::class, 'index']);
+Route::post('/inscription', [RegisterController::class, 'register']);
 
 // Routes protégées — la vérification de session se fait ici uniquement
 Route::get('/etudiant', function() {
