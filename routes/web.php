@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\VerificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,6 +18,10 @@ Route::get('/deconnexion', [LoginController::class, 'deconnexion']);
 //nom de la classe et de la méthode à appeler 
 Route::get('/inscription', [RegisterController::class, 'index']);
 Route::post('/inscription', [RegisterController::class, 'register']);
+
+// Routes de vérification d'email
+Route::get('/verification', [VerificationController::class, 'index']);
+Route::post('/verification', [VerificationController::class, 'verify']);
 
 // Routes protégées — la vérification de session se fait ici uniquement
 Route::get('/etudiant', function() {
