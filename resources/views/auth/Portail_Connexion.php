@@ -12,6 +12,7 @@
         <h1>ProjetStage — Connexion</h1>
  
         <form action="/connexion" method="POST">
+            <!-- génère un token unique pour chaque session utilisateur -->
             <input type="hidden" name="_token" value="<?= csrf_token() ?>">
  
             <div class="groupe-formulaire">
@@ -47,6 +48,8 @@
  
         <div class="liens-bas">
             <a href="MotdePasseOublie.php" class="lien-secondaire">Mot de passe oublié ?</a>
+            <br>
+            <a href="/inscription" class="lien-secondaire">S'inscrire</a>
         </div>
     </div>
 
