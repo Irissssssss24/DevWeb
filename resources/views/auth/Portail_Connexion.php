@@ -46,7 +46,7 @@
         </form>
  
         <div class="liens-bas">
-            <a href="MotdePasseOublie.php" class="lien-secondaire">Mot de passe oublié ?</a>
+            <a href="/changer_mdp" class="lien-secondaire">Mot de passe oublié ?</a>
         </div>
     </div>
 

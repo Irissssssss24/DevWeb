@@ -43,3 +43,7 @@ Route::get('/admin', function() {
     include resource_path('views/admin/admin.php');
 });
 
+Route::get('/changer_mdp', function() {
+    include resource_path('views/auth/changerMdp.php');
+
+});
