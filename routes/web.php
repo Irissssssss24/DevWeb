@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\PasswordController;
 
@@ -19,10 +18,9 @@ Route::get('/deconnexion', [LoginController::class, 'deconnexion']);
 Route::get('/inscription', [RegisterController::class, 'index']);
 Route::post('/inscription', [RegisterController::class, 'register']);
 
-Route::get('/accueil', function() {
+Route::get('accueil', function() {
     include resource_path('views/auth/accueil.php');
 });
-
 // Routes protégées — la vérification de session se fait ici uniquement
 Route::get('/etudiant', function() {
     if (!session()->has('user_id')) return redirect('/connexion');
@@ -63,7 +61,6 @@ Route::get('/admin', function() {
 Route::get('/etudiant/profil', function() {
     if (!session()->has('user_id')) return redirect('/connexion');
     if (!in_array('etudiant', session('roles', []))) return redirect('/connexion');
-    $pageCourante = 'etudiant/profil';
     include resource_path('views/etudiant/profil.php');
 });
 
