@@ -82,6 +82,6 @@ class LoginController extends Controller
         $request->session()->flush();
         $request->session()->regenerate();
 
-        return redirect('/connexion');
+        return redirect('/accueil');
     }
 }
