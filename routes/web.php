@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\PasswordController;
 
 Route::get('/', function () {
@@ -81,3 +82,8 @@ Route::get('/changer-mdp', function() {
     include resource_path('views/auth/changerMdp.php');
 });
 Route::post('/changer-mdp', [PasswordController::class, 'update']);
+
+
+// Routes de vérification d'email
+Route::get('/verification', [VerificationController::class, 'index']);
+Route::post('/verification', [VerificationController::class, 'verify']);
