@@ -21,9 +21,10 @@ cd DevWeb
 
 
 # Copier le fichier d'environnement
-'''bash
+```
+bash
 cp .env.example .env
-'''
+```
 
 # Lancer le Docker 
 ```
