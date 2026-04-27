@@ -4,12 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Utilisateur;
-use App\Models\Role;
-use App\Models\Etudiant;
-use App\Models\Entreprise;
-use App\Models\Tuteur;
-use App\Models\Jury;
-use App\Models\Administrateur;
+use App\Models\Authentification;
 use Illuminate\Http\Request;
 
 class VerificationController extends Controller
@@ -18,90 +13,66 @@ class VerificationController extends Controller
     public function index()
     {
         ob_start();
-        include resource_path('views/auth/verification.php');
+        include resource_path('views/auth/verify-2fa.php');
         return ob_get_clean();
     }
 
-    // Vérifie le code entré par l'utilisateur
+    // Vérifie le code 2FA entré par l'utilisateur
     public function verify(Request $request)
     {
-        // Vérification des champs
-        if (empty($request->input('email')) || empty($request->input('code'))) {
-            return redirect('/verification')->with('error', 'Email et code requis.');
+        // Vérification du champ code
+        if (empty($request->input('code'))) {
+            return redirect('/verify-2fa')->with('error', 'Le code est requis.');
         }
 
-        $email = trim($request->input('email'));
         $code = trim($request->input('code'));
 
-        // Chercher l'utilisateur par email
-        $user = Utilisateur::where('email', $email)->first();
+        // Récupérer l'id utilisateur stocké en session lors de la connexion
+        $userId = session('2fa_user_id');
 
-        if (!$user) {
-            return redirect('/verification')->with('error', 'Email non trouvé.');
+        if (!$userId) {
+            return redirect('/connexion')->with('error', 'Session expirée. Veuillez vous reconnecter.');
         }
 
-        // Vérifier si l'email est déjà vérifié
-        if ($user->email_verified_at) {
-            return redirect('/connexion')->with('error', 'Cet email est déjà vérifié.');
+        // Chercher le code 2FA dans la table authentification
+        $auth = Authentification::where('id_utilisateur', $userId)->first();
+
+        if (!$auth) {
+            return redirect('/connexion')->with('error', 'Aucun code trouvé. Veuillez vous reconnecter.');
         }
 
-        // Vérifier si le code est correct et non expiré (15 minutes)
-        if ($user->verification_code !== $code) {
-            return redirect('/verification')->with('error', 'Code incorrect.');
+        // Vérifier si le code a expiré
+        if (now()->gt($auth->date_expiration)) {
+            $auth->delete();
+            return redirect('/connexion')->with('error', 'Le code a expiré. Veuillez vous reconnecter.');
         }
 
-        if (now()->diffInMinutes($user->verification_code_expires_at) > 15) {
-            return redirect('/verification')->with('error', 'Le code a expiré. Réessayez.');
+        // Vérifier si le code est correct
+        if ($auth->code_2fa !== $code) {
+            return redirect('/verify-2fa')->with('error', 'Code incorrect.');
         }
 
-        // Marquer l'email comme vérifié
-        $user->update([
-            'email_verified_at' => now(),
-            'verification_code' => null,
-            'verification_code_expires_at' => null,
-        ]);
+        // supprimer l'entrée 2FA car le code est correct et valide
+        $auth->delete();
 
-        // Créer le rôle et l'entité spécifique
-        $roleData = [
-            'id_utilisateur' => $user->id_utilisateur,
-            'administrateur' => 0,
-            'etudiant' => 0,
-            'entreprise' => 0,
-            'tuteur' => 0,
-            'jury' => 0,
-        ];
+        // session utilisateur complète
+        $rolesActifs = session('2fa_roles');
+        session()->put('user_id', $userId);
+        session()->put('roles',   $rolesActifs);
 
-        // Récupérer le rôle depuis la session ou les données temporaires
-        // Ici on suppose que le rôle est stocké dans la table utilisateur
-        // À adapter selon votre structure
-        $role = session('temp_role');
+        // Nettoyer les données temporaires 2FA
+        session()->forget('2fa_user_id');
+        session()->forget('2fa_roles');
 
-        if (!$role) {
-            return redirect('/inscription')->with('error', 'Erreur lors de la vérification.');
+        // Redirection selon priorité des rôles
+        // sert à éviter de faire plusieurs redirections successives en cas de multi-rôles
+        $priorite = ['administrateur', 'tuteur', 'jury', 'entreprise', 'etudiant'];
+        foreach ($priorite as $r) {
+            if (in_array($r, $rolesActifs)) {
+                return redirect('/' . $r);
+            }
         }
 
-        $roleData[$role] = 1;
-        Role::create($roleData);
-
-        // Créer l'entité spécifique
-        switch ($role) {
-            case 'etudiant':
-                Etudiant::create(['id_utilisateur' => $user->id_utilisateur]);
-                break;
-            case 'entreprise':
-                Entreprise::create(['id_utilisateur' => $user->id_utilisateur]);
-                break;
-            case 'tuteur':
-                Tuteur::create(['id_utilisateur' => $user->id_utilisateur]);
-                break;
-            case 'jury':
-                Jury::create(['id_utilisateur' => $user->id_utilisateur]);
-                break;
-            case 'administrateur':
-                Administrateur::create(['id_utilisateur' => $user->id_utilisateur]);
-                break;
-        }
-
-        return redirect('/connexion')->with('success', 'Email vérifié ! Vous pouvez maintenant vous connecter.');
+        return redirect('/connexion')->with('error', 'role_inconnu');
     }
 }

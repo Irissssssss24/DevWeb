@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\TwoFactorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\PasswordController;
@@ -13,6 +14,11 @@ Route::get('/', function () {
 Route::get('/connexion', [LoginController::class, 'index']);
 Route::post('/connexion', [LoginController::class, 'verifier']);
 Route::get('/deconnexion', [LoginController::class, 'deconnexion']);
+
+// Routes de vérification 2FA
+Route::get('/verify-2fa', [TwoFactorController::class, 'showVerifyForm']);
+Route::post('/verify-2fa', [TwoFactorController::class, 'verify']);
+Route::get('/cancel-2fa', [TwoFactorController::class, 'cancel']);
 
 // Routes d'inscription
 //nom de la classe et de la méthode à appeler 

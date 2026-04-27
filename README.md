@@ -59,3 +59,6 @@ faire:
 docker-compose exec app composer install
 '''
 
+# Connexion 
+
+aller sur http://localhost:8025 pour accéder au mail de vérification

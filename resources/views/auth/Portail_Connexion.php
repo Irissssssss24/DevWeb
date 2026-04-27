@@ -10,6 +10,23 @@
 
     <div class="conteneur-connexion">
         <h1>ProjetStage — Connexion</h1>
+
+        <?php
+        $errorMessage = session()->get('error', '');
+        $successMessage = session()->get('success', '');
+        ?>
+
+        <?php if ($errorMessage): ?>
+            <div class="alerte alerte-erreur">
+                <strong>Erreur:</strong> <?php echo htmlspecialchars($errorMessage); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($successMessage): ?>
+            <div class="alerte alerte-succes">
+                <?php echo htmlspecialchars($successMessage); ?>
+            </div>
+        <?php endif; ?>
  
         <form action="/connexion" method="POST">
             <!-- génère un token unique pour chaque session utilisateur -->
