@@ -72,6 +72,24 @@ if (!function_exists('styleLien')) {
             <li><a href="/inscription" class="lien-inscription">S'inscrire</a></li>
         <?php endif; ?>
 
+        <!--bouton de switch entre les roles dispo-->
+        <?php if ($estConnecte && count($roles) > 1): ?>
+            <li class="switch-role" id="switch-role">
+                <span class="switch-role-label" onclick="toggleDropdown()">Rôle actif ▾</span>
+                <ul class="dropdown-roles" id="dropdown-roles">
+                    <?php foreach ($roles as $r): ?>
+                        <li>
+                            <a href="/switch-role/<?= $r ?>" 
+                            class="<?= $r === $role_actif ? 'role-actif-item' : '' ?>">
+                                <?= ucfirst($r) ?>
+                                <?php if ($r === $role_actif): ?> ✓<?php endif; ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </li>
+        <?php endif; ?>
+
         <?php if ($estConnecte): ?>
             <li>
                 <a href="/deconnexion" class="lien-deconnexion">Déconnexion</a>
@@ -79,3 +97,22 @@ if (!function_exists('styleLien')) {
         <?php endif; ?>
     </ul>
 </nav>
+
+<script>
+function toggleDropdown() {
+    var dropdown = document.getElementById('dropdown-roles');
+    if (dropdown.style.display === 'block') {
+        dropdown.style.display = 'none';
+    } else {
+        dropdown.style.display = 'block';
+    }
+}
+
+// Fermer le dropdown si on clique ailleurs
+document.addEventListener('click', function(e) {
+    var switchRole = document.getElementById('switch-role');
+    if (switchRole && !switchRole.contains(e.target)) {
+        document.getElementById('dropdown-roles').style.display = 'none';
+    }
+});
+</script>

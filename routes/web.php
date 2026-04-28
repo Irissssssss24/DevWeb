@@ -146,3 +146,28 @@ Route::post('/creer-offre', [OffreController::class, 'store']);
 
 
 Route::get('/offres', [VoirOffreController::class, 'index']);
+
+
+//Route pour le switch de role
+Route::get('/switch-role/{role}', function($role) {
+    if (!session()->has('user_id')) return redirect('/connexion');
+
+    // Vérifier que l'utilisateur a bien ce rôle
+    if (!in_array($role, session('roles', []))) {
+        return redirect('/connexion')->with('error', 'Rôle invalide');
+    }
+
+    // Changer le rôle actif
+    session()->put('role_actif', $role);
+
+    // Rediriger vers la page d'accueil du nouveau rôle
+    $redirections = [
+        'etudiant'      => '/etudiant',
+        'entreprise'    => '/entreprise',
+        'tuteur'        => '/tuteur',
+        'jury'          => '/jury',
+        'administrateur'=> '/administrateur',
+    ];
+
+    return redirect($redirections[$role] ?? '/accueil');
+});
