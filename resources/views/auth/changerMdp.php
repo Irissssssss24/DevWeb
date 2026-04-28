@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Changer mon mot de passe — ProjetStage</title>
+    <link rel="stylesheet" href="/css/stylePortail.css">
 </head>
 <body>
 
@@ -48,35 +49,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+    <div class="conteneur-connexion">
+        <h1>Changer mon mot de passe</h1>
+        <p>Choisissez un nouveau mot de passe (8 caractères minimum).</p>
+        <br><br>
 
-    <h1>Changer mon mot de passe</h1>
-    <p>Choisissez un nouveau mot de passe (8 caractères minimum).</p>
+        <form method="POST">
+            <div class="groupe-formulaire">
+            <label for="nouveau">Nouveau mot de passe :</label>
+            <input
+                class="champ-saisie"
+                placeholder="Votre Mot de passe"
+                type="password"
+                id="nouveau"
+                name="nouveau"
+                required
+                minlength="8"
+                autocomplete="new-password"
+            >
+            </div>
+            <br>
 
-    <form method="POST">
+            <div class="groupe-formulaire">
+            <label for="confirmer">Confirmer le mot de passe :</label>
+            <input
+                class="champ-saisie"
+                placeholder="Votre Mot de passe"
+                type="password"
+                id="confirmer"
+                name="confirmer"
+                required
+                minlength="8"
+                autocomplete="new-password"
+            >
+            </div>
 
-        <label for="nouveau">Nouveau mot de passe :</label><br>
-        <input
-            type="password"
-            id="nouveau"
-            name="nouveau"
-            required
-            minlength="8"
-            autocomplete="new-password"
-        ><br><br>
+            <button type="submit" class="bouton-connexion">Valider</button>
 
-        <label for="confirmer">Confirmer le mot de passe :</label><br>
-        <input
-            type="password"
-            id="confirmer"
-            name="confirmer"
-            required
-            minlength="8"
-            autocomplete="new-password"
-        ><br><br>
-
-        <button type="submit">Valider</button>
-
-    </form>
+        </form>
+    </div>
 
 </body>
 </html>
