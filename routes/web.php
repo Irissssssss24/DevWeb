@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\OffreController;
+use App\Http\Controllers\VoirOffreController;
 
 Route::get('/', function () {
     return redirect('/accueil');
@@ -128,3 +130,19 @@ Route::get('/mon-cv', function() {
         'Content-Type' => 'application/pdf',
     ]);
 });
+
+// Route pour creer / voir les offres de stage
+Route::get('/publierOffre', function() {
+    return redirect('/entreprise/publierOffre');
+});
+
+Route::get('/creer-offre', function() {
+    if (!session()->has('user_id')) return redirect('/connexion');
+    if (session('role_actif') !== 'entreprise') return redirect('/connexion');
+    include resource_path('views/entreprise/publierOffre.php');
+});
+
+Route::post('/creer-offre', [OffreController::class, 'store']);
+
+
+Route::get('/offres', [VoirOffreController::class, 'index']);

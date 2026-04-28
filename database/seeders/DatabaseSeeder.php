@@ -10,6 +10,8 @@ use App\Models\Entreprise;
 use App\Models\Tuteur;
 use App\Models\Jury;
 use App\Models\Administrateur;
+use App\Models\OffreStage;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -47,7 +49,7 @@ class DatabaseSeeder extends Seeder
             ['specialite' => 'Programmation procédurale']
         );
         Jury::firstOrCreate(
-            ['id_utilisateur' => $user->id_utilisateur],
+            ['id_utilisateur' => $user->id_utilisateur]
             
         );
 
@@ -92,6 +94,35 @@ class DatabaseSeeder extends Seeder
         Tuteur::firstOrCreate(
             ['id_utilisateur' => $user->id_utilisateur],
             ['specialite' => 'Programmation procédurale']
+        );
+
+        
+
+        // Offres de stage de test
+        $entreprise = Entreprise::where('id_utilisateur', 
+            Utilisateur::where('email', 'iris.geyer@etu.cyu.fr')->first()->id_utilisateur
+        )->first();
+
+        OffreStage::firstOrCreate(
+            ['titre' => 'Développeur web fullstack'],
+            [
+                'description'   => 'Stage de développement web au sein de notre équipe technique.',
+                'missions'      => 'Développer de nouvelles fonctionnalités, corriger des bugs, participer aux réunions d\'équipe.',
+                'competences'   => 'PHP, Laravel, PostgreSQL, HTML, CSS',
+                'duree'         => '3 mois',
+                'id_entreprise' => $entreprise->id_entreprise,
+            ]
+        );
+
+        OffreStage::firstOrCreate(
+            ['titre' => 'Analyste données'],
+            [
+                'description'   => 'Stage en analyse de données et business intelligence.',
+                'missions'      => 'Analyser les données clients, créer des tableaux de bord, rédiger des rapports.',
+                'competences'   => 'Python, SQL, Excel, PowerBI',
+                'duree'         => '6 mois',
+                'id_entreprise' => $entreprise->id_entreprise,
+            ]
         );
     }
 }

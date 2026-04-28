@@ -37,29 +37,29 @@ if (!function_exists('styleLien')) {
 
     <!-- Partie droite : liens de navigation -->
     <ul>
-        <?php if (in_array('etudiant', $roles)): ?>
+        <?php if ('etudiant'=== $role_actif): ?>
             <li><a href="/etudiant" <?= styleLien('etudiant', $pageCourante) ?>>Accueil</a></li>
             <li><a href="/offres" <?= styleLien('offres', $pageCourante) ?>>Voir les offres de stage</a></li>
             <li><a href="/etudiant" <?= styleLien('etudiant', $pageCourante) ?>>Mon avancement</a></li>
             <li><a href="/etudiant/profil" <?= styleLien('etudiant/profil', $pageCourante) ?>>Mon profil</a></li>
 
-        <?php elseif (in_array('entreprise', $roles)): ?>
+        <?php elseif ('entreprise'=== $role_actif): ?>
             <li><a href="/entreprise" <?= styleLien('entreprise', $pageCourante) ?>>Accueil</a></li>
             <li><a href="/creer-offre" <?= styleLien('creer-offre', $pageCourante) ?>>Publier une offre</a></li>
             <li><a href="/entreprise" <?= styleLien('entreprise', $pageCourante) ?>>Voir les candidats</a></li>
             <li><a href="/entreprise/profil" <?= styleLien('entreprise/profil', $pageCourante) ?>>Mon profil</a></li>
 
-        <?php elseif (in_array('tuteur', $roles)): ?>
+        <?php elseif ('tuteur'=== $role_actif): ?>
             <li><a href="/tuteur" <?= styleLien('tuteur', $pageCourante) ?>>Accueil</a></li>
             <li><a href="/tuteur" <?= styleLien('tuteur', $pageCourante) ?>>Suivre mes stagiaires</a></li>
             <li><a href="/tuteur/profil" <?= styleLien('tuteur/profil', $pageCourante) ?>>Mon profil</a></li>
 
-        <?php elseif (in_array('jury', $roles)): ?>
+        <?php elseif ('jury'=== $role_actif): ?>
             <li><a href="/jury" <?= styleLien('jury', $pageCourante) ?>>Accueil</a></li>
             <li><a href="/jury" <?= styleLien('jury', $pageCourante) ?>>Évaluations</a></li>
             <li><a href="/jury/profil" <?= styleLien('jury/profil', $pageCourante) ?>>Mon profil</a></li>
 
-        <?php elseif (in_array('administrateur', $roles)): ?>
+        <?php elseif ('administrateur'=== $role_actif): ?>
             <li><a href="/administrateur" <?= styleLien('administrateur', $pageCourante) ?>>Accueil</a></li>
             <li><a href="/administrateur" <?= styleLien('administrateur', $pageCourante) ?>>Notification</a></li>
             <li><a href="/administrateur/profil" <?= styleLien('jury/profil', $pageCourante) ?>>Mon profil</a></li>

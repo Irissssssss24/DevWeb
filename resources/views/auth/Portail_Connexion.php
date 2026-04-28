@@ -14,6 +14,13 @@
 
         <?php
         $errorMessage = session()->get('error', '');
+        $messages = [
+            'champs_vides'        => 'Veuillez remplir tous les champs.',
+            'identifiants_invalides' => 'Email ou mot de passe incorrect.',
+            'role_invalide'       => 'Vous n\'avez pas ce rôle.',
+            'role_inconnu'        => 'Aucun rôle trouvé pour ce compte.',
+        ];
+        $errorMessage = $messages[$errorMessage] ?? $errorMessage;
         $successMessage = session()->get('success', '');
         ?>
 
