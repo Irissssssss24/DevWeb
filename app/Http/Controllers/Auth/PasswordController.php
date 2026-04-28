@@ -36,7 +36,7 @@ class PasswordController extends Controller
             ->update(['mot_de_passe' => Hash::make($nouveau)]);
 
         // Redirection selon le rôle
-        $roles = session('roles', []);
+        $role_actif = session('role_actif');
         $redirections = [
             'administrateur' => '/admin',
             'etudiant'       => '/etudiant',
@@ -45,11 +45,11 @@ class PasswordController extends Controller
             'jury'           => '/jury',
         ];
 
-        foreach ($redirections as $role => $url) {
-            if (in_array($role, $roles)) {
-                return redirect($url)->with('success', 'Mot de passe modifié avec succès.');
-            }
+        
+        if (in_array($role_actif, $redirections)) {
+            return redirect($url)->with('success', 'Mot de passe modifié avec succès.');
         }
+    
 
         return redirect('/connexion');
     }

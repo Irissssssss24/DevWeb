@@ -66,8 +66,10 @@ class RegisterController extends Controller
             'jury' => 0,
         ];
 
+        $role_actif = session('role_actif');
+
         // Activer le rôle choisi
-        $roleData[$request->role] = 1;
+        $roleData[$role_actif] = 1;
 
         // Création de l'entrée dans la table role choisie
         Role::create($roleData);

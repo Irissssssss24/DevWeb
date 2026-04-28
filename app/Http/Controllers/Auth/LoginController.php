@@ -76,7 +76,7 @@ class LoginController extends Controller
         // Stocker les infos en session temporaire (avant validation 2FA)
         session()->put('2fa_user_id', $user->id_utilisateur);
         session()->put('2fa_roles',   $rolesActifs);
-        session()->put('pending_2fa_role_choisi', $roleChoisi);
+        session()->put('role_actif', $roleChoisi);
         session()->put('nom',    $user->nom);
         session()->put('prenom', $user->prenom);
         session()->put('email',  $user->email);

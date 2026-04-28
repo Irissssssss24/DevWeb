@@ -4,6 +4,7 @@ $prenom = session('prenom');
 $nom    = session('nom');
 // On récupère le tableau des rôles (plusieurs rôles possibles)
 $roles  = session('roles', []);
+$role_actif = session('role_actif');
 
 // On vérifie si l'utilisateur est connecté
 $estConnecte = session()->has('user_id');
@@ -29,7 +30,7 @@ if (!function_exists('styleLien')) {
         <?php if ($estConnecte): ?>
         <div class="nav-info">
             <strong>Bienvenue, <?php echo htmlspecialchars($prenom . ' ' . $nom); ?></strong>
-            (Rôle : <em><?php echo htmlspecialchars(implode(', ', $roles)); ?></em>)
+            (Rôle : <em><?php echo htmlspecialchars($role_actif); ?></em>)
         </div>
         <?php endif; ?>
     </div>

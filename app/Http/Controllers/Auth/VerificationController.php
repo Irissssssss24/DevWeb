@@ -59,6 +59,7 @@ class VerificationController extends Controller
         $rolesActifs = session('2fa_roles');
         session()->put('user_id', $userId);
         session()->put('roles',   $rolesActifs);
+        $role_choisi = session('role_actif');
 
         // Nettoyer les données temporaires 2FA
         session()->forget('2fa_user_id');
@@ -67,11 +68,11 @@ class VerificationController extends Controller
         // Redirection selon priorité des rôles
         // sert à éviter de faire plusieurs redirections successives en cas de multi-rôles
         $priorite = ['administrateur', 'tuteur', 'jury', 'entreprise', 'etudiant'];
-        foreach ($priorite as $r) {
-            if (in_array($r, $rolesActifs)) {
-                return redirect('/' . $r);
-            }
+        
+        if (in_array($role_choisi, $priorite)) {
+            return redirect('/' . $role_choisi);
         }
+        
 
         return redirect('/connexion')->with('error', 'role_inconnu');
     }
