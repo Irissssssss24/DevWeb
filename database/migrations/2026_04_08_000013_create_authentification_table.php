@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // create_tuteur_table
-        Schema::create('tuteur', function (Blueprint $table) {
-            $table->increments('id_tuteur');
-            $table->unsignedInteger('id_utilisateur')->nullable();
-            $table->string('specialite', 100)->nullable();
+        // create_authentification_table
+        Schema::create('authentification', function (Blueprint $table) {
+            $table->increments('id_auth');
+            $table->uuid('id_utilisateur')->nullable();
+            $table->string('code_2fa', 10)->nullable();
+            $table->timestamp('date_expiration')->nullable();
             $table->foreign('id_utilisateur')
                   ->references('id_utilisateur')->on('utilisateur')
                   ->onDelete('cascade');
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tuteur');
+        Schema::dropIfExists('authentification');
     }
 };

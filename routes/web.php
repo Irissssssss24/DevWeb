@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\TwoFactorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\Auth\RegisterController;
 
 Route::get('/', function () {
     return redirect('/accueil');
@@ -58,7 +59,7 @@ Route::get('/jury', function() {
     include resource_path('views/jury/jury.php');
 });
 
-Route::get('/admin', function() {
+Route::get('/administrateur', function() {
     if (!session()->has('user_id')) return redirect('/connexion');
     if (!in_array('administrateur', session('roles', []))) return redirect('/connexion');
     $pageCourante = 'admin';
@@ -93,3 +94,37 @@ Route::post('/changer-mdp', [PasswordController::class, 'update']);
 // Routes de vérification d'email
 Route::get('/verification', [VerificationController::class, 'index']);
 Route::post('/verification', [VerificationController::class, 'verify']);
+
+// Route pour upload le CV
+Route::post('/upload-cv', function(\Illuminate\Http\Request $request) {
+    if (!session()->has('user_id')) return redirect('/connexion');
+
+    $idUtilisateur = session('user_id');
+    $dossier = storage_path('app/private/Documents/' . $idUtilisateur);
+
+    if (!file_exists($dossier)) {
+        mkdir($dossier, 0755, true);
+    }
+
+    if ($request->hasFile('cv')) {
+        $request->file('cv')->move($dossier, 'CV.pdf');
+    }
+
+    return redirect('/etudiant/profil')->with('success', 'CV déposé avec succès !');
+});
+
+// Route pour visualiser le cv de manière sécurisé
+Route::get('/mon-cv', function() {
+    if (!session()->has('user_id')) return redirect('/connexion');
+
+    $idUtilisateur = session('user_id');
+    $cheminCV = storage_path('app/private/Documents/' . $idUtilisateur . '/CV.pdf');
+
+    if (!file_exists($cheminCV)) {
+        abort(404, 'CV non trouvé');
+    }
+
+    return response()->file($cheminCV, [
+        'Content-Type' => 'application/pdf',
+    ]);
+});

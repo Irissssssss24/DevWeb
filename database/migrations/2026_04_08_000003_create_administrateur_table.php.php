@@ -14,7 +14,7 @@ return new class extends Migration
         // create_administrateur_table
         Schema::create('administrateur', function (Blueprint $table) {
             $table->increments('id_administrateur');
-            $table->unsignedInteger('id_utilisateur')->nullable();
+            $table->uuid('id_utilisateur')->nullable();
             $table->foreign('id_utilisateur')
                   ->references('id_utilisateur')->on('utilisateur')
                   ->onDelete('cascade');

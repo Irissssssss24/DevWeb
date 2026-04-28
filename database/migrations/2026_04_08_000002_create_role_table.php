@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // create_authentification_table
-        Schema::create('authentification', function (Blueprint $table) {
-            $table->increments('id_auth');
-            $table->unsignedInteger('id_utilisateur')->nullable();
-            $table->string('code_2fa', 10)->nullable();
-            $table->timestamp('date_expiration')->nullable();
+        // create_role_table
+        Schema::create('role', function (Blueprint $table) {
+            $table->uuid('id_utilisateur')->primary();
+            $table->integer('administrateur')->default(0);
+            $table->integer('etudiant')->default(0);
+            $table->integer('entreprise')->default(0);
+            $table->integer('tuteur')->default(0);
+            $table->integer('jury')->default(0);
             $table->foreign('id_utilisateur')
                   ->references('id_utilisateur')->on('utilisateur')
                   ->onDelete('cascade');
-            $table->timestamps();
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('authentification');
+        Schema::dropIfExists('role');
     }
 };

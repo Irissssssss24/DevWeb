@@ -22,16 +22,20 @@ if (!function_exists('styleLien')) {
 ?>
 
 <nav>
-    <!-- Affichage du bienvenue uniquement si connecté -->
-    <?php if ($estConnecte): ?>
-    <div class="nav-info">
-        <strong>Bienvenue, <?php echo htmlspecialchars($prenom . ' ' . $nom); ?></strong>
-        (Rôle : <em><?php echo htmlspecialchars(implode(', ', $roles)); ?></em>)
+    <!-- Partie gauche : logo + nom app + bienvenue -->
+    <div class="nav-gauche">
+        <img src="/images/CY_Tech.png" class="images" alt="CY Tech"/>
+        <span class="nav-app-name">MYstage</span>
+        <?php if ($estConnecte): ?>
+        <div class="nav-info">
+            <strong>Bienvenue, <?php echo htmlspecialchars($prenom . ' ' . $nom); ?></strong>
+            (Rôle : <em><?php echo htmlspecialchars(implode(', ', $roles)); ?></em>)
+        </div>
+        <?php endif; ?>
     </div>
-    <?php endif; ?>
 
+    <!-- Partie droite : liens de navigation -->
     <ul>
-        <!-- Affichage des liens selon le ou les rôles de l'utilisateur -->
         <?php if (in_array('etudiant', $roles)): ?>
             <li><a href="/etudiant" <?= styleLien('etudiant', $pageCourante) ?>>Accueil</a></li>
             <li><a href="/offres" <?= styleLien('offres', $pageCourante) ?>>Voir les offres de stage</a></li>
@@ -54,15 +58,19 @@ if (!function_exists('styleLien')) {
             <li><a href="/jury" <?= styleLien('jury', $pageCourante) ?>>Évaluations</a></li>
             <li><a href="/jury/profil" <?= styleLien('jury/profil', $pageCourante) ?>>Mon profil</a></li>
 
+        <?php elseif (in_array('administrateur', $roles)): ?>
+            <li><a href="/administrateur" <?= styleLien('administrateur', $pageCourante) ?>>Accueil</a></li>
+            <li><a href="/administrateur" <?= styleLien('administrateur', $pageCourante) ?>>Notification</a></li>
+            <li><a href="/administrateur/profil" <?= styleLien('jury/profil', $pageCourante) ?>>Mon profil</a></li>
+
+
         <?php else: ?>
-            <!-- Liens pour les visiteurs non connectés -->
             <li><a href="/accueil" <?= styleLien('accueil', $pageCourante) ?>>Accueil</a></li>
             <li><a href="/offres" <?= styleLien('offres', $pageCourante) ?>>Voir les offres de stage</a></li>
-            <li><a href="/connexion">Se connecter</a></li>
-            <li><a href="/inscription">S'inscrire</a></li>
+            <li><a href="/connexion" class="lien-connexion">Se connecter</a></li>
+            <li><a href="/inscription" class="lien-inscription">S'inscrire</a></li>
         <?php endif; ?>
 
-        <!-- Lien de déconnexion — affiché uniquement si connecté -->
         <?php if ($estConnecte): ?>
             <li>
                 <a href="/deconnexion" class="lien-deconnexion">Déconnexion</a>

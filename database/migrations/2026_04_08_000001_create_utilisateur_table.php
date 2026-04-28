@@ -13,13 +13,13 @@ return new class extends Migration
     {
         // create_utilisateur_table
         Schema::create('utilisateur', function (Blueprint $table) {
-            $table->increments('id_utilisateur');
+            $table->uuid('id_utilisateur')->primary()->default(DB::raw('gen_random_uuid()'));
             $table->string('nom', 100)->nullable();
             $table->string('prenom', 100)->nullable();
             $table->string('email', 150)->unique()->nullable();
             $table->text('mot_de_passe')->nullable();
             $table->timestamps();
-        });
+});
     }
 
     /**

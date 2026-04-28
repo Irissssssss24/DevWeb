@@ -1,0 +1,155 @@
+.hero {
+    background-color: #0062AD;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.hero-logo {
+    width: 80px;
+    margin-bottom: 1rem;
+}
+
+.hero h1 {
+    color: white;
+    font-size: 2.2rem;
+    font-weight: 500;
+    margin: 0 0 0.5rem;
+    padding: 0;
+}
+
+.hero-subtitle {
+    color: rgba(255,255,255,0.85);
+    font-size: 1.1rem;
+    margin: 0 0 1.5rem;
+}
+
+.hero-boutons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-blanc {
+    background: white;
+    color: #0062AD;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.btn-contour {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.contenu {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.intro {
+    text-align: center;
+    color: #666;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+
+.cartes-roles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 2rem;
+}
+
+.carte {
+    background: white;
+    border: 0.5px solid #ddd;
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.carte-icon {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.carte h3 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0 0 4px;
+    color: #0062AD;
+    padding: 0;
+}
+
+.carte p {
+    font-size: 0.82rem;
+    color: #666;
+    margin: 0;
+}
+
+.etapes {
+    background: #f4f7f6;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.etapes h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0 0 1rem;
+    color: #0062AD;
+}
+
+.etape {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.etape-num {
+    background: #0062AD;
+    color: white;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.etape-titre {
+    margin: 0;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.etape-desc {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.pied {
+    text-align: center;
+    border-top: 0.5px solid #ddd;
+    padding-top: 1.5rem;
+    font-size: 0.85rem;
+    color: #999;
+}

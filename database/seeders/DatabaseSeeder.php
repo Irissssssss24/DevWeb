@@ -9,6 +9,7 @@ use App\Models\Etudiant;
 use App\Models\Entreprise;
 use App\Models\Tuteur;
 use App\Models\Jury;
+use App\Models\Administrateur;
 
 class DatabaseSeeder extends Seeder
 {
@@ -49,9 +50,9 @@ class DatabaseSeeder extends Seeder
         );
         Role::firstOrCreate(
             ['id_utilisateur' => $user->id_utilisateur],
-            ['jury' => 1]
+            ['administrateur' => 1]
         );
-        Jury::firstOrCreate(
+        Administrateur::firstOrCreate(
             ['id_utilisateur' => $user->id_utilisateur]
         );
 

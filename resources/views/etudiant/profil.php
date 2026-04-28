@@ -28,13 +28,43 @@ $roles  = session('roles', []);
             <p><strong>Rôle :</strong><em><?php echo htmlspecialchars(implode(', ', $roles)); ?></em></p> 
         </div>
 
+        <?php 
+        $idUtilisateur = session('user_id');
+        $cheminCV = storage_path('app/private/Documents/' . $idUtilisateur . '/CV.pdf');
+        $cvExiste = file_exists($cheminCV);
+        ?>
+
         <div class="cv">
+            <h3>Mon CV :</h3>
+
+            <?php if ($cvExiste): ?>
+                <p style="color: green; margin-bottom: 15px;">✅ CV déposé</p>
+
+                <!-- Affichage sécurisé via la route Laravel -->
+                <iframe 
+                    src="/mon-cv" 
+                    width="100%" 
+                    height="500px" 
+                    style="border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                    <p>Votre navigateur ne supporte pas l'affichage PDF. 
+                        <a href="/mon-cv">Télécharger le CV</a>
+                    </p>
+                </iframe>
+
+                <a href="/mon-cv" download class="bouton" style="display:inline-block; margin-bottom: 15px;">
+                    Télécharger mon CV
+                </a>
+            <?php else: ?>
+                <p style="color: #999; margin-bottom: 15px;">Aucun CV déposé pour le moment.</p>
+            <?php endif; ?>
+
             <form action="/upload-cv" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="<?= csrf_token() ?>">
-                <h3>Mon cv :</h3>
-                <input type="file" name="Mon cv"> 
-                <button type="submit" name="depot_cv">Déposer le CV</button>
-            </form> 
+                <input type="file" name="cv" accept=".pdf">
+                <button type="submit" name="depot_cv">
+                    <?= $cvExiste ? 'Remplacer le CV' : 'Déposer le CV' ?>
+                </button>
+            </form>
         </div>
 
         <div class="modification">

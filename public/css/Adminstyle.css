@@ -15,7 +15,7 @@ body {
 nav {
     background-color: var(--bleu-cy);
     color: white;
-    padding: 15px;
+    padding: 0 20px;
     border-bottom: 1px solid #ccc;
     display: flex;
     justify-content: space-between;
@@ -23,43 +23,95 @@ nav {
     width: 100%;
     box-sizing: border-box;
     margin: 0;
-    min-height: 100px; 
-    
+    min-height: 100px;
 }
-nav ul {
+
+/* Partie gauche */
+.nav-gauche {
     display: flex;
-    list-style: none;
-    gap: 20px;
-    margin: 0;
-    padding: 0;
-    margin-left: auto;  /* pousse les boutons vers la droite */
+    align-items: center;
+    gap: 15px;
 }
 
-nav a { 
-    color: white !important; 
-    text-decoration: none !important; 
-    font-weight: normal !important; 
-    font-size: 1.2rem;
-
+.nav-app-name {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
-nav a.lien-actif { 
-    color: #00FF00 !important; 
-    text-decoration: underline !important; 
-    font-weight: bold !important; 
-    font-size: 1.2rem;
+.images {
+    width: 80px;
 }
 
 .nav-info {
     color: white;
-    margin-bottom: 10px;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    display: flex;
+  
+    gap: 2px;
+    border-left: 1px solid rgba(255,255,255,0.3);
+    padding-left: 15px;
+}
+
+/* Partie droite */
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 5px;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+nav a {
+    color: white !important;
+    text-decoration: none !important;
+    font-weight: normal !important;
+    font-size: 1rem;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+nav a:hover {
+    background-color: rgba(255,255,255,0.15);
+}
+
+nav a.lien-actif {
+    color: white !important;
+    font-weight: bold !important;
+    border-bottom: 3px solid #ffffff;
+    border-radius: 6px 6px 0 0;
 }
 
 nav a.lien-deconnexion {
-    color: red !important;
+    color: white !important;
+    background-color: #c0392b;
+    font-weight: bold !important;
 }
 
+nav a.lien-deconnexion:hover {
+    background-color: #a93226 !important;
+}
+
+nav a.lien-connexion {
+    color: white !important;
+    border: 2px solid white;
+    border-radius: 6px;
+    font-weight: bold !important;
+}
+
+nav a.lien-inscription {
+    color: var(--bleu-cy) !important;
+    background-color: white;
+    border-radius: 6px;
+    font-weight: bold !important;
+}
+
+nav a.lien-inscription:hover {
+    background-color: #f0f0f0 !important;
+}
 
 
 /* LE POSITIONNEMENT GAUCHE / DROITE */

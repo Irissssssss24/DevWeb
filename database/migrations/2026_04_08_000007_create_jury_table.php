@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // create_etudiant_table
-        Schema::create('etudiant', function (Blueprint $table) {
-            $table->increments('id_etudiant');
-            $table->unsignedInteger('id_utilisateur')->nullable();
-            $table->string('filiere', 100)->nullable();
-            $table->string('niveau', 50)->nullable();
-            $table->text('cv')->nullable();
+        // create_jury_table
+        Schema::create('jury', function (Blueprint $table) {
+            $table->increments('id_jury');
+            $table->uuid('id_utilisateur')->nullable();
             $table->foreign('id_utilisateur')
                   ->references('id_utilisateur')->on('utilisateur')
                   ->onDelete('cascade');
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('etudiant');
+        Schema::dropIfExists('jury');
     }
 };

@@ -14,7 +14,7 @@ return new class extends Migration
         // create_entreprise_table
         Schema::create('entreprise', function (Blueprint $table) {
             $table->increments('id_entreprise');
-            $table->unsignedInteger('id_utilisateur')->nullable();
+            $table->uuid('id_utilisateur')->nullable();
             $table->string('nom_entreprise', 150)->nullable();
             $table->text('adresse')->nullable();
             $table->string('secteur', 100)->nullable();
