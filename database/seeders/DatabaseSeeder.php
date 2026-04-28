@@ -20,14 +20,37 @@ class DatabaseSeeder extends Seeder
             ['email' => 'killianrollet@gmail.com'],
             ['nom' => 'Rollet', 'prenom' => 'Killian', 'mot_de_passe' => bcrypt('mdp_test')]
         );
-        Role::firstOrCreate(
+        Role::updateOrCreate(
             ['id_utilisateur' => $user->id_utilisateur],
-            ['etudiant' => 1]
+            [
+                'etudiant' => 1,
+                'entreprise' => 1,
+                'administrateur' => 1,
+                'tuteur' => 1,
+                'jury' => 1,
+            ]
         );
+    
         Etudiant::firstOrCreate(
             ['id_utilisateur' => $user->id_utilisateur],
             ['filiere' => 'GI', 'niveau' => 'ING1', 'cv' => '']
         );
+        Entreprise::firstOrCreate(
+            ['id_utilisateur' => $user->id_utilisateur],
+            ['nom_entreprise' => 'GEYER & CO', 'adresse' => '9 Avenue Pierre Massé', 'secteur' => 'Informatique']
+        );
+        Administrateur::firstOrCreate(
+            ['id_utilisateur' => $user->id_utilisateur]
+        );
+        Tuteur::firstOrCreate(
+            ['id_utilisateur' => $user->id_utilisateur],
+            ['specialite' => 'Programmation procédurale']
+        );
+        Jury::firstOrCreate(
+            ['id_utilisateur' => $user->id_utilisateur],
+            
+        );
+
 
         // Entreprise
         $user = Utilisateur::firstOrCreate(
@@ -42,6 +65,7 @@ class DatabaseSeeder extends Seeder
             ['id_utilisateur' => $user->id_utilisateur],
             ['nom_entreprise' => 'GEYER & CO', 'adresse' => '9 Avenue Pierre Massé', 'secteur' => 'Informatique']
         );
+        
 
         // Jury
         $user = Utilisateur::firstOrCreate(

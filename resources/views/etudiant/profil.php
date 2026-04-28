@@ -70,6 +70,8 @@ $roles  = session('roles', []);
         <div class="modification">
             <h3>Modifier le mot de passe : </h3>
 
+            
+
             <?php if (session('error')): ?>
                 <p style="color:red;"><?php echo session('error'); ?></p>
             <?php endif; ?>
@@ -81,9 +83,9 @@ $roles  = session('roles', []);
             <form method="POST" action="/changer-mdp">
                 <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                 <label for="nouveau">Nouveau mot de passe :</label><br>
-                <input type="password" id="nouveau" name="nouveau" required minlength="8" autocomplete="new-password"><br><br>
+                <input type="password" class="champ-saisie" placeholder="Votre Nouveau mot de passe" id="nouveau" name="nouveau" required minlength="8" autocomplete="new-password"><br><br>
                 <label for="confirmer">Confirmer le mot de passe :</label><br>
-                <input type="password" id="confirmer" name="confirmer" required minlength="8" autocomplete="new-password"><br><br>
+                <input type="password" class="champ-saisie" placeholder="Votre Nouveau mot de passe" id="confirmer" name="confirmer" required minlength="8" autocomplete="new-password"><br><br>
                 <button type="submit">Valider</button>
             </form>
         </div>

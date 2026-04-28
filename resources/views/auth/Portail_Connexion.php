@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion — ProjetStage</title>
     <link rel="stylesheet" href="/css/stylePortail.css">
+    <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
 
@@ -58,6 +59,20 @@
                     autocomplete="current-password"
                 >
             </div>
+
+            <div class="groupe-formulaire">
+                <label for="role">Rôle :</label>
+                <select id="role" name="role" required>
+                    <option value="">Sélectionnez un rôle</option>
+                    <option value="etudiant">Étudiant</option>
+                    <option value="entreprise">Entreprise</option>
+                    <option value="tuteur">Tuteur</option>
+                    <option value="jury">Jury</option>
+                    <option value="administrateur">Administrateur</option>
+                </select>
+            </div>
+
+
  
             <button type="submit" class="bouton-connexion">Se connecter</button>
  

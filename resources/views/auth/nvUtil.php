@@ -29,6 +29,30 @@
                 </ul>
             </div>
         <?php endif; ?>
+        
+        <!--afficher les rôles-->
+        <div class="cartes-roles">
+        <div class="carte">
+            <span class="carte-icon">🎓</span>
+            <h3>Étudiant</h3>
+            <p>Trouvez un stage, déposez vos documents, suivez votre avancement</p>
+        </div>
+        <div class="carte">
+            <span class="carte-icon">🏢</span>
+            <h3>Entreprise</h3>
+            <p>Publiez des offres, gérez vos stagiaires</p>
+        </div>
+        <div class="carte">
+            <span class="carte-icon">👨‍🏫</span>
+            <h3>Tuteur</h3>
+            <p>Suivez vos stagiaires, ajoutez des remarques</p>
+        </div>
+        <div class="carte">
+            <span class="carte-icon">⚖️</span>
+            <h3>Jury</h3>
+            <p>Évaluez les soutenances et rapports</p>
+        </div>
+    </div>
 
         <!-- Formulaire d'inscription -->
         <form action="/inscription" method="POST">
