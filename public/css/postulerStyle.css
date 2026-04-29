@@ -1,0 +1,102 @@
+.contenu-postuler {
+    max-width: 750px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.recap-offre h2,
+.formulaire-candidature h2 {
+    color: #0062AD;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #0062AD;
+}
+
+.formulaire-candidature {
+    background: white;
+    border: 0.5px solid #ddd;
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.document-section {
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+
+.document-section.document-ok {
+    border-left: 4px solid #27ae60;
+    background: #eafaf1;
+}
+
+.document-section.document-manquant {
+    border-left: 4px solid #e67e22;
+    background: #fef9f0;
+}
+
+.document-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.document-header h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0 0 4px;
+    color: #333;
+    padding: 0;
+}
+
+.document-statut {
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.document-statut.ok {
+    color: #27ae60;
+}
+
+.document-statut.manquant {
+    color: #e67e22;
+}
+
+.btn-voir {
+    background: #0062AD;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.btn-voir:hover {
+    background: #004a85;
+}
+
+input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: 1px dashed #ccc;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    background: white;
+    cursor: pointer;
+}
+
+small {
+    font-size: 0.8rem;
+    color: #999;
+}

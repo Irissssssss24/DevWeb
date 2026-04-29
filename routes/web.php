@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\VoirOffreController;
+use App\Http\Controllers\PostulerController;
 
 Route::get('/', function () {
     return redirect('/accueil');
@@ -182,4 +183,21 @@ Route::get('/switch-role/{role}', function($role) {
     ];
 
     return redirect($redirections[$role] ?? '/accueil');
+});
+
+
+// Route pour postuler
+Route::get('/postuler/{id}', [PostulerController::class, 'index']);
+Route::post('/postuler/{id}', [PostulerController::class, 'store']);
+
+
+// Route pour visualiser la lettre de motivation 
+Route::get('/ma-lettre', function() {
+    if (!session()->has('user_id')) return redirect('/connexion');
+
+    $cheminLM = storage_path('app/private/Documents/' . session('user_id') . '/LettreMotivation.pdf');
+
+    if (!file_exists($cheminLM)) abort(404, 'Lettre de motivation non trouvée');
+
+    return response()->file($cheminLM, ['Content-Type' => 'application/pdf']);
 });
