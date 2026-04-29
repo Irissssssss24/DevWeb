@@ -16,16 +16,13 @@ class PasswordController extends Controller
         include resource_path('views/auth/changerMdp.php');
     }
 
-    public function update(Request $request)
-    {
+    public function update(Request $request) {
         $email     = trim($request->input('email', ''));
-        $role      = $request->input('role', '');
         $nouveau   = $request->input('nouveau', '');
         $confirmer = $request->input('confirmer', '');
 
-        // Vérification des champs obligatoires
-        if (empty($email) || empty($role)) {
-            return redirect('/changer-mdp')->with('error', 'L\'adresse email et le rôle sont obligatoires.');
+        if (empty($email)) {
+            return redirect('/changer-mdp')->with('error', 'L\'adresse email est obligatoire.');
         }
 
         if (strlen($nouveau) < 8) {
@@ -42,25 +39,17 @@ class PasswordController extends Controller
             return redirect('/changer-mdp')->with('error', 'Aucun compte trouvé avec cette adresse email.');
         }
 
-        // Vérifier que l'utilisateur a bien le rôle indiqué
-        $roleEnBase = Role::where('id_utilisateur', $user->id_utilisateur)->first();
-        $rolesValides = ['administrateur', 'etudiant', 'entreprise', 'tuteur', 'jury'];
-
-        if (!$roleEnBase || !in_array($role, $rolesValides) || $roleEnBase->$role != 1) {
-            return redirect('/changer-mdp')->with('error', 'Le rôle ne correspond pas à ce compte.');
-        }
-
         // Stocker les infos en session
         session()->put('password_change_user_id', $user->id_utilisateur);
         session()->put('password_change_email', $email);
         session()->put('new_password', Hash::make($nouveau));
 
-        // Générer le code (même logique que le 2FA)
+        // Générer le code
         $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
         session()->put('password_change_code', $code);
         session()->put('password_change_expiration', now()->addMinutes(15));
 
-        // Envoyer le code (même Mail::raw que dans LoginController)
+        // Envoyer le code
         Mail::raw(
             "Votre code de vérification pour changer votre mot de passe : $code\n\nCe code est valable 15 minutes.\n\nSi vous n'avez pas demandé ce changement, ignorez ce message.",
             function ($message) use ($email) {
