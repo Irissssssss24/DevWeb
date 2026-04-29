@@ -83,6 +83,8 @@
             <a href="/inscription" class="lien-secondaire">S'inscrire</a>
 
             <a href="/changer_mdp" class="lien-secondaire">Mot de passe oublié ?</a>
+            <br>
+            <a href="/accueil" class="lien-secondaire">Retour Accueil</a>
 
         </div>
     </div>

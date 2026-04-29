@@ -100,6 +100,8 @@
         </form>
 
         <p>Déjà un compte ? <a href="/connexion">Se connecter</a></p>
+        <br>
+        <a href="/accueil" class="lien-secondaire">Retour Accueil</a>
     </div>
 </body>
 </html>
