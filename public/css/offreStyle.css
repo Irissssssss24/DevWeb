@@ -1,0 +1,255 @@
+.contenu-offre {
+    max-width: 700px;
+    margin: 30px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    border: 0.5px solid #ddd;
+}
+
+.contenu-offre h2 {
+    color: #0062AD;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #0062AD;
+}
+
+.groupe {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.groupe label {
+    font-weight: 500;
+    color: #0062AD;
+    font-size: 0.95rem;
+}
+
+.groupe input,
+.groupe textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+}
+
+.groupe input:focus,
+.groupe textarea:focus {
+    outline: none;
+    border-color: #0062AD;
+    box-shadow: 0 0 0 3px rgba(0, 98, 173, 0.1);
+}
+
+.groupe small {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.boutons-form {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.btn-annuler {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    color: #666;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.btn-annuler:hover {
+    background-color: #f4f7f6;
+}
+
+.message-erreur {
+    background-color: #fdecea;
+    color: #c0392b;
+    padding: 10px 15px;
+    border-left: 4px solid #c0392b;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.message-succes {
+    background-color: #eafaf1;
+    color: #27ae60;
+    padding: 10px 15px;
+    border-left: 4px solid #27ae60;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.liste-offres {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.carte-offre {
+    background: white;
+    border: 0.5px solid #ddd;
+    border-radius: 12px;
+    padding: 24px;
+    transition: box-shadow 0.2s;
+}
+
+.carte-offre:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.carte-offre-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 12px;
+}
+
+.carte-offre-header h3 {
+    color: #0062AD;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0 0 6px;
+}
+
+.entreprise-nom {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.badge-secteur {
+    background: #e6f1fb;
+    color: #0062AD;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+}
+
+.badge-duree {
+    background: #f4f7f6;
+    color: #555;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.offre-description {
+    color: #444;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.competences {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.badge-competence {
+    background: #eaf3de;
+    color: #3b6d11;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.carte-offre-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 0.5px solid #eee;
+    gap: 12px;
+}
+
+.btn-postuler {
+    background: #0062AD;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+}
+
+.btn-postuler:hover {
+    background: #004a85;
+}
+
+
+.form-recherche {
+    margin-bottom: 20px;
+}
+
+.recherche-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.champ-recherche {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+}
+
+.champ-recherche:focus {
+    outline: none;
+    border-color: #0062AD;
+    box-shadow: 0 0 0 3px rgba(0, 98, 173, 0.1);
+}
+
+.btn-recherche {
+    background: #0062AD;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+}
+
+.btn-recherche:hover {
+    background: #004a85;
+}
+
+.btn-reset {
+    color: #999;
+    text-decoration: none;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    padding: 10px 5px;
+}
+
+.btn-reset:hover {
+    color: #c0392b;
+}

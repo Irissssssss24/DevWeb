@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\OffreController;
+use App\Http\Controllers\VoirOffreController;
 
 Route::get('/', function () {
     return redirect('/accueil');
@@ -127,4 +129,45 @@ Route::get('/mon-cv', function() {
     return response()->file($cheminCV, [
         'Content-Type' => 'application/pdf',
     ]);
+});
+
+// Route pour creer / voir les offres de stage
+Route::get('/publierOffre', function() {
+    return redirect('/entreprise/publierOffre');
+});
+
+Route::get('/creer-offre', function() {
+    if (!session()->has('user_id')) return redirect('/connexion');
+    if (session('role_actif') !== 'entreprise') return redirect('/connexion');
+    include resource_path('views/entreprise/publierOffre.php');
+});
+
+Route::post('/creer-offre', [OffreController::class, 'store']);
+
+
+Route::get('/offres', [VoirOffreController::class, 'index']);
+
+
+//Route pour le switch de role
+Route::get('/switch-role/{role}', function($role) {
+    if (!session()->has('user_id')) return redirect('/connexion');
+
+    // Vérifier que l'utilisateur a bien ce rôle
+    if (!in_array($role, session('roles', []))) {
+        return redirect('/connexion')->with('error', 'Rôle invalide');
+    }
+
+    // Changer le rôle actif
+    session()->put('role_actif', $role);
+
+    // Rediriger vers la page d'accueil du nouveau rôle
+    $redirections = [
+        'etudiant'      => '/etudiant',
+        'entreprise'    => '/entreprise',
+        'tuteur'        => '/tuteur',
+        'jury'          => '/jury',
+        'administrateur'=> '/administrateur',
+    ];
+
+    return redirect($redirections[$role] ?? '/accueil');
 });
