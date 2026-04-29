@@ -1,0 +1,255 @@
+.contenu-candidatures {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.contenu-candidatures h2 {
+    color: #0062AD;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #0062AD;
+}
+
+.aucune-candidature {
+    text-align: center;
+    color: #999;
+    padding: 3rem;
+    background: white;
+    border-radius: 12px;
+    border: 0.5px solid #ddd;
+}
+
+.groupe-offre {
+    margin-bottom: 30px;
+}
+
+.groupe-offre h3 {
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+}
+
+.badge-count {
+    background: #e6f1fb;
+    color: #0062AD;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.carte-candidature {
+    background: white;
+    border: 0.5px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+    border-left: 4px solid #ddd;
+}
+
+.badge-en-attente {
+    background: #fef9f0;
+    color: #e67e22;
+}
+
+.carte-candidature.statut-accepté {
+    border-left-color: #27ae60;
+}
+
+.carte-candidature.statut-refusé {
+    border-left-color: #e74c3c;
+    opacity: 0.7;
+}
+
+.candidature-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.candidat-info {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.candidat-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #e6f1fb;
+    color: #0062AD;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.candidat-nom {
+    font-weight: 500;
+    font-size: 1rem;
+    margin: 0 0 2px;
+    color: #333;
+}
+
+.candidat-email {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0 0 2px;
+}
+
+.candidat-filiere {
+    font-size: 0.82rem;
+    color: #999;
+    margin: 0;
+}
+
+.badge-statut {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    white-space: nowrap;
+}
+
+.badge-en-attente-d\'acceptation {
+    background: #fef9f0;
+    color: #e67e22;
+}
+
+.badge-accepté {
+    background: #eafaf1;
+    color: #27ae60;
+}
+
+.badge-refusé {
+    background: #fdecea;
+    color: #e74c3c;
+}
+
+.documents-candidature {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.btn-document {
+    background: #f4f7f6;
+    color: #0062AD;
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    border: 0.5px solid #ddd;
+    transition: background-color 0.2s;
+}
+
+.btn-document:hover {
+    background: #e6f1fb;
+}
+
+.actions-candidature {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.form-accepter {
+    flex: 1;
+}
+
+.dates-form {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.groupe-date {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.groupe-date label {
+    font-size: 0.85rem;
+    color: #0062AD;
+    font-weight: 500;
+}
+
+.groupe-date input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.boutons-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-accepter {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.btn-accepter:hover {
+    background: #229954;
+}
+
+.btn-refuser {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.btn-refuser:hover {
+    background: #c0392b;
+}
+
+.info-dates {
+    background: #eafaf1;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #27ae60;
+}
+
+.info-dates p {
+    margin: 0;
+}
+
+.statut-en-attente {
+    border-left-color: #e67e22;
+}
+
+.statut-accepte {
+    border-left-color: #27ae60;
+}
+
+.statut-refuse {
+    border-left-color: #e74c3c;
+    opacity: 0.7;
+}

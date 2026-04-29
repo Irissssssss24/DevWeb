@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\VoirOffreController;
 use App\Http\Controllers\PostulerController;
+use App\Http\Controllers\CandidaturesController;
 
 Route::get('/', function () {
     return redirect('/accueil');
@@ -42,10 +43,8 @@ Route::get('/etudiant', function() {
 
 Route::get('/entreprise', function() {
     if (!session()->has('user_id')) return redirect('/connexion');
-    if (!in_array('entreprise', session('roles', []))) return redirect('/connexion');
-    $pageCourante = 'entreprise';
-
-    include resource_path('views/entreprise/entreprise.php');
+    if (session('role_actif') !== 'entreprise') return redirect('/connexion');
+    return app(CandidaturesController::class)->index();
 });
 
 Route::get('/tuteur', function() {
@@ -208,3 +207,18 @@ Route::get('/ma-lettre', function() {
 
     return response()->file($cheminLM, ['Content-Type' => 'application/pdf']);
 });
+
+
+
+// Route pour accepté ou non une candidature
+Route::get('/entreprise', function() {
+    if (!session()->has('user_id')) return redirect('/connexion');
+    if (session('role_actif') !== 'entreprise') return redirect('/connexion');
+    $pageCourante = 'entreprise';
+    app(CandidaturesController::class)->index();
+});
+
+Route::post('/candidature/accepter/{id}', [CandidaturesController::class, 'accepter']);
+Route::post('/candidature/refuser/{id}', [CandidaturesController::class, 'refuser']);
+Route::get('/candidature/cv/{idUtilisateur}', [CandidaturesController::class, 'voirCV']);
+Route::get('/candidature/lettre/{idUtilisateur}', [CandidaturesController::class, 'voirLettreMotivation']);
