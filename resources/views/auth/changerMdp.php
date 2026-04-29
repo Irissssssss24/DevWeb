@@ -66,20 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     placeholder="votre@email.com">
             </div>
 
-            <!-- Champ rôle -->
-            <div class="groupe-formulaire">
-                <label for="role">Rôle</label>
-                <select id="role" name="role" required 
-                    class="champ-saisie">
-                    <option value="">-- Sélectionnez votre rôle --</option>
-                    <option value="etudiant">Étudiant</option>
-                    <option value="entreprise">Entreprise</option>
-                    <option value="tuteur">Tuteur</option>
-                    <option value="jury">Jury</option>
-                    <option value="administrateur">Administrateur</option>
-                </select>
-            </div>
-
             <div class="groupe-formulaire">
             <label for="nouveau">Nouveau mot de passe :</label>
             <input
@@ -112,6 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit" class="bouton-connexion">Valider</button>
 
         </form>
+        <br>
+        <a href="/accueil" class="lien-secondaire">Retour Accueil</a>
     </div>
 
 </body>
