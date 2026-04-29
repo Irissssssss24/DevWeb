@@ -1,0 +1,108 @@
+<style>
+    /* ── Layout principal ── */
+    main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        padding: 24px;
+        align-items: start;
+    }
+
+    /* ── Carte générique ── */
+    .card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        padding: 24px;
+    }
+
+    .card-full { grid-column: 1 / -1; }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid #f0f4f8;
+    }
+
+    .card-header .icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background-color: #e8f0fb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+
+    .card-header h2 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #0062AD;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* ── Boutons ── */
+    .btn-primary {
+        background: #0062AD;
+        color: white;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 7px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: background 0.2s;
+        text-decoration: none;
+    }
+    .btn-primary:hover { background: #004f8a; }
+
+    .btn-small {
+        padding: 5px 12px;
+        font-size: 0.78rem;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        transition: opacity 0.2s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .btn-small:hover { opacity: 0.85; }
+    .btn-dl { background: #0062AD; color: white; }
+    .btn-secondary { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+    /* ── Flash messages ── */
+    .alert {
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-size: 0.88rem;
+        margin: 12px 24px 0;
+    }
+    .alert-success { background: #dcfce7; color: #16a34a; }
+    .alert-error   { background: #fee2e2; color: #dc2626; }
+
+    /* ── Vide state ── */
+    .empty-state {
+        color: #94a3b8;
+        font-size: 0.88rem;
+        text-align: center;
+        padding: 16px 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+        main { grid-template-columns: 1fr; }
+        .card-full { grid-column: 1; }
+    }
+</style>
