@@ -54,7 +54,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>Choisissez un nouveau mot de passe (8 caractères minimum).</p>
         <br><br>
 
-        <form method="POST">
+        <form method="POST" action="/changer-mdp">
+            <?php echo csrf_field(); ?>
+
+            <!-- Champ email -->
+            <div class="groupe-formulaire">
+                <label for="email">Adresse email du compte</label>
+                <input type="email" id="email" name="email" required
+                    class="champ-saisie"
+                    value="<?php echo htmlspecialchars(old('email', '')); ?>"
+                    placeholder="votre@email.com">
+            </div>
+
+            <!-- Champ rôle -->
+            <div class="groupe-formulaire">
+                <label for="role">Rôle</label>
+                <select id="role" name="role" required 
+                    class="champ-saisie">
+                    <option value="">-- Sélectionnez votre rôle --</option>
+                    <option value="etudiant">Étudiant</option>
+                    <option value="entreprise">Entreprise</option>
+                    <option value="tuteur">Tuteur</option>
+                    <option value="jury">Jury</option>
+                    <option value="administrateur">Administrateur</option>
+                </select>
+            </div>
+
             <div class="groupe-formulaire">
             <label for="nouveau">Nouveau mot de passe :</label>
             <input

@@ -97,6 +97,18 @@ Route::post('/changer-mdp', [PasswordController::class, 'update']);
 Route::get('/verification', [VerificationController::class, 'index']);
 Route::post('/verification', [VerificationController::class, 'verify']);
 
+// Inscription avec vérification email
+Route::get('/inscription', [RegisterController::class, 'index']);
+Route::post('/inscription', [RegisterController::class, 'register']);
+Route::get('/inscription/verification', [RegisterController::class, 'showVerifyForm']);
+Route::post('/inscription/verification', [RegisterController::class, 'verifyAndCreate']);
+
+// Changement de mot de passe avec vérification email
+Route::get('/changer-mdp', [PasswordController::class, 'index']);
+Route::post('/changer-mdp', [PasswordController::class, 'update']);
+Route::get('/changer-mdp/verification', [PasswordController::class, 'showVerifyForm']);
+Route::post('/changer-mdp/verification', [PasswordController::class, 'verifyAndUpdate']);
+
 // Route pour upload le CV
 Route::post('/upload-cv', function(\Illuminate\Http\Request $request) {
     if (!session()->has('user_id')) return redirect('/connexion');
