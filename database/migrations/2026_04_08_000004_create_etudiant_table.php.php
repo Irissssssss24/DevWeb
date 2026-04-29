@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // create_role_table
-        Schema::create('role', function (Blueprint $table) {
-            $table->unsignedInteger('id_utilisateur')->primary();
-            $table->integer('administrateur')->default(0);
-            $table->integer('etudiant')->default(0);
-            $table->integer('entreprise')->default(0);
-            $table->integer('tuteur')->default(0);
-            $table->integer('jury')->default(0);
+        // create_etudiant_table
+        Schema::create('etudiant', function (Blueprint $table) {
+            $table->increments('id_etudiant');
+            $table->uuid('id_utilisateur')->nullable();
+            $table->string('filiere', 100)->nullable();
+            $table->string('niveau', 50)->nullable();
+            $table->text('cv')->nullable();
             $table->foreign('id_utilisateur')
                   ->references('id_utilisateur')->on('utilisateur')
                   ->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('role');
+        Schema::dropIfExists('etudiant');
     }
 };

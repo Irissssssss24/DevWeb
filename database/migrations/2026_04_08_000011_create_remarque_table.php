@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // create_jury_table
-        Schema::create('jury', function (Blueprint $table) {
-            $table->increments('id_jury');
-            $table->unsignedInteger('id_utilisateur')->nullable();
+        // create_remarque_table
+        Schema::create('remarque', function (Blueprint $table) {
+            $table->increments('id_remarque');
+            $table->text('contenu')->nullable();
+            $table->timestamp('date')->nullable();
+            $table->unsignedInteger('id_stage')->nullable();
+            $table->uuid('id_utilisateur')->nullable();
+            $table->foreign('id_stage')
+                  ->references('id_stage')->on('stage')
+                  ->onDelete('cascade');
             $table->foreign('id_utilisateur')
                   ->references('id_utilisateur')->on('utilisateur')
                   ->onDelete('cascade');
@@ -27,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jury');
+        Schema::dropIfExists('remarque');
     }
 };

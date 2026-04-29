@@ -164,3 +164,39 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+
+.carte {
+    background: white;
+    border: 0.5px solid #ddd;
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.carte-icon {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.carte h3 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0 0 4px;
+    color: #0062AD;
+    padding: 0;
+}
+
+.carte p {
+    font-size: 0.82rem;
+    color: #666;
+    margin: 0;
+}
+
+.cartes-roles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 2rem;
+}

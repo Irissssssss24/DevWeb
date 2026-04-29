@@ -5,11 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion — ProjetStage</title>
     <link rel="stylesheet" href="/css/stylePortail.css">
+    <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
 
     <div class="conteneur-connexion">
         <h1>ProjetStage — Connexion</h1>
+
+        <?php
+        $errorMessage = session()->get('error', '');
+        $messages = [
+            'champs_vides'        => 'Veuillez remplir tous les champs.',
+            'identifiants_invalides' => 'Email ou mot de passe incorrect.',
+            'role_invalide'       => 'Vous n\'avez pas ce rôle.',
+            'role_inconnu'        => 'Aucun rôle trouvé pour ce compte.',
+        ];
+        $errorMessage = $messages[$errorMessage] ?? $errorMessage;
+        $successMessage = session()->get('success', '');
+        ?>
+
+        <?php if ($errorMessage): ?>
+            <div class="alerte alerte-erreur">
+                <strong>Erreur:</strong> <?php echo htmlspecialchars($errorMessage); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($successMessage): ?>
+            <div class="alerte alerte-succes">
+                <?php echo htmlspecialchars($successMessage); ?>
+            </div>
+        <?php endif; ?>
  
         <form action="/connexion" method="POST">
             <!-- génère un token unique pour chaque session utilisateur -->
@@ -41,6 +66,20 @@
                     autocomplete="current-password"
                 >
             </div>
+
+            <div class="groupe-formulaire">
+                <label for="role">Rôle :</label>
+                <select id="role" name="role" required>
+                    <option value="">Sélectionnez un rôle</option>
+                    <option value="etudiant">Étudiant</option>
+                    <option value="entreprise">Entreprise</option>
+                    <option value="tuteur">Tuteur</option>
+                    <option value="jury">Jury</option>
+                    <option value="administrateur">Administrateur</option>
+                </select>
+            </div>
+
+
  
             <button type="submit" class="bouton-connexion">Se connecter</button>
  

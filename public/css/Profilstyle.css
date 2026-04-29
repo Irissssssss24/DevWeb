@@ -184,3 +184,22 @@ button.valider:hover {
         padding: 15px;
     }
 }
+
+
+.champ-saisie {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.champ-saisie:focus {
+    outline: none;
+    border-color: var(--bleu-primaire);
+    box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
+}
+
+
+

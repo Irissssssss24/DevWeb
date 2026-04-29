@@ -1,11 +1,3 @@
-<?php
-// On inclut la barre de navigation
-include resource_path('views/layouts/barre_nav.php');
-
-
-
-$RapportDeStage = "#"; 
-?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -15,6 +7,13 @@ $RapportDeStage = "#";
         <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
     </head>
 <body>
+<?php
+// On inclut la barre de navigation
+$pageCourante = 'etudiant';
+include resource_path('views/layouts/barre_nav.php');
+
+$RapportDeStage = "#"; 
+?>
     <main> 
         <div class="partie-gauche">
             

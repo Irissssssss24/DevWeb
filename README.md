@@ -1,38 +1,54 @@
 # Installer docker
-'''bash
+```
+bash
 sudo apt install docker 
-'''
+```
+
 
 # Installer docker-compose
-'''bash
+```
+bash
 sudo apt install docker-compose
-'''
+```
+
 
 # Cloner le Projet 
-'''bash
+```
+bash
 git clone https://github.com/Irissssssss24/DevWeb.git
 cd DevWeb
-'''
+```
+
 
 # Copier le fichier d'environnement
-'''bash
+```
+bash
 cp .env.example .env
-'''
+```
 
 # Lancer le Docker 
-'''bash
+```
+bash
 docker-compose up -d --build 
-'''
+```
+
+# Installer composer dans les contenaires
+```
+bash 
+docker-compose exec app composer install
+```
 
 # Générer la clé de l'application 
-'''bash 
+```bash 
 docker-compose exec app php artisan key:generate
-'''
+```
 
 # Créer les tables et les données tests
-'''bash
+```
+bash
 docker-compose exec app php artisan migrate --seed
-'''
+```
+
 
 # Accéder au projet 
 
@@ -43,19 +59,15 @@ Le projet est accesible sur http://localhost:8000
 si il y a un problème de port (ports 5432 already use) 
 il faut changer le port utiliser (le port est déjà utiliser)
 
-'''YAML 
+```
+YAML 
 /docker-compose.yml 
 ports:
       - "5433:5432" -- changer cette ligne en mettant le port 5433 côté machine ou plus (jusqu'à trouver un port libre)
-'''
+```
 
-# Probleme dossier non trouver 
 
-si problème du type No such file or directory /var/www/artisan
 
-faire:
+# Connexion 
 
-'''bash 
-docker-compose exec app composer install
-'''
-
+aller sur http://localhost:8025 pour accéder au mail de vérification

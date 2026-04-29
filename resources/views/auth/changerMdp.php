@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Changer mon mot de passe — ProjetStage</title>
+    <link rel="stylesheet" href="/css/stylePortail.css">
 </head>
 <body>
 
@@ -48,35 +49,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+    <div class="conteneur-connexion">
+        <h1>Changer mon mot de passe</h1>
+        <p>Choisissez un nouveau mot de passe (8 caractères minimum).</p>
+        <br><br>
 
-    <h1>Changer mon mot de passe</h1>
-    <p>Choisissez un nouveau mot de passe (8 caractères minimum).</p>
+        <form method="POST" action="/changer-mdp">
+            <?php echo csrf_field(); ?>
 
-    <form method="POST">
+            <!-- Champ email -->
+            <div class="groupe-formulaire">
+                <label for="email">Adresse email du compte</label>
+                <input type="email" id="email" name="email" required
+                    class="champ-saisie"
+                    value="<?php echo htmlspecialchars(old('email', '')); ?>"
+                    placeholder="votre@email.com">
+            </div>
 
-        <label for="nouveau">Nouveau mot de passe :</label><br>
-        <input
-            type="password"
-            id="nouveau"
-            name="nouveau"
-            required
-            minlength="8"
-            autocomplete="new-password"
-        ><br><br>
+            <!-- Champ rôle -->
+            <div class="groupe-formulaire">
+                <label for="role">Rôle</label>
+                <select id="role" name="role" required 
+                    class="champ-saisie">
+                    <option value="">-- Sélectionnez votre rôle --</option>
+                    <option value="etudiant">Étudiant</option>
+                    <option value="entreprise">Entreprise</option>
+                    <option value="tuteur">Tuteur</option>
+                    <option value="jury">Jury</option>
+                    <option value="administrateur">Administrateur</option>
+                </select>
+            </div>
 
-        <label for="confirmer">Confirmer le mot de passe :</label><br>
-        <input
-            type="password"
-            id="confirmer"
-            name="confirmer"
-            required
-            minlength="8"
-            autocomplete="new-password"
-        ><br><br>
+            <div class="groupe-formulaire">
+            <label for="nouveau">Nouveau mot de passe :</label>
+            <input
+                class="champ-saisie"
+                placeholder="Votre Mot de passe"
+                type="password"
+                id="nouveau"
+                name="nouveau"
+                required
+                minlength="8"
+                autocomplete="new-password"
+            >
+            </div>
+            <br>
 
-        <button type="submit">Valider</button>
+            <div class="groupe-formulaire">
+            <label for="confirmer">Confirmer le mot de passe :</label>
+            <input
+                class="champ-saisie"
+                placeholder="Votre Mot de passe"
+                type="password"
+                id="confirmer"
+                name="confirmer"
+                required
+                minlength="8"
+                autocomplete="new-password"
+            >
+            </div>
 
-    </form>
+            <button type="submit" class="bouton-connexion">Valider</button>
+
+        </form>
+    </div>
 
 </body>
 </html>
