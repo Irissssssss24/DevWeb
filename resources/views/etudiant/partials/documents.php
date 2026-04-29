@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <?php if ($doc->fichier): ?>
-                        <a href="/documents/<?= htmlspecialchars($doc->fichier) ?>"
+                        <a href="/download-<?= $doc->type ?>"
                            class="btn-small btn-dl" download>
                             ⬇ Télécharger
                         </a>
