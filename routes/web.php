@@ -54,3 +54,13 @@ Route::get('/etudiant/profil', function() {
     if (!in_array('etudiant', session('roles', []))) return redirect('/connexion');
     include resource_path('views/etudiant/profil.php');
 });
+Route::get('/etudiant/profil', function() {
+    if (!session()->has('user_id')) return redirect('/connexion');
+    if (!in_array('etudiant', session('roles', []))) return redirect('/connexion');
+    include resource_path('views/etudiant/profil.php');
+});
+
+Route::get('/changer_mdp', function() {
+    include resource_path('views/auth/changerMdp.php');
+
+});
