@@ -40,7 +40,7 @@ if (!function_exists('styleLien')) {
         <?php if ('etudiant'=== $role_actif): ?>
             <li><a href="/etudiant" <?= styleLien('etudiant', $pageCourante) ?>>Accueil</a></li>
             <li><a href="/offres" <?= styleLien('offres', $pageCourante) ?>>Voir les offres de stage</a></li>
-            <li><a href="/etudiant" <?= styleLien('etudiant', $pageCourante) ?>>Mon avancement</a></li>
+            <li><a href="/etudiant/avancement" <?= styleLien('etudiant/avancement', $pageCourante) ?>>Mon avancement</a></li>
             <li><a href="/etudiant/profil" <?= styleLien('etudiant/profil', $pageCourante) ?>>Mon profil</a></li>
 
         <?php elseif ('entreprise'=== $role_actif): ?>

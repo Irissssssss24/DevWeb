@@ -8,13 +8,13 @@ $successMessage = session()->get('success', '');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vérification 2FA — ProjetStage</title>
+    <title>Vérification — ProjetStage</title>
     <link rel="stylesheet" href="/css/stylePortail.css">
 </head>
 <body>
 
     <div class="conteneur-connexion">
-        <h1>ProjetStage — Vérification 2FA</h1>
+        <h1>ProjetStage</h1>
 
         <?php if ($errorMessage): ?>
             <div class="alerte alerte-erreur">

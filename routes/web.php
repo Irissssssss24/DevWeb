@@ -8,6 +8,8 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\VoirOffreController;
+use App\Http\Controllers\PostulerController;
+use App\Http\Controllers\CandidaturesController;
 
 Route::get('/', function () {
     return redirect('/accueil');
@@ -41,10 +43,8 @@ Route::get('/etudiant', function() {
 
 Route::get('/entreprise', function() {
     if (!session()->has('user_id')) return redirect('/connexion');
-    if (!in_array('entreprise', session('roles', []))) return redirect('/connexion');
-    $pageCourante = 'entreprise';
-
-    include resource_path('views/entreprise/entreprise.php');
+    if (session('role_actif') !== 'entreprise') return redirect('/connexion');
+    return app(CandidaturesController::class)->index();
 });
 
 Route::get('/tuteur', function() {
@@ -68,6 +68,7 @@ Route::get('/administrateur', function() {
     include resource_path('views/admin/admin.php');
 });
 
+// Routes etudiant
 Route::get('/etudiant/profil', function() {
     if (!session()->has('user_id')) return redirect('/connexion');
     if (!in_array('etudiant', session('roles', []))) return redirect('/connexion');
@@ -79,10 +80,17 @@ Route::get('/etudiant/profil', function() {
     include resource_path('views/etudiant/profil.php');
 });
 
+Route::get('/etudiant/avancement', function() {
+    if (!session()->has('user_id')) return redirect('/connexion');
+    if (!in_array('etudiant', session('roles', []))) return redirect('/connexion');
+    $pageCourante = 'avancement';
+    include resource_path('views/etudiant/avancement.php');
+});
+
+// Route mdp
 Route::get('/changer_mdp', function() {
     $pageCourante = 'changermdp';
     include resource_path('views/auth/changerMdp.php');
-
 });
 
 // Inscription
@@ -130,6 +138,75 @@ Route::post('/upload-cv', function(\Illuminate\Http\Request $request) {
 
     return redirect('/etudiant/profil')->with('success', 'CV déposé avec succès !');
 });
+
+// Route pour upload un document de stage (rapport, convention, etc.)
+Route::post('/upload-document', function(\Illuminate\Http\Request $request) {
+    if (!session()->has('user_id')) return redirect('/connexion');
+    //IL FAUT QUE LE DOCUMENT A DEPOSER SOIT NOMMER 
+    $idUtilisateur = session('user_id');
+    $dossier = storage_path('app/private/Documents/' . $idUtilisateur);
+    $typedoc = $request->input('type'); // 'rapport', 'convention', etc.
+    // Noms de fichiers standardisés pour chaque type de document
+    $nomsDoc = [
+        'rapport'    => 'RapportDeStage.pdf',
+        'convention' => 'ConventionDeStage.pdf',
+        'evaluation' => 'FicheEvaluation.pdf',
+        'resume'     => 'ResumeDeStage.pdf',
+    ];
+    //$nomFinal = $nomsDoc[$typedoc];
+
+    if (!file_exists($dossier)) {
+        mkdir($dossier, 0755, true);
+    }
+
+    if ($request->hasFile('fichier')) {
+        $request->file('fichier')->move($dossier, $nomsDoc[$typedoc]);
+        //on met à jour ou on insère le document dans la base de données
+        \Illuminate\Support\Facades\DB::table('document')->updateOrInsert(
+            [
+                'id_stage' => $request->input('id_stage'),
+                'type'     => $typedoc
+            ],
+            [
+                'fichier' => $idUtilisateur . '/' . $nomsDoc[$typedoc], // On stocke le chemin relatif
+                'updated_at' => now(),// <--- Ça met à jour l'heure si le document existe déjà
+                'created_at' => now(), // <--- Ça met l'heure de création si c'est un nouveau
+            ]
+        );
+        return redirect('/etudiant/avancement')->with('success', $nomsDoc[$typedoc] . ' déposé avec succès !');
+    }
+        return redirect('/etudiant/avancement')->with('error', 'Aucun fichier sélectionné pour ' . ucfirst($typedoc) . '.');
+});
+//route pour telecharger un document de stage
+Route::get('/download-{type}', function($type) {
+    // 1. Sécurité : l'utilisateur doit être connecté
+    if (!session()->has('user_id')) return redirect('/connexion');
+    $idUtilisateur = session('user_id');
+
+    // 2. Dictionnaire des noms (le même que pour l'upload)
+    $nomsDoc = [
+        'rapport'    => 'RapportDeStage.pdf',
+        'convention' => 'ConventionDeStage.pdf',
+        'evaluation' => 'FicheEvaluation.pdf',
+        'resume'     => 'ResumeDeStage.pdf',
+    ];
+    // Vérifie si le type demandé existe dans notre liste
+    if (!isset($nomsDoc[$type])){
+        abort(404, 'Type de document invalide');
+    }
+    // 3. Construction du chemin vers le fichier dans le stockage
+    $cheminDoc = storage_path('app/private/Documents/' . $idUtilisateur . '/' . $nomsDoc[$type]);
+    // 4. Vérification de l'existence du fichier
+    if (!file_exists($cheminDoc)) {
+        abort(404, 'Document non trouvé');
+    }
+    // 5. Retour du fichier en réponse
+    return response()->file($cheminDoc, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'attachment; filename="' . $nomsDoc[$type] . '"',
+    ]);
+});
+
 
 // Route pour visualiser le cv de manière sécurisé
 Route::get('/mon-cv', function() {
@@ -187,3 +264,35 @@ Route::get('/switch-role/{role}', function($role) {
 
     return redirect($redirections[$role] ?? '/accueil');
 });
+
+
+// Route pour postuler
+Route::get('/postuler/{id}', [PostulerController::class, 'index']);
+Route::post('/postuler/{id}', [PostulerController::class, 'store']);
+
+
+// Route pour visualiser la lettre de motivation 
+Route::get('/ma-lettre', function() {
+    if (!session()->has('user_id')) return redirect('/connexion');
+
+    $cheminLM = storage_path('app/private/Documents/' . session('user_id') . '/LettreMotivation.pdf');
+
+    if (!file_exists($cheminLM)) abort(404, 'Lettre de motivation non trouvée');
+
+    return response()->file($cheminLM, ['Content-Type' => 'application/pdf']);
+});
+
+
+
+// Route pour accepté ou non une candidature
+Route::get('/entreprise', function() {
+    if (!session()->has('user_id')) return redirect('/connexion');
+    if (session('role_actif') !== 'entreprise') return redirect('/connexion');
+    $pageCourante = 'entreprise';
+    app(CandidaturesController::class)->index();
+});
+
+Route::post('/candidature/accepter/{id}', [CandidaturesController::class, 'accepter']);
+Route::post('/candidature/refuser/{id}', [CandidaturesController::class, 'refuser']);
+Route::get('/candidature/cv/{idUtilisateur}', [CandidaturesController::class, 'voirCV']);
+Route::get('/candidature/lettre/{idUtilisateur}', [CandidaturesController::class, 'voirLettreMotivation']);

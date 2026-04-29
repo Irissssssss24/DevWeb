@@ -9,7 +9,7 @@
 </head>
 <body>
 <?php
-$pageCourante = 'entreprise';
+$pageCourante = 'creer-offre';
 include resource_path('views/layouts/barre_nav.php');
 ?>
 

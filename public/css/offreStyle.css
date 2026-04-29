@@ -5,6 +5,8 @@
     padding: 40px;
     border-radius: 12px;
     border: 0.5px solid #ddd;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+
 }
 
 .contenu-offre h2 {
