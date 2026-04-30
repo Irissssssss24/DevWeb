@@ -94,7 +94,6 @@
 
                 <!-- Champs spécifiques au rôle -->
                 <div id="champs-specifiques"></div>
-
                 <button type="submit">S'inscrire</button>
                 <button type="button" id="btn-retour" style="margin-top: 10px;">
                     ← Changer de rôle
