@@ -27,26 +27,61 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nom'          => 'required|string|max:255',
-            'prenom'       => 'required|string|max:255',
-            'email'        => 'required|string|email|max:255|unique:utilisateur,email',
-            'mot_de_passe' => 'required|string|min:8|confirmed',
-            'role'         => 'required|in:etudiant,entreprise,tuteur,jury,administrateur',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect('/inscription')->withErrors($validator)->withInput();
-        }
-
-        // ✅ NOUVEAU : stocker les données en session au lieu de créer le compte
-        session()->put('register_pending', [
+        $data = [
             'nom'          => $request->nom,
             'prenom'       => $request->prenom,
             'email'        => $request->email,
             'mot_de_passe' => Hash::make($request->mot_de_passe),
             'role'         => $request->role,
-        ]);
+        ];
+
+        // Ajouter les champs spécifiques
+        switch ($request->role) {
+            case 'etudiant':
+                $data['filiere'] = $request->filiere;
+                $data['niveau']  = $request->niveau;
+                break;
+
+            case 'entreprise':
+                $data['nom_entreprise'] = $request->nom_entreprise;
+                $data['adresse']        = $request->adresse;
+                $data['secteur']        = $request->secteur;
+                $data['siret']          = $request->siret;
+                break;
+
+            case 'tuteur':
+                $data['specialite'] = $request->specialite;
+                break;
+        }
+
+        session()->put('register_pending', $data);
+
+        $rules = [
+            'nom'          => 'required|string|max:255',
+            'prenom'       => 'required|string|max:255',
+            'email'        => 'required|string|email|max:255|unique:utilisateur,email',
+            'mot_de_passe' => 'required|string|min:8|confirmed',
+            'role'         => 'required|in:etudiant,entreprise,tuteur,jury,administrateur',
+        ];
+
+        // règles spécifiques
+        if ($request->role === 'etudiant') {
+            $rules['filiere'] = 'required|string';
+            $rules['niveau']  = 'required|string';
+        }
+
+        if ($request->role === 'entreprise') {
+            $rules['nom_entreprise'] = 'required|string';
+            $rules['adresse']        = 'required|string';
+            $rules['secteur']        = 'required|string';
+            $rules['siret']          = 'required|string';
+        }
+
+        if ($request->role === 'tuteur') {
+            $rules['specialite'] = 'required|string';
+        }
+
+        $validator = Validator::make($request->all(), $rules);
 
         // Générer et stocker le code (même logique que le 2FA)
         $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
@@ -110,11 +145,43 @@ class RegisterController extends Controller
         Role::create($roleData);
 
         switch ($pending['role']) {
-            case 'etudiant':     Etudiant::create(['id_utilisateur' => $user->id_utilisateur]); break;
-            case 'entreprise':   Entreprise::create(['id_utilisateur' => $user->id_utilisateur]); break;
-            case 'tuteur':       Tuteur::create(['id_utilisateur' => $user->id_utilisateur]); break;
-            case 'jury':         Jury::create(['id_utilisateur' => $user->id_utilisateur]); break;
-            case 'administrateur': Administrateur::create(['id_utilisateur' => $user->id_utilisateur]); break;
+
+            case 'etudiant':
+                Etudiant::create([
+                    'id_utilisateur' => $user->id_utilisateur,
+                    'filiere'        => $pending['filiere'],
+                    'niveau'         => $pending['niveau'],
+                ]);
+                break;
+
+            case 'entreprise':
+                Entreprise::create([
+                    'id_utilisateur' => $user->id_utilisateur,
+                    'nom_entreprise' => $pending['nom_entreprise'],
+                    'adresse'        => $pending['adresse'],
+                    'secteur'        => $pending['secteur'],
+                    'siret'          => $pending['siret'],
+                ]);
+                break;
+
+            case 'tuteur':
+                Tuteur::create([
+                    'id_utilisateur' => $user->id_utilisateur,
+                    'specialite'     => $pending['specialite'],
+                ]);
+                break;
+
+            case 'jury':
+                Jury::create([
+                    'id_utilisateur' => $user->id_utilisateur
+                ]);
+                break;
+
+            case 'administrateur':
+                Administrateur::create([
+                    'id_utilisateur' => $user->id_utilisateur
+                ]);
+                break;
         }
 
         // Nettoyer la session

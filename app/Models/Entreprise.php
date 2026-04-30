@@ -8,7 +8,7 @@ class Entreprise extends Model
 {
     protected $table = 'entreprise';
     protected $primaryKey = 'id_entreprise';
-    protected $fillable = ['id_utilisateur', 'nom_entreprise', 'adresse', 'secteur'];
+    protected $fillable = ['id_utilisateur', 'nom_entreprise', 'adresse', 'secteur','siret'];
 
     public function utilisateur() {
         return $this->belongsTo(Utilisateur::class, 'id_utilisateur', 'id_utilisateur');

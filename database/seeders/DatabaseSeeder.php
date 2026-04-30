@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
         );
         Entreprise::firstOrCreate(
             ['id_utilisateur' => $userKillian->id_utilisateur],
-            ['nom_entreprise' => 'GEYER & CO', 'adresse' => '9 Avenue Pierre Massé', 'secteur' => 'Informatique']
+            ['nom_entreprise' => 'GEYER & CO', 'adresse' => '9 Avenue Pierre Massé', 'secteur' => 'Informatique', 'siret' => '123 123 123 12345']
         );
         Administrateur::firstOrCreate(['id_utilisateur' => $userKillian->id_utilisateur]);
         Tuteur::firstOrCreate(
@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
         );
         Entreprise::firstOrCreate(
             ['id_utilisateur' => $userIris->id_utilisateur],
-            ['nom_entreprise' => 'GEYER & CO', 'adresse' => '9 Avenue Pierre Massé', 'secteur' => 'Informatique']
+            ['nom_entreprise' => 'GEYER & CO', 'adresse' => '9 Avenue Pierre Massé', 'secteur' => 'Informatique', 'siret' => '123 123 123 12345']
         );
 
         $userKillian2 = Utilisateur::firstOrCreate(

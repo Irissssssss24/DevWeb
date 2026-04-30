@@ -26,6 +26,7 @@
             </div>
         <?php endif; ?>
 
+
         <!-- Étape 1 : Choix du rôle -->
         <div id="etape-role">
             <p style="text-align:center; color:#666; margin-bottom: 20px;">
@@ -96,9 +97,6 @@
                 <div id="champs-specifiques"></div>
 
                 <button type="submit">S'inscrire</button>
-                <button type="button" id="btn-retour" style="margin-top: 10px;">
-                    ← Changer de rôle
-                </button>
             </form>
 
             
@@ -179,9 +177,14 @@ document.querySelectorAll('.carte').forEach(carte => {
     carte.addEventListener('click', function() {
         const role = this.dataset.role;
 
+        // Retirer la mise en évidence de toutes les cartes
+        document.querySelectorAll('.carte').forEach(c => c.classList.remove('carte-active'));
+
+        // Mettre en évidence la carte cliquée
+        this.classList.add('carte-active');
+
         // Remplir le champ caché
         document.getElementById('role-hidden').value = role;
-
 
         // Afficher le rôle sélectionné
         document.getElementById('role-selectionne').innerHTML = `
@@ -193,8 +196,7 @@ document.querySelectorAll('.carte').forEach(carte => {
         // Injecter les champs spécifiques
         document.getElementById('champs-specifiques').innerHTML = champsSpecifiques[role] || '';
 
-        // Cacher l'étape 1, afficher l'étape 2
-        
+        // Afficher le formulaire sans cacher les cartes
         document.getElementById('etape-formulaire').style.display = 'block';
     });
 });

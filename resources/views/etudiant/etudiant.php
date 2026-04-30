@@ -11,7 +11,7 @@
 
 <?php
 // ── Navigation ─────────────────────────────────────────────
-$pageCourante = 'avancement';
+$pageCourante = 'etudiant';
 include resource_path('views/layouts/barre_nav.php');
 
 // ── Modèles ────────────────────────────────────────────────
