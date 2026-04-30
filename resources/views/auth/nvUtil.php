@@ -95,7 +95,6 @@
 
                 <!-- Champs spécifiques au rôle -->
                 <div id="champs-specifiques"></div>
-
                 <button type="submit">S'inscrire</button>
             </form>
 
