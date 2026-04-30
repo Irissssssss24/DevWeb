@@ -99,7 +99,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         </form>
         <br>
-        <a href="/accueil" class="lien-secondaire">Retour Accueil</a>
+        <?php
+            $rolesRedirection = [
+                'administrateur' => '/administrateur',
+                'tuteur'         => '/tuteur',
+                'jury'           => '/jury',
+                'entreprise'     => '/entreprise',
+                'etudiant'       => '/etudiant',
+            ];
+            $roleActif = session('role_actif');
+            $retourUrl = isset($rolesRedirection[$roleActif]) ? $rolesRedirection[$roleActif] : '/connexion';
+        ?>
+        <a href="<?= $retourUrl ?>" class="lien-secondaire">Retour</a>
     </div>
 
 </body>

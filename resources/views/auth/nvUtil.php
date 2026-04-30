@@ -105,7 +105,7 @@
         </div>
         <div>
             <p>Déjà un compte ? <a href="/connexion">Se connecter</a></p>
-            <a href="/accueil" class="lien-secondaire">Retour Accueil</a>
+            <a href="/connexion" class="lien-secondaire">Retour </a>
         </div>
     </div>
 
