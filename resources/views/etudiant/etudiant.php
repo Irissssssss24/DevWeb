@@ -1,65 +1,102 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <title>Page de <?php echo htmlspecialchars(session('nom') . " " . session('prenom')); ?></title> 
-        <link rel="stylesheet" href="/css/Adminstyle.css">
-        <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
-    </head>
+<head>
+    <meta charset="utf-8">
+    <title>Mon Avancement – MYstage</title>
+    <link rel="stylesheet" href="/css/Adminstyle.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/etudiant.css">
+</head>
 <body>
+
 <?php
-// On inclut la barre de navigation
-$pageCourante = 'etudiant';
+// ── Navigation ─────────────────────────────────────────────
+$pageCourante = 'avancement';
 include resource_path('views/layouts/barre_nav.php');
 
-$RapportDeStage = "#"; 
+// ── Modèles ────────────────────────────────────────────────
+use App\Models\Etudiant;
+use App\Models\Stage;
+use App\Models\Document;
+use App\Models\Suivi;
+use App\Models\Utilisateur;
+use App\Models\Tuteur;
+use App\Models\Entreprise;
+use App\Models\OffreStage;
+
+// ── Récupération des données ────────────────────────────────
+$userId   = session('user_id');
+$etudiant = Etudiant::where('id_utilisateur', $userId)->first();
+
+// Stage le plus récent de l'étudiant
+$stage = $etudiant
+    ? Stage::where('id_etudiant', $etudiant->id_etudiant)
+            ->orderByDesc('date_debut')
+            ->first()
+    : null;
+
+// Données liées au stage
+$documents = $stage ? Document::where('id_stage', $stage->id_stage)->get()      : collect();
+$suivis    = $stage ? Suivi::where('id_stage', $stage->id_stage)->orderBy('date')->get() : collect();
+
+// Contacts
+$tuteurUser     = null;
+$entrepriseUser = null;
+$offre          = null;
+
+if ($stage) {
+    $offre = OffreStage::find($stage->id_offre);
+
+    if ($stage->id_tuteur) {
+        $tuteur = Tuteur::find($stage->id_tuteur);
+        if ($tuteur) $tuteurUser = Utilisateur::find($tuteur->id_utilisateur);
+    }
+
+    if ($offre) {
+        $entreprise = Entreprise::find($offre->id_entreprise);
+        if ($entreprise) $entrepriseUser = Utilisateur::find($entreprise->id_utilisateur);
+    }
+}
+
+// Calcul de la progression (%)
+$progression = 0;
+if ($stage && $stage->date_debut && $stage->date_fin) {
+    $debut = $stage->date_debut->timestamp;
+    $fin   = $stage->date_fin->timestamp;
+    $now   = now()->timestamp;
+    if ($now >= $fin)        $progression = 100;
+    elseif ($now > $debut)   $progression = round(($now - $debut) / ($fin - $debut) * 100);
+}
+
+// Labels des types de documents
+$typesLabels = [
+    'rapport'    => ['label' => 'Rapport de stage'],
+    'convention' => ['label' => 'Convention de stage'],
+    'evaluation' => ['label' => "Fiche d'évaluation"],
+    'resume'     => ['label' => 'Résumé de stage'],
+];
 ?>
-    <main> 
-        <div class="partie-gauche">
-            
-            <div class="statut">
-                <h1>Mon Stage Actuel</h1>
-                <div class="demandesS">
-                    <a class="bouton" href="/ajout-remarque">Ajouter une remarque</a>
-                    <a class="bouton" href="/informe-tuteur">Informer le tuteur</a>
-                </div>
-            </div>
 
-            <div class="documents">
-                <h1>Dépôt des Documents</h1>
-                <form action="/upload" method="POST" enctype="multipart/form-data">
-                    <div class="ligne">
-                        <p>Rapport de stage :</p>
-                        <input type="file" name="rapportstage">
-                        <button type="submit" name="depot_rapport">Déposer le rapport</button>
-                    </div>
+<!-- ── Flash messages ─────────────────────────────────────── -->
+<?php if (session('success')): ?>
+    <div class="alert alert-success"><?= htmlspecialchars(session('success')) ?></div>
+<?php endif; ?>
+<?php if (session('error')): ?>
+    <div class="alert alert-error"><?= htmlspecialchars(session('error')) ?></div>
+<?php endif; ?>
 
-                    <div class="ligne">
-                        <p>Fiche D'evaluation :</p>
-                        <input type="file" name="fiche_eval">
-                        <button type="submit" name="depot_ficheeval">Déposer la fiche</button>
-                    </div>
+<!-- ── Contenu principal ──────────────────────────────────── -->
+<main>
 
-                    <div class="ligne">
-                        <p>Resume de stage :</p>
-                        <input type="file" name="resum_stage">
-                        <button type="submit" name="depot_resumstage">Déposer le resumé</button>
-                    </div>
-                </form>
-            </div>
+    <?php include __DIR__ . '/partials/stage.php'; ?>
 
-        </div> 
-        <div class="cahierStage">
-            <h1>Mon Cahier de Stage</h1>
-            <form method="post" action="/journal-notes">
-                <p>
-                    <label for="note">Saisir une note :</label><br>
-                    <textarea name="note" id="note" rows="15"></textarea>
-                    <button type="submit" class="valider">Ajouter au journal</button>
-                </p>
-            </form>
-        </div>
+    <?php include __DIR__ . '/partials/documents.php'; ?>
 
-    </main>
+    <?php include __DIR__ . '/partials/carnet.php'; ?>
+
+    <?php include __DIR__ . '/partials/contact.php'; ?>
+
+</main>
+
 </body>
 </html>

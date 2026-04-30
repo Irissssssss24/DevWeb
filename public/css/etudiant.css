@@ -1,5 +1,4 @@
-<style>
-    /* ── Layout principal ── */
+/* ── Styles pour la page d'accueil etudiant ── */
     main {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -8,7 +7,6 @@
         align-items: start;
     }
 
-    /* ── Carte générique ── */
     .card {
         background: white;
         border-radius: 12px;
@@ -105,4 +103,3 @@
         main { grid-template-columns: 1fr; }
         .card-full { grid-column: 1; }
     }
-</style>

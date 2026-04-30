@@ -1,13 +1,8 @@
 <?php
-/**
- * Partial : _stage.php
- * Variables attendues : $stage, $offre, $progression
- */
 ?>
 <div class="card card-full">
     <div class="card-header">
-        <div class="icon">🎯</div>
-        <h2>Mon stage en cours</h2>
+        <h2>Mon stage </h2>
     </div>
 
     <?php if ($stage && $offre): ?>
@@ -28,9 +23,9 @@
                 <div class="value">
                     <span class="badge-statut badge-<?= htmlspecialchars($stage->statut ?? 'en_attente') ?>">
                         <?= match($stage->statut) {
-                            'en_cours'   => '✅ En cours',
-                            'termine'    => '🏁 Terminé',
-                            'en_attente' => '⏳ En attente',
+                            'en_cours'   => 'En cours',
+                            'termine'    => 'Terminé',
+                            'en_attente' => 'En attente',
                             default      => htmlspecialchars($stage->statut ?? '–')
                         } ?>
                     </span>

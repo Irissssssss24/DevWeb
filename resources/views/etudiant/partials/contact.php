@@ -1,12 +1,7 @@
 <?php
-/**
- * Partial : _contact.php
- * Variables attendues : $tuteurUser, $entrepriseUser, $offre
- */
 ?>
 <div class="card card-full">
     <div class="card-header">
-        <div class="icon">✉️</div>
         <h2>Contacter mon tuteur &amp; mon entreprise</h2>
     </div>
 
@@ -16,6 +11,7 @@
         // Tableau de configuration pour éviter la répétition du HTML
         $contacts = [];
 
+        // Recuperer les informations sur l'entreprise et le tuteur pour afficher les contacts
         if ($tuteurUser) {
             $contacts[] = [
                 'id'      => 'msg-tuteur',
@@ -31,6 +27,7 @@
         if ($entrepriseUser) {
             $contacts[] = [
                 'id'      => 'msg-entreprise',
+                // Si le nom de l'entreprise est disponible, on l'affiche, sinon on affiche le nom du contact
                 'avatar'  => strtoupper(substr($entrepriseUser->prenom ?? 'E', 0, 1) . substr($entrepriseUser->nom ?? '', 0, 1)),
                 'classe'  => 'avatar-entreprise',
                 'nom'     => $offre->entreprise->nom_entreprise ?? ($entrepriseUser->prenom . ' ' . $entrepriseUser->nom),
@@ -61,7 +58,7 @@
                         </a>
                     </div>
                     <button class="btn-contact" onclick="toggleMessage('<?= $contact['id'] ?>')">
-                        ✉ Envoyer un message
+                        Envoyer un message
                     </button>
                 </div>
 
@@ -82,7 +79,7 @@
                                 Annuler
                             </button>
                             <button type="submit" class="btn-primary">
-                                📨 Envoyer
+                                Envoyer
                             </button>
                         </div>
                     </form>

@@ -1,16 +1,11 @@
 <?php
-/**
- * Partial : _carnet.php
- * Variables attendues : $stage, $suivis
- */
 ?>
 <div class="card">
     <div class="card-header">
-        <div class="icon">📓</div>
         <h2>Carnet de bord</h2>
     </div>
 
-    <!-- Timeline des entrées existantes -->
+    <!-- Affichage des entrées existantes dans l'ordre chronologique-->
     <?php if ($suivis->isEmpty()): ?>
         <p class="empty-state">Aucune entrée dans le carnet pour l'instant.</p>
     <?php else: ?>
@@ -44,7 +39,7 @@
                 ></textarea>
                 <div class="form-ajout-footer">
                     <button type="submit" class="btn-primary">
-                        ✚ Ajouter une entrée
+                        Ajouter
                     </button>
                 </div>
             </form>

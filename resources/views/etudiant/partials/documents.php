@@ -1,12 +1,7 @@
 <?php
-/**
- * Partial : _documents.php
- * Variables attendues : $stage, $documents, $typesLabels
- */
 ?>
 <div class="card">
     <div class="card-header">
-        <div class="icon">📁</div>
         <h2>Rapport &amp; Documents</h2>
     </div>
 
@@ -16,11 +11,10 @@
             <p class="empty-state">Aucun document déposé pour l'instant.</p>
         <?php else: ?>
             <?php foreach ($documents as $doc):
-                $meta = $typesLabels[$doc->type] ?? ['label' => ucfirst($doc->type), 'icon' => '📎'];
+                $meta = $typesLabels[$doc->type] ?? ['label' => ucfirst($doc->type)];
             ?>
                 <div class="doc-item">
                     <div class="doc-item-left">
-                        <div class="doc-icon"><?= $meta['icon'] ?></div>
                         <div>
                             <div class="doc-name"><?= htmlspecialchars($meta['label']) ?></div>
                             <div class="doc-type"><?= htmlspecialchars(basename($doc->fichier ?? '')) ?></div>
@@ -29,7 +23,7 @@
                     <?php if ($doc->fichier): ?>
                         <a href="/download-<?= $doc->type ?>"
                            class="btn-small btn-dl" download>
-                            ⬇ Télécharger
+                            Télécharger
                         </a>
                     <?php endif; ?>
                 </div>
@@ -46,8 +40,7 @@
         <label class="upload-zone" for="fichier-upload" id="upload-label">
             <input type="file" name="fichier" id="fichier-upload"
                    onchange="majLabelUpload(this)">
-            <div>📤 Cliquez pour choisir un fichier</div>
-            <div class="upload-hint">PDF, DOC, DOCX — 10 Mo max</div>
+            <div> Choisir un fichier</div>
         </label>
 
         <div class="upload-footer">
@@ -89,16 +82,6 @@
         gap: 12px;
     }
 
-    .doc-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        background: #dbeafe;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-    }
 
     .doc-name {
         font-size: 0.88rem;
@@ -150,11 +133,12 @@
 </style>
 
 <script>
+// Met à jour le label du champ de fichier avec le nom du fichier sélectionné
 function majLabelUpload(input) {
     const label = document.getElementById('upload-label');
     const div = label.querySelector('div');
     if (input.files.length > 0) {
-        div.textContent = '📎 ' + input.files[0].name;
+        div.textContent = input.files[0].name;
     }
 }
 </script>
