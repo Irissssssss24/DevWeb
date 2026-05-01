@@ -53,25 +53,25 @@ include resource_path('views/layouts/barre_nav.php');
 
                 <div class="documents-candidature">
                     <a href="/candidature/cv/<?= $user->id_utilisateur ?>" target="_blank" class="btn-document">
-                        📄 CV
+                        CV
                     </a>
                     <a href="/candidature/lettre/<?= $user->id_utilisateur ?>" target="_blank" class="btn-document">
-                        ✉️ Lettre de motivation
+                        Lettre de motivation
                     </a>
                     <a href="/administrateur/convention/<?= $stage->id_stage ?>" target="_blank" class="btn-document">
-                        📋 Convention signée
+                        Convention signée
                     </a>
                 </div>
 
                 <div class="actions-candidature" style="margin-top: 12px;">
                     <form method="POST" action="/administrateur/valider/<?= $stage->id_stage ?>">
                         <input type="hidden" name="_token" value="<?= csrf_token() ?>">
-                        <button type="submit" class="btn-accepter">✅ Valider le stage</button>
+                        <button type="submit" class="btn-accepter">Valider le stage</button>
                     </form>
                     <form method="POST" action="/administrateur/refuser/<?= $stage->id_stage ?>">
                         <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                         <button type="submit" class="btn-refuser" onclick="return confirm('Confirmer le refus ?')">
-                            ❌ Refuser
+                            Refuser
                         </button>
                     </form>
                 </div>

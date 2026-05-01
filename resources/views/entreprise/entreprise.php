@@ -138,11 +138,11 @@ include resource_path('views/layouts/barre_nav.php');
                             $datesProposees = $stage->statut === 'dates proposées';
                             $estAccepte = in_array($stage->statut, $statutsAcceptesVue, true);
                             $statutInfo = match(true) {
-                                $estEnAttente             => ['cls' => 'statut-attente',  'label' => 'En attente',      'icon' => '⏳'],
-                                $datesProposees           => ['cls' => 'statut-attente',  'label' => 'Dates proposées', 'icon' => '📅'],
-                                $stage->statut === 'refusé' => ['cls' => 'statut-refuse',   'label' => 'Refusé',          'icon' => '❌'],
-                                $estAccepte               => ['cls' => 'statut-accepte',  'label' => 'Validé des deux côtés', 'icon' => '✅'],
-                                default                   => ['cls' => '',                'label' => $stage->statut ?? 'Statut inconnu','icon' => ''],
+                                $estEnAttente             => ['cls' => 'statut-attente',  'label' => 'En attente'],
+                                $datesProposees           => ['cls' => 'statut-attente',  'label' => 'Dates proposées'],
+                                $stage->statut === 'refusé' => ['cls' => 'statut-refuse',   'label' => 'Refusé'],
+                                $estAccepte               => ['cls' => 'statut-accepte',  'label' => 'Validé des deux côtés'],
+                                default                   => ['cls' => '',                'label' => $stage->statut ?? 'Statut inconnu'],
                             };
 
                             // Vérification si la convention existe
@@ -188,16 +188,15 @@ include resource_path('views/layouts/barre_nav.php');
                                     </div>
 
                                     <div class="cand-statut-badge <?= $statutInfo['cls'] ?>-badge">
-                                        <?= $statutInfo['icon'] ?> <?= $statutInfo['label'] ?>
                                     </div>
                                 </div>
 
                                 <!-- Documents de candidature -->
                                 <div class="cand-docs-candidature">
                                     <?php if ($idUtil): ?>
-                                        <a href="/candidature/cv/<?= $idUtil ?>" target="_blank" class="btn-doc btn-cv">📄 CV</a>
+                                        <a href="/candidature/cv/<?= $idUtil ?>" target="_blank" class="btn-doc btn-cv">CV</a>
                                         <?php if ($stage->lettre_motivation): ?>
-                                            <a href="/candidature/lettre/<?= $idUtil ?>" target="_blank" class="btn-doc btn-lettre">✉️ Lettre de motivation</a>
+                                            <a href="/candidature/lettre/<?= $idUtil ?>" target="_blank" class="btn-doc btn-lettre">Lettre de motivation</a>
                                         <?php endif; ?>
                                     <?php endif; ?>
                                 </div>
@@ -216,14 +215,14 @@ include resource_path('views/layouts/barre_nav.php');
                                                     <label>Fin</label>
                                                     <input type="date" name="date_fin" required>
                                                 </div>
-                                                <button type="submit" class="btn-action btn-accepter">✅ Accepter</button>
+                                                <button type="submit" class="btn-action btn-accepter">Accepter</button>
                                             </div>
                                         </form>
                                         <form method="POST" action="/candidature/refuser/<?= $stage->id_stage ?>">
                                             <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                                             <button type="submit" class="btn-action btn-refuser"
                                                     onclick="return confirm('Confirmer le refus de cette candidature ?')">
-                                                ❌ Refuser
+                                                Refuser
                                             </button>
                                         </form>
                                     </div>
@@ -239,13 +238,13 @@ include resource_path('views/layouts/barre_nav.php');
 
                                         <!-- Dates du stage -->
                                         <div class="info-dates">
-                                            📅 Stage du <strong><?= $stage->date_debut ? $stage->date_debut->format('d/m/Y') : 'date à définir' ?></strong>
+                                            Stage du <strong><?= $stage->date_debut ? $stage->date_debut->format('d/m/Y') : 'date à définir' ?></strong>
                                             au <strong><?= $stage->date_fin ? $stage->date_fin->format('d/m/Y') : 'date à définir' ?></strong>
                                         </div>
 
                                         <!-- ===== BLOC PROFIL ===== -->
                                         <div class="section-bloc">
-                                            <h4 class="section-titre">👤 Profil de l'étudiant accepté</h4>
+                                            <h4 class="section-titre">Profil de l'étudiant accepté</h4>
                                             <div class="profil-accepte">
                                                 <div>
                                                     <span class="profil-label">Nom</span>
@@ -268,48 +267,48 @@ include resource_path('views/layouts/barre_nav.php');
 
                                         <!-- ===== BLOC CONVENTION ===== -->
                                         <div class="section-bloc">
-                                            <h4 class="section-titre">📜 Convention de stage</h4>
+                                            <h4 class="section-titre">Convention de stage</h4>
 
                                             <?php if ($convStatut === 'absent'): ?>
                                                 <div class="conv-absent">
-                                                    <span class="conv-badge conv-absent-badge">⚠️ Non déposée</span>
+                                                    <span class="conv-badge conv-absent-badge">Non déposée</span>
                                                     <p class="conv-desc">L'étudiant n'a pas encore déposé sa convention de stage.</p>
                                                 </div>
 
                                             <?php elseif ($convStatut === 'en_attente'): ?>
                                                 <div class="conv-en-attente">
-                                                    <a href="/candidature/convention-stage/<?= $stage->id_stage ?>" target="_blank" class="btn-doc btn-convention">📜 Voir la convention</a>
+                                                    <a href="/candidature/convention-stage/<?= $stage->id_stage ?>" target="_blank" class="btn-doc btn-convention">Voir la convention</a>
                                                     <div class="conv-actions">
                                                         <form method="POST" action="/convention/valider/<?= $stage->id_stage ?>">
                                                             <input type="hidden" name="_token" value="<?= csrf_token() ?>">
-                                                            <button type="submit" class="btn-action btn-valider-conv">✅ Valider la convention</button>
+                                                            <button type="submit" class="btn-action btn-valider-conv">Valider la convention</button>
                                                         </form>
                                                         <form method="POST" action="/convention/refuser/<?= $stage->id_stage ?>"
                                                               onsubmit="return validerRefusConvention(this)">
                                                             <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                                                             <input type="hidden" name="remarque_convention" class="input-remarque-conv" value="">
-                                                            <button type="submit" class="btn-action btn-refuser-conv">❌ Refuser la convention</button>
+                                                            <button type="submit" class="btn-action btn-refuser-conv">Refuser la convention</button>
                                                         </form>
                                                     </div>
                                                 </div>
 
                                             <?php elseif ($convStatut === 'validee'): ?>
                                                 <div class="conv-validee">
-                                                    <span class="conv-badge conv-ok-badge">✅ Convention validée</span>
-                                                    <a href="/candidature/convention-stage/<?= $stage->id_stage ?>" target="_blank" class="btn-doc btn-convention">📜 Voir la convention</a>
+                                                    <span class="conv-badge conv-ok-badge">Convention validée</span>
+                                                    <a href="/candidature/convention-stage/<?= $stage->id_stage ?>" target="_blank" class="btn-doc btn-convention">Voir la convention</a>
                                                 </div>
 
                                             <?php elseif ($convStatut === 'refusee'): ?>
                                                 <div class="conv-refusee">
-                                                    <span class="conv-badge conv-refus-badge">❌ Convention refusée</span>
+                                                    <span class="conv-badge conv-refus-badge">Convention refusée</span>
                                                     <?php if ($stage->remarque_convention): ?>
                                                         <p class="conv-remarque">Motif : <?= htmlspecialchars($stage->remarque_convention) ?></p>
                                                     <?php endif; ?>
-                                                    <a href="/candidature/convention-stage/<?= $stage->id_stage ?>" target="_blank" class="btn-doc btn-convention">📜 Voir la convention</a>
+                                                    <a href="/candidature/convention-stage/<?= $stage->id_stage ?>" target="_blank" class="btn-doc btn-convention">Voir la convention</a>
                                                     <!-- Permettre de re-valider après correction -->
                                                     <form method="POST" action="/convention/valider/<?= $stage->id_stage ?>" style="display:inline;">
                                                         <input type="hidden" name="_token" value="<?= csrf_token() ?>">
-                                                        <button type="submit" class="btn-action btn-valider-conv">✅ Valider quand même</button>
+                                                        <button type="submit" class="btn-action btn-valider-conv">Valider quand même</button>
                                                     </form>
                                                 </div>
                                             <?php endif; ?>
@@ -317,13 +316,13 @@ include resource_path('views/layouts/barre_nav.php');
 
                                         <!-- ===== BLOC DOCUMENTS DE STAGE ===== -->
                                         <div class="section-bloc">
-                                            <h4 class="section-titre">📁 Documents de stage</h4>
+                                            <h4 class="section-titre">Documents de stage</h4>
                                             <?php
                                             $typesDoc = [
-                                                'rapport'    => ['label' => 'Rapport de stage',    'icon' => '📝'],
-                                                'convention' => ['label' => 'Convention de stage', 'icon' => '📜'],
-                                                'evaluation' => ['label' => 'Fiche d\'évaluation', 'icon' => '📋'],
-                                                'resume'     => ['label' => 'Résumé de stage',     'icon' => '📄'],
+                                                'rapport'    => ['label' => 'Rapport de stage'],
+                                                'convention' => ['label' => 'Convention de stage'],
+                                                'evaluation' => ['label' => 'Fiche d\'évaluation'],
+                                                'resume'     => ['label' => 'Résumé de stage'],
                                             ];
                                             $typesDeposes = $docsDeposes->pluck('type')->toArray();
                                             ?>
@@ -331,7 +330,7 @@ include resource_path('views/layouts/barre_nav.php');
                                                 <?php foreach ($typesDoc as $typeKey => $typeInfo): ?>
                                                     <?php $depose = in_array($typeKey, $typesDeposes); ?>
                                                     <div class="doc-item <?= $depose ? 'doc-present' : 'doc-absent' ?>">
-                                                        <span class="doc-icon"><?= $typeInfo['icon'] ?></span>
+
                                                         <span class="doc-label"><?= $typeInfo['label'] ?></span>
                                                         <?php if ($depose && $idUtil): ?>
                                                             <a href="/candidature/document/<?= $idUtil ?>/<?= $typeKey ?>"
@@ -370,7 +369,7 @@ include resource_path('views/layouts/barre_nav.php');
                                             <div class="form-remarque-wrapper">
                                                 <button class="btn-toggle-remarque"
                                                         onclick="toggleRemarque(<?= $stage->id_stage ?>)">
-                                                    ✏️ Ajouter une remarque
+                                                    Ajouter une remarque
                                                 </button>
                                                 <div id="form-remarque-<?= $stage->id_stage ?>" class="form-remarque" style="display:none;">
                                                     <form method="POST" action="/candidature/remarque/<?= $stage->id_stage ?>">

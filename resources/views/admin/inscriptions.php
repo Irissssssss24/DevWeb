@@ -65,7 +65,7 @@ include resource_path('views/layouts/barre_nav.php');
                     <form method="POST" action="/admin/inscription/accepter/<?= $inscription->id ?>">
                         <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                         <button type="submit" class="btn-accepter" style="background-color: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">
-                            ✅ Valider l'inscription
+                            Valider l'inscription
                         </button>
                     </form>
 
@@ -73,7 +73,7 @@ include resource_path('views/layouts/barre_nav.php');
                     <form method="POST" action="/admin/inscription/refuser/<?= $inscription->id ?>">
                         <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                         <button type="submit" class="btn-refuser" onclick="return confirm('Refuser cette inscription ?')" style="background-color: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">
-                            ❌ Refuser
+                            Refuser
                         </button>
                     </form>
                 </div>

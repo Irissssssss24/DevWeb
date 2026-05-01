@@ -27,37 +27,37 @@ $candidatures = $etudiant
                 <div style="display:flex; gap:8px; margin-top:8px;">
                     <form method="POST" action="/stage/accepter-dates/<?= $cand->id_stage ?>">
                         <input type="hidden" name="_token" value="<?= csrf_token() ?>">
-                        <button class="bouton">✅ Accepter les dates</button>
+                        <button class="bouton">Accepter les dates</button>
                     </form>
                     <form method="POST" action="/stage/refuser-dates/<?= $cand->id_stage ?>">
                         <input type="hidden" name="_token" value="<?= csrf_token() ?>">
-                        <button class="bouton" style="background:#e74c3c;">❌ Refuser les dates</button>
+                        <button class="bouton" style="background:#e74c3c;">Refuser les dates</button>
                     </form>
                 </div>
 
             <?php elseif ($cand->statut === 'en attente convention'): ?>
                 <p style="color:#27ae60; margin: 8px 0;">
-                    ✅ Dates acceptées ! Déposez votre convention de stage.
+                    Dates acceptées ! Déposez votre convention de stage.
                 </p>
                 <form method="POST" action="/stage/convention/<?= $cand->id_stage ?>" enctype="multipart/form-data" style="display:flex; gap:8px; align-items:center; margin-top:8px;">
                     <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                     <input type="file" name="convention" accept=".pdf" required>
-                    <button class="bouton">📄 Déposer la convention</button>
+                    <button class="bouton">Déposer la convention</button>
                 </form>
 
             <?php elseif ($cand->statut === 'convention soumise'): ?>
                 <p style="color:#0062AD; margin: 8px 0;">
-                    ⏳ Convention déposée — en attente de signature par l'entreprise.
+                    Convention déposée — en attente de signature par l'entreprise.
                 </p>
 
             <?php elseif ($cand->statut === 'en attente validation admin'): ?>
                 <p style="color:#e67e22; margin: 8px 0;">
-                    ⏳ Convention signée — en attente de validation par l'administrateur.
+                    Convention signée — en attente de validation par l'administrateur.
                 </p>
 
             <?php elseif ($cand->statut === 'accepté'): ?>
                 <p style="color:#27ae60; margin: 8px 0;">
-                    🎉 Stage accepté ! Du <?= date('d/m/Y', strtotime($cand->date_debut)) ?>
+                    Stage accepté ! Du <?= date('d/m/Y', strtotime($cand->date_debut)) ?>
                     au <?= date('d/m/Y', strtotime($cand->date_fin)) ?>
                 </p>
             <?php endif; ?>

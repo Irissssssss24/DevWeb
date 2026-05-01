@@ -83,12 +83,12 @@ include resource_path('views/layouts/barre_nav.php');
                             <?php if ($user): ?>
                                 <a href="/candidature/cv/<?= $user->id_utilisateur ?>" 
                                    target="_blank" class="btn-document">
-                                    📄 Voir le CV
+                                    Voir le CV
                                 </a>
                                 <?php if ($stage->lettre_motivation): ?>
                                     <a href="/candidature/lettre/<?= $user->id_utilisateur ?>" 
                                        target="_blank" class="btn-document">
-                                        ✉️ Voir la lettre
+                                        Voir la lettre
                                     </a>
                                 <?php endif; ?>
                             <?php endif; ?>
@@ -110,7 +110,7 @@ include resource_path('views/layouts/barre_nav.php');
                                         </div>
                                     </div>
                                     <div class="boutons-actions">
-                                        <button type="submit" class="btn-accepter">📅 Proposer des dates</button>
+                                        <button type="submit" class="btn-accepter">Proposer des dates</button>
                                     </div>
                                 </form>
                                 <form method="POST" action="/candidature/refuser/<?= $stage->id_stage ?>">
@@ -126,18 +126,18 @@ include resource_path('views/layouts/barre_nav.php');
                             </div>
                             <div class="actions-candidature" style="margin-top: 12px;">
                                 <a href="/candidature/convention/<?= $stage->id_stage ?>" target="_blank" class="btn-document">
-                                    📄 Voir la convention
+                                    Voir la convention
                                 </a>
                                 <form method="POST" action="/candidature/convention-signee/<?= $stage->id_stage ?>" enctype="multipart/form-data" style="display:flex; gap:8px; align-items:center;">
                                     <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                                     <input type="file" name="convention_signee" accept=".pdf" required>
-                                    <button type="submit" class="btn-accepter">✅ Envoyer convention signée</button>
+                                    <button type="submit" class="btn-accepter">Envoyer convention signée</button>
                                 </form>
                             </div>
 
                         <?php elseif ($stage->statut === 'en attente validation admin'): ?>
                             <div class="info-dates">
-                                <p>⏳ En attente de validation par l'administrateur</p>
+                                <p>En attente de validation par l'administrateur</p>
                             </div>
 
                         <?php elseif ($stage->statut === 'accepté'): ?>
