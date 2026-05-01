@@ -14,6 +14,7 @@ use App\Http\Controllers\EtudiantStageController;
 use App\Http\Controllers\AdminStageController;
 use Illuminate\Http\Request;
 use App\Models\Suivi;
+use App\Models\Inscription;
 
 Route::get('/', function () {
     return redirect('/accueil');
@@ -257,11 +258,105 @@ Route::get('/candidature/lettre/{idUtilisateur}', [CandidaturesController::class
 
 // ------------------- Route Admin ------------------------
 
-// Routes admin - validation
+// Routes admin - validation stage
 Route::get('/administrateur/validation', [AdminStageController::class, 'index']);
 Route::post('/administrateur/valider/{id}', [AdminStageController::class, 'valider']);
 Route::post('/administrateur/refuser/{id}', [AdminStageController::class, 'refuser']);
 
+// Route admin - Validation Inscription
+Route::post('/admin/inscription/accepter/{id}', function($id) {
+
+    $demande = \App\Models\Inscription::find($id);
+    if (!$demande) return back();
+
+    $data = $demande->data; // déjà array grâce au cast
+
+    // 🔥 Création utilisateur
+    $user = \App\Models\Utilisateur::create([
+        'nom'          => $data['nom'],
+        'prenom'       => $data['prenom'],
+        'email'        => $data['email'],
+        'mot_de_passe' => $data['mot_de_passe'],
+    ]);
+
+    // 🔥 Rôle
+    $roleData = [
+        'id_utilisateur' => $user->id_utilisateur,
+        'administrateur' => 0,
+        'etudiant' => 0,
+        'entreprise' => 0,
+        'tuteur' => 0,
+        'jury' => 0,
+    ];
+
+    $roleData[$data['role']] = 1;
+    \App\Models\Role::create($roleData);
+
+    // 🔥 Tables spécifiques
+    switch ($data['role']) {
+        case 'etudiant':
+            \App\Models\Etudiant::create([
+                'id_utilisateur' => $user->id_utilisateur,
+                'filiere' => $data['filiere'],
+                'niveau' => $data['niveau'],
+            ]);
+            break;
+
+        case 'entreprise':
+            \App\Models\Entreprise::create([
+                'id_utilisateur' => $user->id_utilisateur,
+                'nom_entreprise' => $data['nom_entreprise'],
+                'adresse' => $data['adresse'],
+                'secteur' => $data['secteur'],
+                'siret' => $data['siret'],
+            ]);
+            break;
+
+        case 'tuteur':
+            \App\Models\Tuteur::create([
+                'id_utilisateur' => $user->id_utilisateur,
+                'specialite' => $data['specialite'],
+            ]);
+            break;
+
+        case 'jury':
+            \App\Models\Jury::create([
+                'id_utilisateur' => $user->id_utilisateur
+            ]);
+            break;
+
+        case 'administrateur':
+            \App\Models\Administrateur::create([
+                'id_utilisateur' => $user->id_utilisateur
+            ]);
+            break;
+    }
+
+    // ✅ Marquer comme accepté
+    $demande->update([
+        'statut' => 'accepte'
+    ]);
+
+    return back()->with('success', 'Compte validé et créé');
+});
+
+Route::post('/administrateur/inscriptions/refuser/{id}', function($id) {
+    $demande = \App\Models\Inscription::find($id);
+    
+    if ($demande) {
+        $demande->update(['statut' => 'refuse']);
+        return back()->with('success', 'Demande refusée avec succès');
+    }
+
+    return back()->with('error', 'Demande introuvable');
+});
+
+Route::get('/administrateur/inscriptions', function() {
+    $inscriptions = \App\Models\Inscription::where('statut', 'en_attente')->get();
+
+
+    return view('admin.inscriptions', ['inscriptions' => $inscriptions]);
+});
 
 // ------------------- Route commune-----------------------
 

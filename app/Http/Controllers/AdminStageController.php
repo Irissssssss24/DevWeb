@@ -44,4 +44,13 @@ class AdminStageController extends Controller
 
         return redirect('/administrateur/validation')->with('success', 'Stage refusé.');
     }
+
+    public function inscriptions()
+    {
+        $demandes = DB::table('inscriptions')
+            ->where('statut', 'en_attente')
+            ->get();
+
+        return view('admin.inscriptions', compact('demandes'));
+    }
 }
