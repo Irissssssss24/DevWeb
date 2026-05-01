@@ -294,14 +294,6 @@ Route::get('/administrateur', function() {
     include resource_path('views/admin/admin.php');
 });
 
-Route::get('/administrateur/validation', [AdminStageController::class, 'index']);
-Route::post('/administrateur/valider/{id}', [AdminStageController::class, 'valider']);
-Route::post('/administrateur/refuser/{id}', [AdminStageController::class, 'refuser']);
-Route::get('/administrateur/convention/{id}', [AdminStageController::class, 'voirConvention']);
-
-Route::get('/administrateur/inscriptions', [AdminStageController::class, 'inscriptions']);
-Route::post('/admin/inscription/accepter/{id}', [AdminStageController::class, 'accepterInscription']);
-Route::post('/admin/inscription/refuser/{id}', [AdminStageController::class, 'refuserInscription']);
 
 //route pour telecharger un document de stage
 Route::get('/download-{type}', function($type) {
@@ -343,4 +335,22 @@ Route::get('/ma-lettre', function() {
 
     return response()->file($cheminLM, ['Content-Type' => 'application/pdf']);
 });
+
+// ------------------- Route administrateur-----------------------
+
+Route::get('/administrateur/validation', [AdminStageController::class, 'index']);
+Route::post('/administrateur/valider/{id}', [AdminStageController::class, 'valider']);
+Route::post('/administrateur/refuser/{id}', [AdminStageController::class, 'refuser']);
+Route::get('/administrateur/convention/{id}', [AdminStageController::class, 'voirConvention']);
+
+Route::get('/administrateur/inscriptions', [AdminStageController::class, 'inscriptions']);
+Route::post('/admin/inscription/accepter/{id}', [AdminStageController::class, 'accepterInscription']);
+Route::post('/admin/inscription/refuser/{id}', [AdminStageController::class, 'refuserInscription']);
+
+Route::get('/administrateur/profil', function() {
+    if (!session()->has('user_id')) return redirect('/connexion');
+    if (!in_array('administrateur', session('roles', []))) return redirect('/connexion');
+    include resource_path('views/admin/profil.php');
+});
+
 // --------------------------------------------------------

@@ -5,6 +5,17 @@
         <h2>Rapport &amp; Documents</h2>
     </div>
 
+    <?php if ($stage): ?>
+        <!-- Indicateur du stage concerné par les dépôts -->
+        <div class="doc-stage-contexte">
+            <span class="doc-stage-label">Stage concerné :</span>
+            <span class="doc-stage-titre"><?= htmlspecialchars($offre->titre ?? 'Stage') ?></span>
+            <span class="doc-stage-statut badge-statut-<?= $stage->statut === 'en_cours' ? 'en-cours' : 'valide' ?>">
+                <?= $stage->statut === 'en_cours' ? 'En cours' : 'Validé' ?>
+            </span>
+        </div>
+    <?php endif; ?>
+
     <!-- Liste des documents existants -->
     <div class="doc-list">
         <?php if ($documents->isEmpty()): ?>
@@ -53,10 +64,56 @@
             <button type="submit" class="btn-small btn-dl">Déposer</button>
         </div>
     </form>
+    <?php else: ?>
+        <p class="empty-state">Sélectionnez un stage via le filtre pour déposer des documents.</p>
     <?php endif; ?>
 </div>
 
 <style>
+    /* Indicateur stage contexte */
+    .doc-stage-contexte {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        padding: 8px 12px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        margin-bottom: 14px;
+        font-size: 0.82rem;
+    }
+
+    .doc-stage-label {
+        color: #64748b;
+        font-weight: 500;
+    }
+
+    .doc-stage-titre {
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    .badge-statut-en-cours {
+        display: inline-block;
+        padding: 2px 9px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: #e3f2fd;
+        color: #1565c0;
+    }
+
+    .badge-statut-valide {
+        display: inline-block;
+        padding: 2px 9px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
     .doc-list {
         display: flex;
         flex-direction: column;
@@ -81,7 +138,6 @@
         align-items: center;
         gap: 12px;
     }
-
 
     .doc-name {
         font-size: 0.88rem;
@@ -114,7 +170,6 @@
         color: #0062AD;
     }
     .upload-zone input[type="file"] { display: none; }
-    .upload-hint { font-size: 0.72rem; margin-top: 4px; }
 
     .upload-footer {
         display: flex;
@@ -137,7 +192,6 @@
 </style>
 
 <script>
-// Met à jour le label du champ de fichier avec le nom du fichier sélectionné
 function majLabelUpload(input) {
     const label = document.getElementById('upload-label');
     const div = label.querySelector('div');
