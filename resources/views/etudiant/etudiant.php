@@ -31,8 +31,9 @@ $etudiant = Etudiant::where('id_utilisateur', $userId)->first();
 // Stage le plus récent de l'étudiant
 $stage = $etudiant
     ? Stage::where('id_etudiant', $etudiant->id_etudiant)
-            ->orderByDesc('date_debut')
-            ->first()
+        ->orderByRaw("CASE WHEN statut = 'en_cours' THEN 0 ELSE 1 END")
+        ->orderByDesc('date_debut')
+        ->first()
     : null;
 
 // Données liées au stage

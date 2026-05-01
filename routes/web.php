@@ -12,6 +12,8 @@ use App\Http\Controllers\PostulerController;
 use App\Http\Controllers\CandidaturesController;
 use App\Http\Controllers\EtudiantStageController;
 use App\Http\Controllers\AdminStageController;
+use Illuminate\Http\Request;
+use App\Models\Suivi;
 
 Route::get('/', function () {
     return redirect('/accueil');
@@ -187,6 +189,31 @@ Route::post('/stage/refuser-dates/{id}', [EtudiantStageController::class, 'refus
 Route::post('/stage/convention/{id}', [EtudiantStageController::class, 'uploadConvention']);
 
 
+
+
+Route::post('/etudiant/ajouter-suivi', function(Request $request) {
+
+    // Sécurité basique
+    if (!session()->has('user_id')) return redirect('/connexion');
+
+    // Validation
+    $request->validate([
+        'id_stage'  => 'required|integer',
+        'avancement'=> 'required|string|max:1000',
+    ]);
+
+    // Insertion en base
+    Suivi::create([
+        'id_stage'   => $request->id_stage,
+        'date'       => now(),
+        'avancement' => $request->avancement,
+    ]);
+
+    return redirect('/etudiant')
+        ->with('success', 'Entrée ajoutée au carnet de bord !');
+});
+
+
 // ------------------- Route entreprise-----------------------
 Route::get('/entreprise/profil', function() {
     if (!session()->has('user_id')) return redirect('/connexion');
@@ -317,14 +344,4 @@ Route::get('/ma-lettre', function() {
 
     return response()->file($cheminLM, ['Content-Type' => 'application/pdf']);
 });
-
-
-
-
-
-
-
-
-
-
 // --------------------------------------------------------
