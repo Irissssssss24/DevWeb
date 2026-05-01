@@ -10,6 +10,11 @@ use App\Http\Controllers\OffreController;
 use App\Http\Controllers\VoirOffreController;
 use App\Http\Controllers\PostulerController;
 use App\Http\Controllers\CandidaturesController;
+use App\Http\Controllers\EtudiantStageController;
+use App\Http\Controllers\AdminStageController;
+use Illuminate\Http\Request;
+use App\Models\Suivi;
+use App\Models\Inscription;
 
 Route::get('/', function () {
     return redirect('/accueil');
@@ -179,6 +184,36 @@ Route::get('/mon-cv', function() {
     ]);
 });
 
+// Routes étudiant - Gestion de stage
+Route::post('/stage/accepter-dates/{id}', [EtudiantStageController::class, 'accepterDates']);
+Route::post('/stage/refuser-dates/{id}', [EtudiantStageController::class, 'refuserDates']);
+Route::post('/stage/convention/{id}', [EtudiantStageController::class, 'uploadConvention']);
+
+
+
+
+Route::post('/etudiant/ajouter-suivi', function(Request $request) {
+
+    // Sécurité basique
+    if (!session()->has('user_id')) return redirect('/connexion');
+
+    // Validation
+    $request->validate([
+        'id_stage'  => 'required|integer',
+        'avancement'=> 'required|string|max:1000',
+    ]);
+
+    // Insertion en base
+    Suivi::create([
+        'id_stage'   => $request->id_stage,
+        'date'       => now(),
+        'avancement' => $request->avancement,
+    ]);
+
+    return redirect('/etudiant')
+        ->with('success', 'Entrée ajoutée au carnet de bord !');
+});
+
 
 // ------------------- Route entreprise-----------------------
 Route::get('/entreprise/profil', function() {
@@ -206,29 +241,20 @@ Route::get('/creer-offre', function() {
 Route::post('/creer-offre', [OffreController::class, 'store'])->name('offres.store');
 Route::get('/offres', [VoirOffreController::class, 'index']);
 
-// Page d'accueil entreprise = candidats acceptés uniquement
-Route::get('/entreprise', [CandidaturesController::class, 'index']);
+// Route pour accepté ou non une candidature
+Route::get('/entreprise', function() {
+    if (!session()->has('user_id')) return redirect('/connexion');
+    if (session('role_actif') !== 'entreprise') return redirect('/connexion');
+    $pageCourante = 'entreprise';
+    app(CandidaturesController::class)->index();
+});
 
-// Voir les candidats avec filtre par offre
-Route::get('/entreprise/candidatures', [CandidaturesController::class, 'candidats'])->name('entreprise.candidatures');
- 
-// Accepter / refuser une candidature (existantes, inchangées)
-Route::post('/candidature/accepter/{id}',  [\App\Http\Controllers\CandidaturesController::class, 'accepter']);
-Route::post('/candidature/refuser/{id}',   [\App\Http\Controllers\CandidaturesController::class, 'refuser']);
- 
-// Voir les documents d'un candidat
-Route::get('/candidature/cv/{idUtilisateur}',          [\App\Http\Controllers\CandidaturesController::class, 'voirCV']);
-Route::get('/candidature/lettre/{idUtilisateur}',      [\App\Http\Controllers\CandidaturesController::class, 'voirLettreMotivation']);
-Route::get('/candidature/convention/{idUtilisateur}',  [\App\Http\Controllers\CandidaturesController::class, 'voirConvention']);
-Route::get('/candidature/document/{idUtilisateur}/{type}', [\App\Http\Controllers\CandidaturesController::class, 'voirDocument']);
- 
-// Valider / refuser la convention de stage
-Route::post('/convention/valider/{id}', [\App\Http\Controllers\CandidaturesController::class, 'validerConvention']);
-Route::post('/convention/refuser/{id}', [\App\Http\Controllers\CandidaturesController::class, 'refuserConvention']);
- 
-// Ajouter une remarque pour un étudiant
-Route::post('/candidature/remarque/{idStage}', [\App\Http\Controllers\CandidaturesController::class, 'ajouterRemarque']);
- 
+Route::post('/candidature/accepter/{id}', [CandidaturesController::class, 'accepter']);
+Route::post('/candidature/refuser/{id}', [CandidaturesController::class, 'refuser']);
+Route::get('/candidature/cv/{idUtilisateur}', [CandidaturesController::class, 'voirCV']);
+Route::get('/candidature/lettre/{idUtilisateur}', [CandidaturesController::class, 'voirLettreMotivation']);
+
+
 // ------------------- Route commune-----------------------
 
 //Route redirection
@@ -304,5 +330,4 @@ Route::get('/ma-lettre', function() {
 
     return response()->file($cheminLM, ['Content-Type' => 'application/pdf']);
 });
-
 // --------------------------------------------------------

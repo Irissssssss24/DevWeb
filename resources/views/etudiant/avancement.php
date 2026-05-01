@@ -28,8 +28,9 @@ $utilisateur = Utilisateur::find($userId);
  
 $stage = $etudiant
     ? Stage::where('id_etudiant', $etudiant->id_etudiant)
-            ->orderByDesc('date_debut')
-            ->first()
+        ->orderByRaw("CASE WHEN statut = 'en_cours' THEN 0 ELSE 1 END")
+        ->orderByDesc('date_debut')
+        ->first()
     : null;
  
 $documents = $stage ? Document::where('id_stage', $stage->id_stage)->get() : collect();

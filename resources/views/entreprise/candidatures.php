@@ -97,39 +97,53 @@ include resource_path('views/layouts/barre_nav.php');
                         <!-- Actions selon le statut -->
                         <?php if ($stage->statut === "en attente d'acceptation"): ?>
                             <div class="actions-candidature">
-
-                                <!-- Formulaire accepter -->
-                                <form method="POST" action="/candidature/accepter/<?= $stage->id_stage ?>" class="form-accepter">
+                                <form method="POST" action="/candidature/proposer-dates/<?= $stage->id_stage ?>" class="form-accepter">
                                     <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                                     <div class="dates-form">
                                         <div class="groupe-date">
-                                            <label>Date de début</label>
+                                            <label>Date de début proposée</label>
                                             <input type="date" name="date_debut" required>
                                         </div>
                                         <div class="groupe-date">
-                                            <label>Date de fin</label>
+                                            <label>Date de fin proposée</label>
                                             <input type="date" name="date_fin" required>
                                         </div>
                                     </div>
                                     <div class="boutons-actions">
-                                        <button type="submit" class="btn-accepter">✅ Accepter</button>
+                                        <button type="submit" class="btn-accepter">📅 Proposer des dates</button>
                                     </div>
                                 </form>
-
-                                <!-- Formulaire refuser -->
                                 <form method="POST" action="/candidature/refuser/<?= $stage->id_stage ?>">
                                     <input type="hidden" name="_token" value="<?= csrf_token() ?>">
-                                    <button type="submit" class="btn-refuser"
-                                            onclick="return confirm('Confirmer le refus ?')">
-                                        ❌ Refuser
-                                    </button>
+                                    <button type="submit" class="btn-refuser" onclick="return confirm('Confirmer le refus ?')">❌ Refuser</button>
                                 </form>
+                            </div>
+
+                        <?php elseif ($stage->statut === 'convention soumise'): ?>
+                            <div class="info-dates">
+                                <p>📅 Du <strong><?= date('d/m/Y', strtotime($stage->date_debut_proposee)) ?></strong>
+                                au <strong><?= date('d/m/Y', strtotime($stage->date_fin_proposee)) ?></strong></p>
+                            </div>
+                            <div class="actions-candidature" style="margin-top: 12px;">
+                                <a href="/candidature/convention/<?= $stage->id_stage ?>" target="_blank" class="btn-document">
+                                    📄 Voir la convention
+                                </a>
+                                <form method="POST" action="/candidature/convention-signee/<?= $stage->id_stage ?>" enctype="multipart/form-data" style="display:flex; gap:8px; align-items:center;">
+                                    <input type="hidden" name="_token" value="<?= csrf_token() ?>">
+                                    <input type="file" name="convention_signee" accept=".pdf" required>
+                                    <button type="submit" class="btn-accepter">✅ Envoyer convention signée</button>
+                                </form>
+                            </div>
+
+                        <?php elseif ($stage->statut === 'en attente validation admin'): ?>
+                            <div class="info-dates">
+                                <p>⏳ En attente de validation par l'administrateur</p>
                             </div>
 
                         <?php elseif ($stage->statut === 'accepté'): ?>
                             <div class="info-dates">
                                 <p>📅 Du <strong><?= date('d/m/Y', strtotime($stage->date_debut)) ?></strong>
-                                   au <strong><?= date('d/m/Y', strtotime($stage->date_fin)) ?></strong></p>
+                                au <strong><?= date('d/m/Y', strtotime($stage->date_fin)) ?></strong></p>
                             </div>
                         <?php endif; ?>
                     </div>

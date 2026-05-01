@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nom_entreprise', 150)->nullable();
             $table->text('adresse')->nullable();
             $table->string('secteur', 100)->nullable();
+            $table->string('siret', 100)->nullable();
             $table->foreign('id_utilisateur')
                   ->references('id_utilisateur')->on('utilisateur')
                   ->onDelete('cascade');

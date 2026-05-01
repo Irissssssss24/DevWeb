@@ -172,6 +172,7 @@ a:hover {
     border-radius: 12px;
     padding: 1.25rem;
     text-align: center;
+    transition: border 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .carte-icon {
@@ -209,6 +210,19 @@ a:hover {
 
 .carte-active {
     border: 2px solid #0062AD !important;
-    box-shadow: 0 0 0 3px rgba(0, 98, 173, 0.15);
+    box-shadow: 0 4px 15px rgba(0, 98, 173, 0.2);
+    transform: translateY(-3px);
 }
 
+.carte:hover{
+    box-shadow: 0 4px 15px rgba(0, 98, 173, 0.2);
+}
+.carte-active h3 {
+    color: #0062AD;
+}
+
+.carte-active .carte-icon {
+    transform: scale(1.2);
+    display: inline-block;
+    transition: transform 0.2s ease;
+}

@@ -1,6 +1,6 @@
 <?php
 ?>
-<div class="card">
+<div class="card documents-card">
     <div class="card-header">
         <h2>Rapport &amp; Documents</h2>
     </div>
@@ -129,6 +129,10 @@
         border-radius: 7px;
         font-size: 0.85rem;
         color: #475569;
+    }
+
+    .documents-card {
+        grid-area: documents;
     }
 </style>
 

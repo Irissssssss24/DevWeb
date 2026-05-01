@@ -114,6 +114,7 @@ class CandidaturesController extends Controller
         include resource_path('views/entreprise/entreprise.php');
     }
 
+<<<<<<< HEAD
     // -------------------------------------------------------
     // Page voir les candidats = toutes les candidatures avec filtre par offre
     // -------------------------------------------------------
@@ -154,6 +155,10 @@ class CandidaturesController extends Controller
     // Accepter une candidature
     // -------------------------------------------------------
     public function accepter(Request $request, $id)
+=======
+    //Proposer dates
+    public function proposerDates(Request $request, $id)
+>>>>>>> 6252fdd6682604db39244122d27a3921600cd6ff
     {
         if (!session()->has('user_id')) return redirect('/connexion');
         if (session('role_actif') !== 'entreprise') return redirect('/connexion');
@@ -161,21 +166,51 @@ class CandidaturesController extends Controller
         $request->validate([
             'date_debut' => 'required|date',
             'date_fin'   => 'required|date|after:date_debut',
-        ], [
-            'date_debut.required' => 'La date de début est obligatoire.',
-            'date_fin.required'   => 'La date de fin est obligatoire.',
-            'date_fin.after'      => 'La date de fin doit être après la date de début.',
         ]);
 
+<<<<<<< HEAD
         $stage = $this->stageEntreprise($id);
+=======
+        $stage = Stage::find($id);
+        if (!$stage) abort(404);
+>>>>>>> 6252fdd6682604db39244122d27a3921600cd6ff
 
         $stage->update([
-            'statut'     => 'accepté',
-            'date_debut' => $request->date_debut,
-            'date_fin'   => $request->date_fin,
+            'statut'              => 'dates proposées',
+            'date_debut_proposee' => $request->date_debut,
+            'date_fin_proposee'   => $request->date_fin,
         ]);
 
+<<<<<<< HEAD
         return redirect()->back()->with('success', 'Candidature acceptée !');
+=======
+        return redirect('/entreprise')->with('success', 'Dates proposées à l\'étudiant !');
+    }
+
+    // Accepter la convention signée par l'entreprise et envoyer à l'admin
+    public function envoyerConventionSignee(Request $request, $id)
+    {
+        if (!session()->has('user_id')) return redirect('/connexion');
+        if (session('role_actif') !== 'entreprise') return redirect('/connexion');
+
+        $stage = Stage::find($id);
+        if (!$stage) abort(404);
+
+        $dossier = storage_path('app/private/Documents/stage_' . $id);
+        if (!file_exists($dossier)) mkdir($dossier, 0755, true);
+
+        if ($request->hasFile('convention_signee')) {
+            $request->file('convention_signee')->move($dossier, 'ConventionSignee.pdf');
+            $stage->update([
+                'statut'           => 'en attente validation admin',
+                'convention_signee'=> 'stage_' . $id . '/ConventionSignee.pdf',
+                'date_debut'       => $stage->date_debut_proposee,
+                'date_fin'         => $stage->date_fin_proposee,
+            ]);
+        }
+
+        return redirect('/entreprise')->with('success', 'Convention envoyée à l\'administrateur !');
+>>>>>>> 6252fdd6682604db39244122d27a3921600cd6ff
     }
 
     // -------------------------------------------------------
@@ -292,6 +327,7 @@ class CandidaturesController extends Controller
         return response()->file($chemin, ['Content-Type' => 'application/pdf']);
     }
 
+<<<<<<< HEAD
     // -------------------------------------------------------
     // Voir la convention de stage d'un étudiant
     // -------------------------------------------------------
@@ -331,3 +367,19 @@ class CandidaturesController extends Controller
         return response()->file($chemin, ['Content-Type' => 'application/pdf']);
     }
 }
+=======
+    // Voir Convention
+    public function voirConvention($id)
+    {
+        if (!session()->has('user_id')) return redirect('/connexion');
+
+        $stage = Stage::find($id);
+        if (!$stage || !$stage->convention_signee) abort(404);
+
+        $chemin = storage_path('app/private/Documents/' . $stage->convention_signee);
+        if (!file_exists($chemin)) abort(404);
+
+        return response()->file($chemin, ['Content-Type' => 'application/pdf']);
+    }
+}
+>>>>>>> 6252fdd6682604db39244122d27a3921600cd6ff
