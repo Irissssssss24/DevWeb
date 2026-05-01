@@ -58,7 +58,7 @@ include resource_path('views/layouts/barre_nav.php');
                     <a href="/candidature/lettre/<?= $user->id_utilisateur ?>" target="_blank" class="btn-document">
                         ✉️ Lettre de motivation
                     </a>
-                    <a href="/candidature/convention/<?= $stage->id_stage ?>" target="_blank" class="btn-document">
+                    <a href="/administrateur/convention/<?= $stage->id_stage ?>" target="_blank" class="btn-document">
                         📋 Convention signée
                     </a>
                 </div>

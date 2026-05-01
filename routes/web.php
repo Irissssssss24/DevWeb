@@ -241,18 +241,22 @@ Route::get('/creer-offre', function() {
 Route::post('/creer-offre', [OffreController::class, 'store'])->name('offres.store');
 Route::get('/offres', [VoirOffreController::class, 'index']);
 
-// Route pour accepté ou non une candidature
-Route::get('/entreprise', function() {
-    if (!session()->has('user_id')) return redirect('/connexion');
-    if (session('role_actif') !== 'entreprise') return redirect('/connexion');
-    $pageCourante = 'entreprise';
-    app(CandidaturesController::class)->index();
-});
+// Accueil entreprise et gestion des candidats
+Route::get('/entreprise', [CandidaturesController::class, 'index']);
+Route::get('/entreprise/candidatures', [CandidaturesController::class, 'candidats'])->name('entreprise.candidatures');
 
 Route::post('/candidature/accepter/{id}', [CandidaturesController::class, 'accepter']);
 Route::post('/candidature/refuser/{id}', [CandidaturesController::class, 'refuser']);
+Route::post('/candidature/remarque/{idStage}', [CandidaturesController::class, 'ajouterRemarque']);
+
 Route::get('/candidature/cv/{idUtilisateur}', [CandidaturesController::class, 'voirCV']);
 Route::get('/candidature/lettre/{idUtilisateur}', [CandidaturesController::class, 'voirLettreMotivation']);
+Route::get('/candidature/convention/{idUtilisateur}', [CandidaturesController::class, 'voirConvention']);
+Route::get('/candidature/convention-stage/{idStage}', [CandidaturesController::class, 'voirConventionStage']);
+Route::get('/candidature/document/{idUtilisateur}/{type}', [CandidaturesController::class, 'voirDocument']);
+
+Route::post('/convention/valider/{id}', [CandidaturesController::class, 'validerConvention']);
+Route::post('/convention/refuser/{id}', [CandidaturesController::class, 'refuserConvention']);
 
 
 // ------------------- Route commune-----------------------
@@ -289,6 +293,15 @@ Route::get('/administrateur', function() {
     $pageCourante = 'admin';
     include resource_path('views/admin/admin.php');
 });
+
+Route::get('/administrateur/validation', [AdminStageController::class, 'index']);
+Route::post('/administrateur/valider/{id}', [AdminStageController::class, 'valider']);
+Route::post('/administrateur/refuser/{id}', [AdminStageController::class, 'refuser']);
+Route::get('/administrateur/convention/{id}', [AdminStageController::class, 'voirConvention']);
+
+Route::get('/administrateur/inscriptions', [AdminStageController::class, 'inscriptions']);
+Route::post('/admin/inscription/accepter/{id}', [AdminStageController::class, 'accepterInscription']);
+Route::post('/admin/inscription/refuser/{id}', [AdminStageController::class, 'refuserInscription']);
 
 //route pour telecharger un document de stage
 Route::get('/download-{type}', function($type) {

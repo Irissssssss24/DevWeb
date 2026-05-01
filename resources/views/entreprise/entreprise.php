@@ -14,6 +14,14 @@ $estPageCandidatures = $pageMode === 'candidatures';
 $pageCourante = $estPageCandidatures ? 'entreprise-candidatures' : 'entreprise';
 $toutesLesOffres = $toutesLesOffres ?? collect();
 $filtreOffreId = $filtreOffreId ?? null;
+$statutsAcceptesVue = [
+    'en attente convention',
+    'convention soumise',
+    'en attente validation admin',
+    'accepté',
+    'en_cours',
+    'validé',
+];
 include resource_path('views/layouts/barre_nav.php');
 ?>
 
@@ -80,9 +88,9 @@ include resource_path('views/layouts/barre_nav.php');
         <?php foreach ($offres as $offre): ?>
             <?php
             $nbCandidatures = $offre->stages->count();
-            $nbAcceptees    = $offre->stages->filter(fn($stage) => in_array($stage->statut, ['accepté', 'en_cours', 'validé']))->count();
+            $nbAcceptees    = $offre->stages->filter(fn($stage) => in_array($stage->statut, $statutsAcceptesVue, true))->count();
             $nbRefusees     = $offre->stages->where('statut', 'refusé')->count();
-            $nbEnAttente    = $offre->stages->filter(fn($stage) => in_array($stage->statut, ["en attente d'acceptation", 'en_attente']))->count();
+            $nbEnAttente    = $offre->stages->filter(fn($stage) => in_array($stage->statut, ["en attente d'acceptation", 'en_attente', 'dates proposées'], true))->count();
             ?>
 
             <div class="offre-bloc">
@@ -126,10 +134,12 @@ include resource_path('views/layouts/barre_nav.php');
                             );
 
                             // Détermination du statut visuel
-                            $estEnAttente = in_array($stage->statut, ["en attente d'acceptation", 'en_attente']);
-                            $estAccepte = in_array($stage->statut, ['accepté', 'en_cours', 'validé']);
+                            $estEnAttente = in_array($stage->statut, ["en attente d'acceptation", 'en_attente'], true);
+                            $datesProposees = $stage->statut === 'dates proposées';
+                            $estAccepte = in_array($stage->statut, $statutsAcceptesVue, true);
                             $statutInfo = match(true) {
                                 $estEnAttente             => ['cls' => 'statut-attente',  'label' => 'En attente',      'icon' => '⏳'],
+                                $datesProposees           => ['cls' => 'statut-attente',  'label' => 'Dates proposées', 'icon' => '📅'],
                                 $stage->statut === 'refusé' => ['cls' => 'statut-refuse',   'label' => 'Refusé',          'icon' => '❌'],
                                 $estAccepte               => ['cls' => 'statut-accepte',  'label' => 'Validé des deux côtés', 'icon' => '✅'],
                                 default                   => ['cls' => '',                'label' => $stage->statut ?? 'Statut inconnu','icon' => ''],
@@ -137,9 +147,11 @@ include resource_path('views/layouts/barre_nav.php');
 
                             // Vérification si la convention existe
                             $idUtil = $user->id_utilisateur ?? null;
-                            $conventionExiste = $idUtil && file_exists(
-                                storage_path('app/private/Documents/' . $idUtil . '/ConventionDeStage.pdf')
-                            );
+                            $cheminConventionStage = $stage->convention
+                                ? storage_path('app/private/Documents/' . $stage->convention)
+                                : null;
+                            $conventionExiste = ($cheminConventionStage && file_exists($cheminConventionStage))
+                                || ($idUtil && file_exists(storage_path('app/private/Documents/' . $idUtil . '/ConventionDeStage.pdf')));
 
                             // Documents de stage déposés
                             $docsDeposes = $stage->documents ?? collect();
@@ -216,6 +228,11 @@ include resource_path('views/layouts/barre_nav.php');
                                         </form>
                                     </div>
 
+                                <?php elseif ($datesProposees): ?>
+                                    <div class="cand-refuse-info">
+                                        <p class="refuse-msg">Les dates ont été proposées. En attente de validation par l'étudiant.</p>
+                                    </div>
+
                                 <!-- Si accepté : afficher les dates + gestion convention + documents + remarques -->
                                 <?php elseif ($estAccepte): ?>
                                     <div class="cand-accepte-details">
@@ -261,7 +278,7 @@ include resource_path('views/layouts/barre_nav.php');
 
                                             <?php elseif ($convStatut === 'en_attente'): ?>
                                                 <div class="conv-en-attente">
-                                                    <a href="/candidature/convention/<?= $idUtil ?>" target="_blank" class="btn-doc btn-convention">📜 Voir la convention</a>
+                                                    <a href="/candidature/convention-stage/<?= $stage->id_stage ?>" target="_blank" class="btn-doc btn-convention">📜 Voir la convention</a>
                                                     <div class="conv-actions">
                                                         <form method="POST" action="/convention/valider/<?= $stage->id_stage ?>">
                                                             <input type="hidden" name="_token" value="<?= csrf_token() ?>">
@@ -279,7 +296,7 @@ include resource_path('views/layouts/barre_nav.php');
                                             <?php elseif ($convStatut === 'validee'): ?>
                                                 <div class="conv-validee">
                                                     <span class="conv-badge conv-ok-badge">✅ Convention validée</span>
-                                                    <a href="/candidature/convention/<?= $idUtil ?>" target="_blank" class="btn-doc btn-convention">📜 Voir la convention</a>
+                                                    <a href="/candidature/convention-stage/<?= $stage->id_stage ?>" target="_blank" class="btn-doc btn-convention">📜 Voir la convention</a>
                                                 </div>
 
                                             <?php elseif ($convStatut === 'refusee'): ?>
@@ -288,7 +305,7 @@ include resource_path('views/layouts/barre_nav.php');
                                                     <?php if ($stage->remarque_convention): ?>
                                                         <p class="conv-remarque">Motif : <?= htmlspecialchars($stage->remarque_convention) ?></p>
                                                     <?php endif; ?>
-                                                    <a href="/candidature/convention/<?= $idUtil ?>" target="_blank" class="btn-doc btn-convention">📜 Voir la convention</a>
+                                                    <a href="/candidature/convention-stage/<?= $stage->id_stage ?>" target="_blank" class="btn-doc btn-convention">📜 Voir la convention</a>
                                                     <!-- Permettre de re-valider après correction -->
                                                     <form method="POST" action="/convention/valider/<?= $stage->id_stage ?>" style="display:inline;">
                                                         <input type="hidden" name="_token" value="<?= csrf_token() ?>">

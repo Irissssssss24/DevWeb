@@ -21,6 +21,11 @@ include resource_path('views/layouts/barre_nav.php');
             <?= htmlspecialchars(session('success')) ?>
         </div>
     <?php endif; ?>
+    <?php if (session('error')): ?>
+        <div class="message-erreur" style="color: #e74c3c; margin-bottom: 20px;">
+            <?= htmlspecialchars(session('error')) ?>
+        </div>
+    <?php endif; ?>
 
     <?php if (empty($inscriptions) || count($inscriptions) === 0): ?>
         <p class="aucune-candidature">Aucune demande d'inscription en attente.</p>
