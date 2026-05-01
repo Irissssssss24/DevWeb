@@ -6,8 +6,20 @@ class Stage extends Model
 {
     protected $table = 'stage';
     protected $primaryKey = 'id_stage';
-    protected $fillable = ['id_etudiant', 'id_offre', 'id_tuteur', 'statut', 'date_debut', 'date_fin','lettre_motivation'];
-    protected $casts = ['date_debut' => 'datetime', 'date_fin' => 'datetime'];
+    protected $fillable = [
+        'id_etudiant', 'id_offre', 'id_tuteur',
+        'statut', 'date_debut', 'date_fin',
+        'date_debut_proposee', 'date_fin_proposee',
+        'lettre_motivation', 'convention', 'convention_signee'
+    ];
+
+    protected $casts = [
+        'date_debut'          => 'datetime',
+        'date_fin'            => 'datetime',
+        'date_debut_proposee' => 'datetime',
+        'date_fin_proposee'   => 'datetime',
+    ];
+    
     public function etudiant() {
         return $this->belongsTo(Etudiant::class, 'id_etudiant', 'id_etudiant');
     }
@@ -15,4 +27,9 @@ class Stage extends Model
     public function offre() {
         return $this->belongsTo(OffreStage::class, 'id_offre', 'id_offre');
     }
+
+    
+    
 }
+
+

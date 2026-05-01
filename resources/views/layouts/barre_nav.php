@@ -59,10 +59,10 @@ if (!function_exists('styleLien')) {
             <li><a href="/jury" <?= styleLien('jury', $pageCourante) ?>>Évaluations</a></li>
             <li><a href="/jury/profil" <?= styleLien('jury/profil', $pageCourante) ?>>Mon profil</a></li>
 
-        <?php elseif ('administrateur'=== $role_actif): ?>
+        <?php elseif ($role_actif === 'administrateur'): ?>
             <li><a href="/administrateur" <?= styleLien('administrateur', $pageCourante) ?>>Accueil</a></li>
-            <li><a href="/administrateur" <?= styleLien('administrateur', $pageCourante) ?>>Notification</a></li>
-            <li><a href="/administrateur/profil" <?= styleLien('jury/profil', $pageCourante) ?>>Mon profil</a></li>
+            <li><a href="/administrateur/validation" <?= styleLien('administrateur/validation', $pageCourante) ?>>Validation stages</a></li>
+            <li><a href="/administrateur/profil" <?= styleLien('administrateur/profil', $pageCourante) ?>>Mon profil</a></li>
 
 
         <?php else: ?>

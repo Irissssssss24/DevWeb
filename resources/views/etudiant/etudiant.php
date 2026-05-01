@@ -92,11 +92,15 @@ $typesLabels = [
 
     <?php include __DIR__ . '/partials/documents.php'; ?>
 
+    <?php include __DIR__ . '/partials/suiviStage.php'; ?>
+
     <?php include __DIR__ . '/partials/carnet.php'; ?>
 
     <?php include __DIR__ . '/partials/contact.php'; ?>
 
 </main>
+
+
 
 </body>
 </html>

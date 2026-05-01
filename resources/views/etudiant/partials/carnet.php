@@ -1,6 +1,6 @@
 <?php
 ?>
-<div class="card">
+<div class="card carnet-card">
     <div class="card-header">
         <h2>Carnet de bord</h2>
     </div>
@@ -141,5 +141,10 @@
         display: flex;
         justify-content: flex-end;
         margin-top: 8px;
+    }
+
+    .carnet-card {
+        grid-area: carnet;
+        align-self:start;
     }
 </style>

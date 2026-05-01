@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('statut', 50)->nullable();
             $table->timestamp('date_debut')->nullable();
             $table->timestamp('date_fin')->nullable();
-            $table->string('lettre_motivation',50)->nullable();
+            $table->string('lettre_motivation', 255)->nullable();
             $table->foreign('id_etudiant')
                   ->references('id_etudiant')->on('etudiant')
                   ->onDelete('cascade');

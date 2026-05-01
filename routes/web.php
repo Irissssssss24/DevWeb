@@ -10,6 +10,8 @@ use App\Http\Controllers\OffreController;
 use App\Http\Controllers\VoirOffreController;
 use App\Http\Controllers\PostulerController;
 use App\Http\Controllers\CandidaturesController;
+use App\Http\Controllers\EtudiantStageController;
+use App\Http\Controllers\AdminStageController;
 
 Route::get('/', function () {
     return redirect('/accueil');
@@ -179,6 +181,11 @@ Route::get('/mon-cv', function() {
     ]);
 });
 
+// Routes étudiant - Gestion de stage
+Route::post('/stage/accepter-dates/{id}', [EtudiantStageController::class, 'accepterDates']);
+Route::post('/stage/refuser-dates/{id}', [EtudiantStageController::class, 'refuserDates']);
+Route::post('/stage/convention/{id}', [EtudiantStageController::class, 'uploadConvention']);
+
 
 // ------------------- Route entreprise-----------------------
 Route::get('/entreprise/profil', function() {
@@ -212,10 +219,21 @@ Route::get('/entreprise', function() {
     app(CandidaturesController::class)->index();
 });
 
-Route::post('/candidature/accepter/{id}', [CandidaturesController::class, 'accepter']);
+// Routes entreprise - gestion de stage
+Route::post('/candidature/proposer-dates/{id}', [CandidaturesController::class, 'proposerDates']);
+Route::post('/candidature/convention-signee/{id}', [CandidaturesController::class, 'envoyerConventionSignee']);
+Route::get('/candidature/convention/{id}', [CandidaturesController::class, 'voirConvention']);
 Route::post('/candidature/refuser/{id}', [CandidaturesController::class, 'refuser']);
 Route::get('/candidature/cv/{idUtilisateur}', [CandidaturesController::class, 'voirCV']);
 Route::get('/candidature/lettre/{idUtilisateur}', [CandidaturesController::class, 'voirLettreMotivation']);
+
+
+// ------------------- Route Admin ------------------------
+
+// Routes admin - validation
+Route::get('/administrateur/validation', [AdminStageController::class, 'index']);
+Route::post('/administrateur/valider/{id}', [AdminStageController::class, 'valider']);
+Route::post('/administrateur/refuser/{id}', [AdminStageController::class, 'refuser']);
 
 
 // ------------------- Route commune-----------------------
@@ -299,5 +317,14 @@ Route::get('/ma-lettre', function() {
 
     return response()->file($cheminLM, ['Content-Type' => 'application/pdf']);
 });
+
+
+
+
+
+
+
+
+
 
 // --------------------------------------------------------

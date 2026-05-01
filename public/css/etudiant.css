@@ -2,9 +2,12 @@
     main {
         display: grid;
         grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "stage stage"
+            "suivi carnet"
+            "documents carnet";
         gap: 20px;
         padding: 24px;
-        align-items: start;
     }
 
     .card {

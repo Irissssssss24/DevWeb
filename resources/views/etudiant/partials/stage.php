@@ -1,6 +1,6 @@
 <?php
 ?>
-<div class="card card-full">
+<div class="card card-full stage-card">
     <div class="card-header">
         <h2>Mon stage </h2>
     </div>
@@ -69,6 +69,10 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 14px;
+    }
+
+    .stage-card {
+        grid-area: stage;
     }
 
     .stage-info-item {
