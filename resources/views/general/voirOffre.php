@@ -17,6 +17,13 @@ include resource_path('views/layouts/barre_nav.php');
 <div class="contenu-offre">
     <h2>Offres de stage disponibles</h2>
 
+    <?php if (session('success')): ?>
+        <div class="message-succes"><?= htmlspecialchars(session('success')) ?></div>
+    <?php endif; ?>
+    <?php if (session('error')): ?>
+        <div class="message-erreur"><?= htmlspecialchars(session('error')) ?></div>
+    <?php endif; ?>
+
     <!-- Barre de recherche -->
     <form method="GET" action="/offres" class="form-recherche">
         <div class="recherche-wrapper">
@@ -88,7 +95,7 @@ include resource_path('views/layouts/barre_nav.php');
                         </div>
 
                         <?php if (session('role_actif') === 'etudiant'): ?>
-                            <a href="/postuler/<?= $offre->id_offre ?>" class="btn-postuler">
+                            <a href="<?= route('postuler.index', $offre->id_offre) ?>" class="btn-postuler">
                                 Postuler
                             </a>
                         <?php endif; ?>

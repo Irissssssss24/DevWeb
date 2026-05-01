@@ -46,7 +46,7 @@ if (!function_exists('styleLien')) {
         <?php elseif ('entreprise'=== $role_actif): ?>
             <li><a href="/entreprise" <?= styleLien('entreprise', $pageCourante) ?>>Accueil</a></li>
             <li><a href="/creer-offre" <?= styleLien('creer-offre', $pageCourante) ?>>Publier une offre</a></li>
-            <li><a href="/entreprise" <?= styleLien('entreprise', $pageCourante) ?>>Voir les candidats</a></li>
+            <li><a href="/entreprise/candidatures" <?= styleLien('entreprise-candidatures', $pageCourante) ?>>Voir les candidats</a></li>
             <li><a href="/entreprise/profil" <?= styleLien('entreprise/profil', $pageCourante) ?>>Mon profil</a></li>
 
         <?php elseif ('tuteur'=== $role_actif): ?>

@@ -103,8 +103,8 @@ Route::get('/etudiant/avancement', function() {
 
 
 // Route pour postuler
-Route::get('/postuler/{id}', [PostulerController::class, 'index']);
-Route::post('/postuler/{id}', [PostulerController::class, 'store']);
+Route::get('/postuler/{id}', [PostulerController::class, 'index'])->name('postuler.index');
+Route::post('/postuler/{id}', [PostulerController::class, 'store'])->name('postuler.store');
 
 // Route pour upload le CV
 Route::post('/upload-cv', function(\Illuminate\Http\Request $request) {
@@ -190,34 +190,45 @@ Route::get('/entreprise/profil', function() {
 
 // Route pour creer / voir les offres de stage
 Route::get('/publierOffre', function() {
-    return redirect('/entreprise/publierOffre');
+    return redirect('/creer-offre');
+});
+
+Route::get('/entreprise/publierOffre', function() {
+    return redirect('/creer-offre');
 });
 
 Route::get('/creer-offre', function() {
     if (!session()->has('user_id')) return redirect('/connexion');
     if (session('role_actif') !== 'entreprise') return redirect('/connexion');
     include resource_path('views/entreprise/publierOffre.php');
-});
+})->name('offres.create');
 
-Route::post('/creer-offre', [OffreController::class, 'store']);
-
-
+Route::post('/creer-offre', [OffreController::class, 'store'])->name('offres.store');
 Route::get('/offres', [VoirOffreController::class, 'index']);
 
-// Route pour accepté ou non une candidature
-Route::get('/entreprise', function() {
-    if (!session()->has('user_id')) return redirect('/connexion');
-    if (session('role_actif') !== 'entreprise') return redirect('/connexion');
-    $pageCourante = 'entreprise';
-    app(CandidaturesController::class)->index();
-});
+// Page d'accueil entreprise = candidats acceptés uniquement
+Route::get('/entreprise', [CandidaturesController::class, 'index']);
 
-Route::post('/candidature/accepter/{id}', [CandidaturesController::class, 'accepter']);
-Route::post('/candidature/refuser/{id}', [CandidaturesController::class, 'refuser']);
-Route::get('/candidature/cv/{idUtilisateur}', [CandidaturesController::class, 'voirCV']);
-Route::get('/candidature/lettre/{idUtilisateur}', [CandidaturesController::class, 'voirLettreMotivation']);
-
-
+// Voir les candidats avec filtre par offre
+Route::get('/entreprise/candidatures', [CandidaturesController::class, 'candidats'])->name('entreprise.candidatures');
+ 
+// Accepter / refuser une candidature (existantes, inchangées)
+Route::post('/candidature/accepter/{id}',  [\App\Http\Controllers\CandidaturesController::class, 'accepter']);
+Route::post('/candidature/refuser/{id}',   [\App\Http\Controllers\CandidaturesController::class, 'refuser']);
+ 
+// Voir les documents d'un candidat
+Route::get('/candidature/cv/{idUtilisateur}',          [\App\Http\Controllers\CandidaturesController::class, 'voirCV']);
+Route::get('/candidature/lettre/{idUtilisateur}',      [\App\Http\Controllers\CandidaturesController::class, 'voirLettreMotivation']);
+Route::get('/candidature/convention/{idUtilisateur}',  [\App\Http\Controllers\CandidaturesController::class, 'voirConvention']);
+Route::get('/candidature/document/{idUtilisateur}/{type}', [\App\Http\Controllers\CandidaturesController::class, 'voirDocument']);
+ 
+// Valider / refuser la convention de stage
+Route::post('/convention/valider/{id}', [\App\Http\Controllers\CandidaturesController::class, 'validerConvention']);
+Route::post('/convention/refuser/{id}', [\App\Http\Controllers\CandidaturesController::class, 'refuserConvention']);
+ 
+// Ajouter une remarque pour un étudiant
+Route::post('/candidature/remarque/{idStage}', [\App\Http\Controllers\CandidaturesController::class, 'ajouterRemarque']);
+ 
 // ------------------- Route commune-----------------------
 
 //Route redirection
@@ -230,12 +241,6 @@ Route::get('/etudiant', function() {
     if (!in_array('etudiant', session('roles', []))) return redirect('/connexion');
     $pageCourante = 'etudiant';
     include resource_path('views/etudiant/etudiant.php');
-});
-
-Route::get('/entreprise', function() {
-    if (!session()->has('user_id')) return redirect('/connexion');
-    if (session('role_actif') !== 'entreprise') return redirect('/connexion');
-    return app(CandidaturesController::class)->index();
 });
 
 Route::get('/tuteur', function() {

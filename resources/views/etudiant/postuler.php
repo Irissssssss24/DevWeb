@@ -57,7 +57,7 @@ include resource_path('views/layouts/barre_nav.php');
     <div class="formulaire-candidature">
         <h2>Vos documents</h2>
 
-        <form method="POST" action="/postuler/<?= $offre->id_offre ?>" enctype="multipart/form-data">
+        <form method="POST" action="<?= route('postuler.store', $offre->id_offre) ?>" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="<?= csrf_token() ?>">
 
             <!-- CV -->

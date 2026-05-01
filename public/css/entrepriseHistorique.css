@@ -1,0 +1,544 @@
+/* ============================================================
+   entrepriseHistorique.css — Espace entreprise / Historique offres
+   ============================================================ */
+
+.hist-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+/* En-tête */
+.hist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.hist-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #0062AD;
+    margin-bottom: 0.25rem;
+}
+
+.hist-subtitle {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.btn-publier {
+    background: #0062AD;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+.btn-publier:hover { background: #004f8a; }
+
+/* Messages flash */
+.flash {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+.flash-succes { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.flash-erreur { background: #fce8e8; color: #c62828; border: 1px solid #ef9a9a; }
+
+/* Filtre candidats */
+.filtre-candidats {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.filtre-candidats label {
+    display: block;
+    color: #475569;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.filtre-ligne {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filtre-ligne select {
+    flex: 1;
+    min-width: 220px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    color: #334155;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    padding: 8px 10px;
+}
+
+.btn-filtrer,
+.btn-reset-filtre {
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 8px 14px;
+    text-decoration: none;
+}
+
+.btn-filtrer {
+    background: #0062AD;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-reset-filtre {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+}
+
+/* Page vide */
+.vide {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 12px;
+    border: 1px dashed #ddd;
+    color: #888;
+}
+.vide-icon { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
+.vide p { margin-bottom: 1rem; }
+
+/* ============================================================
+   BLOC OFFRE
+   ============================================================ */
+.offre-bloc {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.offre-titre-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    background: #f8fbff;
+    border-bottom: 1px solid #e8f0fb;
+}
+
+.offre-titre {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #0062AD;
+    margin-bottom: 4px;
+}
+
+.offre-duree, .offre-date {
+    font-size: 0.8rem;
+    color: #666;
+    margin-right: 12px;
+}
+
+.offre-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.stat-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+.stat-total   { background: #e8f0fb; color: #0062AD; }
+.stat-attente { background: #fff8e1; color: #f57c00; }
+.stat-accepte { background: #e8f5e9; color: #2e7d32; }
+.stat-refuse  { background: #fce8e8; color: #c62828; }
+
+.aucune-cand {
+    padding: 1.25rem 1.5rem;
+    color: #999;
+    font-size: 0.875rem;
+    font-style: italic;
+}
+
+/* ============================================================
+   CARTE CANDIDATURE
+   ============================================================ */
+.candidatures-liste {
+    padding: 0.75rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.cand-carte {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    background: #fafafa;
+    transition: border-color 0.2s;
+}
+.cand-carte.statut-attente { border-left: 4px solid #f57c00; }
+.cand-carte.statut-accepte { border-left: 4px solid #2e7d32; }
+.cand-carte.statut-refuse  { border-left: 4px solid #c62828; background: #fdf5f5; }
+
+/* Ligne principale */
+.cand-ligne-principale {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.cand-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #0062AD;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.cand-info { flex: 1; min-width: 160px; }
+.cand-nom   { font-weight: 600; font-size: 0.95rem; color: #222; margin-bottom: 2px; }
+.cand-email { font-size: 0.82rem; color: #555; margin-bottom: 2px; }
+.cand-filiere { font-size: 0.8rem; color: #888; }
+
+.cand-statut-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+.statut-attente-badge { background: #fff8e1; color: #f57c00; }
+.statut-accepte-badge { background: #e8f5e9; color: #2e7d32; }
+.statut-refuse-badge  { background: #fce8e8; color: #c62828; }
+
+/* Docs candidature */
+.cand-docs-candidature {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.btn-doc {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+.btn-doc:hover { opacity: 0.8; }
+.btn-cv         { background: #e8f0fb; color: #0062AD; }
+.btn-lettre     { background: #f3e5f5; color: #7b1fa2; }
+.btn-convention { background: #e8f5e9; color: #2e7d32; }
+
+/* ============================================================
+   ACTIONS (accepter/refuser en attente)
+   ============================================================ */
+.cand-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+    align-items: flex-end;
+}
+
+.form-dates { flex: 1; min-width: 260px; }
+
+.dates-inline {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.date-group {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.date-group label {
+    font-size: 0.75rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.date-group input[type="date"] {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-action {
+    padding: 7px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    transition: opacity 0.2s;
+}
+.btn-action:hover { opacity: 0.85; }
+
+.btn-accepter      { background: #2e7d32; color: white; }
+.btn-refuser       { background: #c62828; color: white; }
+.btn-valider-conv  { background: #2e7d32; color: white; }
+.btn-refuser-conv  { background: #e65100; color: white; }
+.btn-envoyer-rem   { background: #0062AD; color: white; }
+.btn-annuler       { background: #eee; color: #555; }
+.btn-toggle-remarque {
+    background: none;
+    border: 1px solid #0062AD;
+    color: #0062AD;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-family: 'Inter', sans-serif;
+    margin-top: 6px;
+}
+.btn-toggle-remarque:hover { background: #f0f6ff; }
+
+/* ============================================================
+   DÉTAILS CANDIDATURE ACCEPTÉE
+   ============================================================ */
+.cand-accepte-details {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.info-dates {
+    font-size: 0.875rem;
+    color: #444;
+    background: #f0f4ff;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+/* Sections internes */
+.section-bloc {
+    background: white;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 0.875rem 1rem;
+}
+
+.section-titre {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.75rem;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Profil étudiant accepté */
+.profil-accepte {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+}
+
+.profil-accepte > div {
+    background: #f8fafc;
+    border: 1px solid #e8edf2;
+    border-radius: 6px;
+    padding: 8px 10px;
+}
+
+.profil-label {
+    display: block;
+    color: #64748b;
+    font-size: 0.74rem;
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+
+.profil-accepte strong {
+    color: #1e293b;
+    font-size: 0.86rem;
+    overflow-wrap: anywhere;
+}
+
+/* Convention */
+.conv-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.conv-absent-badge { background: #fff8e1; color: #f57c00; }
+.conv-ok-badge     { background: #e8f5e9; color: #2e7d32; }
+.conv-refus-badge  { background: #fce8e8; color: #c62828; }
+
+.conv-desc { font-size: 0.82rem; color: #888; }
+.conv-remarque {
+    font-size: 0.82rem;
+    color: #c62828;
+    font-style: italic;
+    margin: 4px 0 8px;
+}
+
+.conv-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+/* Documents grille */
+.docs-grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+}
+
+.doc-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    border: 1px solid #e0e0e0;
+}
+.doc-present { background: #f0faf0; border-color: #a5d6a7; }
+.doc-absent  { background: #fafafa; color: #bbb; }
+
+.doc-icon { flex-shrink: 0; }
+.doc-label { flex: 1; color: #444; }
+.doc-voir {
+    color: #0062AD;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.78rem;
+    white-space: nowrap;
+}
+.doc-voir:hover { text-decoration: underline; }
+.doc-manquant { font-size: 0.75rem; color: #ccc; }
+
+/* Remarques */
+.remarques-liste {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.remarque-item {
+    background: #f8fafc;
+    border: 1px solid #e8edf2;
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+.rem-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+.rem-auteur { font-weight: 600; font-size: 0.8rem; color: #0062AD; }
+.rem-date   { font-size: 0.75rem; color: #aaa; }
+.rem-contenu { font-size: 0.85rem; color: #333; line-height: 1.5; }
+
+.aucune-remarque {
+    font-size: 0.82rem;
+    color: #aaa;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+.form-remarque {
+    margin-top: 10px;
+    background: #f8fafc;
+    border: 1px solid #e0e8f0;
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.form-remarque textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-rem-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+/* Candidature refusée */
+.cand-refuse-info {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #f5c6c6;
+}
+.refuse-msg {
+    font-size: 0.82rem;
+    color: #c62828;
+    font-style: italic;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 600px) {
+    .offre-titre-row { flex-direction: column; }
+    .cand-ligne-principale { flex-direction: column; align-items: flex-start; }
+    .dates-inline { flex-direction: column; align-items: stretch; }
+    .hist-header { flex-direction: column; }
+}

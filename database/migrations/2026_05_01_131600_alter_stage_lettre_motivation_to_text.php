@@ -1,20 +1,13 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class AddLettreMotivationToStageTable extends Migration
+return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('stage', function (Blueprint $table) {
-            if (!Schema::hasColumn('stage', 'lettre_motivation')) {
-                $table->text('lettre_motivation')->nullable()->after('statut');
-            }
-        });
-
         if (Schema::hasColumn('stage', 'lettre_motivation')) {
             DB::statement('ALTER TABLE stage ALTER COLUMN lettre_motivation TYPE TEXT');
         }
@@ -22,12 +15,8 @@ class AddLettreMotivationToStageTable extends Migration
 
     public function down(): void
     {
-        Schema::table('stage', function (Blueprint $table) {
-            //
-        });
-
         if (Schema::hasColumn('stage', 'lettre_motivation')) {
             DB::statement('ALTER TABLE stage ALTER COLUMN lettre_motivation TYPE VARCHAR(50)');
         }
     }
-}
+};

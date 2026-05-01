@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('titre', 150)->nullable();
             $table->text('description')->nullable();
             $table->text('competences')->nullable();
-            $table->string('duree', 50)->nullable();
+            $table->string('duree', 150)->nullable();
             $table->text('missions')->nullable();
             $table->unsignedInteger('id_entreprise')->nullable();
             $table->foreign('id_entreprise')

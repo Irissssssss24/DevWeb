@@ -92,6 +92,11 @@
     margin-bottom: 20px;
 }
 
+.liste-erreurs {
+    margin: 8px 0 0 18px;
+    padding: 0;
+}
+
 .liste-offres {
     display: flex;
     flex-direction: column;

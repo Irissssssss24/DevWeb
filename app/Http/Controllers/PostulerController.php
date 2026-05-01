@@ -15,7 +15,9 @@ class PostulerController extends Controller
         if (session('role_actif') !== 'etudiant') return redirect('/connexion');
 
         $offre = OffreStage::with('entreprise')->find($id);
-        if (!$offre) abort(404);
+        if (!$offre) {
+            return redirect('/offres')->with('error', 'Cette offre n\'existe plus ou n\'est plus disponible.');
+        }
 
         $idUtilisateur = session('user_id');
 
@@ -44,6 +46,11 @@ class PostulerController extends Controller
 
         if (!session()->has('user_id')) return redirect('/connexion');
         if (session('role_actif') !== 'etudiant') return redirect('/connexion');
+
+        $offre = OffreStage::find($id);
+        if (!$offre) {
+            return redirect('/offres')->with('error', 'Cette offre n\'existe plus ou n\'est plus disponible.');
+        }
 
         $idUtilisateur = session('user_id');
         $dossier = storage_path('app/private/Documents/' . $idUtilisateur);
