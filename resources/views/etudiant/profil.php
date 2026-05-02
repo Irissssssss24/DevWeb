@@ -21,11 +21,41 @@ $roles  = session('roles', []);
     <div class="Profil">
         <h2>Mes coordonnées :</h2>
  
+        <!-- Formulaire modification profil -->
+    <form method="POST" action="/etudiant/profil/modifier">
+        <?php echo csrf_field() ?? '' ?>
+ 
         <div class="coordonnees">
-            <p><strong>Nom :</strong> <?php echo htmlspecialchars(session('nom')); ?></p>
-            <p><strong>Prénom :</strong> <?php echo htmlspecialchars(session('prenom')); ?></p>
-            <p><strong>Email :</strong> <?php echo htmlspecialchars(session('email')); ?></p>
-            <p><strong>Rôle :</strong><em><?php echo htmlspecialchars(implode(', ', $roles)); ?></em></p> 
+            <h3>Mes coordonnées</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" name="nom" value="<?= htmlspecialchars(old('nom', session('nom'))) ?>" required>
+                </div>
+                <div class="form-group">
+                    <label>Prénom</label>
+                    <input type="text" name="prenom" value="<?= htmlspecialchars(old('prenom', session('prenom'))) ?>" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" value="<?= htmlspecialchars(old('email', session('email'))) ?>" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Filière</label>
+                    <input type="text" name="filiere" value="<?= htmlspecialchars(old('filiere', $etudiant->filiere ?? '')) ?>" placeholder="Ex: Informatique">
+                </div>
+                <div class="form-group">
+                    <label>Niveau</label>
+                    <select name="niveau">
+                        <option value="">— Choisir —</option>
+                        <?php foreach (['P1','P2','ING1','ING2','ING3'] as $n): ?>
+                            <option value="<?= $n ?>" <?= ($etudiant->niveau ?? '') === $n ? 'selected' : '' ?>><?= $n ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
         </div>
  
         <?php 

@@ -1,0 +1,311 @@
+/* ==========================================================================
+   VARIABLES ET BASES
+   ========================================================================== */
+:root {
+    --bleu-cy: #0062AD;
+    --bleu-hover: #004a85;
+    --fond-leger: #f8fbff;
+    --bordure-bleue: #d0e8ff;
+    --gris-texte: #666;
+    --danger: #c0392b;
+    --success: #155724;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    color: #333;
+}
+
+/* ==========================================================================
+   STRUCTURE ET HEADERS
+   ========================================================================== */
+.page-content, .dashboard-content {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--bleu-cy);
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.page-header h1, .page-header h2, .dashboard-titre {
+    color: var(--bleu-cy);
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+/* ==========================================================================
+   BOUTONS ET LIENS
+   ========================================================================== */
+.btn-ajouter, .btn-filtrer, .btn-submit {
+    background: var(--bleu-cy);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-ajouter:hover, .btn-filtrer:hover, .btn-submit:hover {
+    background: var(--bleu-hover);
+}
+
+.btn-reset {
+    background: #6c757d;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.btn-retour, .lien-secondaire {
+    color: var(--bleu-cy);
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.btn-retour:hover, .lien-secondaire:hover {
+    text-decoration: underline;
+}
+
+.btn-modifier {
+    background: #f0ad00;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.btn-supprimer {
+    background: var(--danger);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   FILTRES ET RECHÈRCHE
+   ========================================================================== */
+.filtres {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.filtre-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filtre-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--bleu-cy);
+}
+
+.filtre-group input, .filtre-group select {
+    padding: 9px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    min-width: 200px;
+}
+
+/* ==========================================================================
+   FORMULAIRES ET CARTES
+   ========================================================================== */
+.form-card {
+    background: white;
+    border-radius: 10px;
+    padding: 35px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+.form-card h2 {
+    color: var(--bleu-cy);
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e8f0fe;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: var(--bleu-cy);
+    margin-bottom: 6px;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px 13px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.section-specifique, .champs-specifiques {
+    background: var(--fond-leger);
+    border: 1px solid var(--bordure-bleue);
+    border-radius: 8px;
+    padding: 18px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.separateur {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
+.obligatoire {
+    color: var(--danger);
+}
+
+/* ==========================================================================
+   RÔLES (BADGES ET GRID)
+   ========================================================================== */
+.roles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.role-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--fond-leger);
+    border: 1px solid var(--bordure-bleue);
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+}
+
+.badge-role {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 2px;
+}
+
+.badge-etudiant      { background: #d4edff; color: #0062AD; }
+.badge-entreprise    { background: #d4f5e9; color: #1a7a4a; }
+.badge-tuteur        { background: #fff3cd; color: #856404; }
+.badge-jury          { background: #f8d7da; color: #721c24; }
+.badge-administrateur{ background: #e2d9f3; color: #4a235a; }
+
+/* ==========================================================================
+   TABLEAUX
+   ========================================================================== */
+.tableau-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: var(--bleu-cy);
+    color: white;
+}
+
+th, td {
+    padding: 14px 16px;
+    text-align: left;
+}
+
+tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* ==========================================================================
+   ALERTES ET STATS
+   ========================================================================== */
+.alerte, .alerte-succes, .alerte-erreur, .erreur {
+    padding: 12px 18px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.alerte-succes { background: #d4edda; color: var(--success); border: 1px solid #c3e6cb; }
+.alerte-erreur, .erreur { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.stat-card .nombre {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--bleu-cy);
+}
+
+.stat-card .label {
+    color: var(--gris-texte);
+    font-size: 0.9rem;
+}

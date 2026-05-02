@@ -21,12 +21,49 @@ $roles  = session('roles', []);
     <div class="Profil">
         <h2>Mes coordonnées :</h2>
  
+            <form method="POST" action="/entreprise/profil/modifier">
+        <?php echo csrf_field() ?? '' ?>
+ 
         <div class="coordonnees">
-            <p><strong>Nom :</strong> <?php echo htmlspecialchars(session('nom')); ?></p>
-            <p><strong>Prénom :</strong> <?php echo htmlspecialchars(session('prenom')); ?></p>
-            <p><strong>Email :</strong> <?php echo htmlspecialchars(session('email')); ?></p>
-            <p><strong>Rôle :</strong><em><?php echo htmlspecialchars(implode(', ', $roles)); ?></em></p> 
+            <h3>Vos coordonnées</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nom du contact</label>
+                    <input type="text" name="nom" value="<?= htmlspecialchars(old('nom', session('nom'))) ?>" required>
+                </div>
+                <div class="form-group">
+                    <label>Prénom du contact</label>
+                    <input type="text" name="prenom" value="<?= htmlspecialchars(old('prenom', session('prenom'))) ?>" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" value="<?= htmlspecialchars(old('email', session('email'))) ?>" required>
+            </div>
         </div>
+ 
+        <div class="section-entreprise">
+            <h3>Informations entreprise</h3>
+            <div class="form-group">
+                <label>Nom de l'entreprise</label>
+                <input type="text" name="nom_entreprise" value="<?= htmlspecialchars(old('nom_entreprise', $entreprise->nom_entreprise ?? '')) ?>">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Secteur d'activité</label>
+                    <input type="text" name="secteur" value="<?= htmlspecialchars(old('secteur', $entreprise->secteur ?? '')) ?>">
+                </div>
+                <div class="form-group">
+                    <label>SIRET</label>
+                    <input type="text" name="siret" value="<?= htmlspecialchars(old('siret', $entreprise->siret ?? '')) ?>" maxlength="14">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Adresse</label>
+                <input type="text" name="adresse" value="<?= htmlspecialchars(old('adresse', $entreprise->adresse ?? '')) ?>">
+            </div>
+        </div>
+
  
         <?php 
         $idUtilisateur = session('user_id');

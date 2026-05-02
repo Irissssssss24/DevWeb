@@ -15,6 +15,8 @@ use App\Http\Controllers\AdminStageController;
 use Illuminate\Http\Request;
 use App\Models\Suivi;
 use App\Models\Inscription;
+use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\ProfilController;
 
 Route::get('/', function () {
     return redirect('/accueil');
@@ -96,8 +98,10 @@ Route::get('/switch-role/{role}', function($role) {
 Route::get('/etudiant/profil', function() {
     if (!session()->has('user_id')) return redirect('/connexion');
     if (!in_array('etudiant', session('roles', []))) return redirect('/connexion');
-    include resource_path('views/etudiant/profil.php');
+    include resource_path('views/etudiant/profil.php'); // fichier remplacé
 });
+Route::post('/etudiant/profil/modifier', [ProfilController::class, 'updateEtudiant']);
+
 
 Route::get('/etudiant/avancement', function() {
     if (!session()->has('user_id')) return redirect('/connexion');
@@ -219,8 +223,9 @@ Route::post('/etudiant/ajouter-suivi', function(Request $request) {
 Route::get('/entreprise/profil', function() {
     if (!session()->has('user_id')) return redirect('/connexion');
     if (!in_array('entreprise', session('roles', []))) return redirect('/connexion');
-    include resource_path('views/entreprise/profil.php');
+    include resource_path('views/entreprise/profil.php'); // fichier remplacé
 });
+Route::post('/entreprise/profil/modifier', [ProfilController::class, 'updateEntreprise']);
 
 
 // Route pour creer / voir les offres de stage
@@ -350,7 +355,23 @@ Route::post('/admin/inscription/refuser/{id}', [AdminStageController::class, 're
 Route::get('/administrateur/profil', function() {
     if (!session()->has('user_id')) return redirect('/connexion');
     if (!in_array('administrateur', session('roles', []))) return redirect('/connexion');
-    include resource_path('views/admin/profil.php');
+    include resource_path('views/admin/profil.php'); // fichier remplacé
 });
+Route::post('/administrateur/profil/modifier', [ProfilController::class, 'updateAdmin']);
+ 
+
+Route::get('/administrateur', [AdminUserController::class, 'dashboard']);
+
+// --- Administrateur : Gestion des utilisateurs ---
+Route::get('/administrateur/utilisateurs', [AdminUserController::class, 'listeUtilisateurs']);
+Route::get('/administrateur/utilisateurs/creer', [AdminUserController::class, 'creerUtilisateur']);
+Route::post('/administrateur/utilisateurs/creer', [AdminUserController::class, 'storeUtilisateur']);
+Route::get('/administrateur/modifier/{id}', [AdminUserController::class, 'modifierUtilisateur']);
+Route::post('/administrateur/utilisateurs/update/{id}', [AdminUserController::class, 'updateUtilisateur']);
+Route::post('/administrateur/supprimer/{id}', [AdminUserController::class, 'supprimerUtilisateur']);
+Route::post('/administrateur/roles/{id}', [AdminUserController::class, 'modifierRoles']);
+ 
 
 // --------------------------------------------------------
+
+Route::post('/tuteur/profil/modifier', [ProfilController::class, 'updateTuteur']);

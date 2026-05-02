@@ -17,13 +17,30 @@ $roles  = session('roles', []);
 ?>
 
     <div class="Profil">
-        <h2>Mes coordonnées :</h2>
 
+        <form method="POST" action="/administrateur/profil/modifier">
+        <?php echo csrf_field() ?? '' ?>
+ 
         <div class="coordonnees">
-            <p><strong>Nom :</strong> <?php echo htmlspecialchars(session('nom')); ?></p>
-            <p><strong>Prénom :</strong> <?php echo htmlspecialchars(session('prenom')); ?></p>
-            <p><strong>Email :</strong> <?php echo htmlspecialchars(session('email')); ?></p>
-            <p><strong>Rôle :</strong> <em><?php echo htmlspecialchars(implode(', ', $roles)); ?></em></p>
+            <h3>Mes coordonnées</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" name="nom" value="<?= htmlspecialchars(old('nom', session('nom'))) ?>" required>
+                </div>
+                <div class="form-group">
+                    <label>Prénom</label>
+                    <input type="text" name="prenom" value="<?= htmlspecialchars(old('prenom', session('prenom'))) ?>" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" value="<?= htmlspecialchars(old('email', session('email'))) ?>" required>
+            </div>
+            <div class="form-group">
+                <label>Rôle(s)</label>
+                <input type="text" value="<?= htmlspecialchars(implode(', ', session('roles', []))) ?>" disabled style="background:#f0f0f0;color:#666;">
+            </div>
         </div>
 
         <div class="modification">
