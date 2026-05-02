@@ -9,7 +9,7 @@
 </head>
 <body>
 <?php
-$pageCourante = 'administrateur';
+$pageCourante = 'utilisateur';
 ?>
 
 <div class="page-content">

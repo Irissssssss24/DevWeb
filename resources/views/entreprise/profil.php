@@ -40,6 +40,30 @@ $roles  = session('roles', []);
                 <label>Email</label>
                 <input type="email" name="email" value="<?= htmlspecialchars(old('email', session('email'))) ?>" required>
             </div>
+             <!-- Messages -->
+            <?php if (session('success')): ?>
+                <div style="background:#eafaf1; color:#27ae60; padding:10px 15px; border-left:4px solid #27ae60; border-radius:5px; margin: 20px 0;">
+                    <?= session('success') ?>
+                </div>
+            <?php endif; ?>
+
+            <?php 
+            $erreurs = session('errors');
+            if ($erreurs && $erreurs->any()): 
+            ?>
+                <div style="background:#fdecea; color:#c0392b; padding:10px 15px; border-left:4px solid #c0392b; border-radius:5px; margin: 20px 0;">
+                    <ul style="margin:0; padding-left:15px;">
+                        <?php foreach ($erreurs->all() as $error): ?>
+                            <li><?= $error ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <!-- Bouton submit -->
+            <div style="margin-top: 20px; text-align: left;,padding-bottom:20px;">
+                <button type="submit"> Enregistrer les modifications</button>
+            </div>
         </div>
  
         <div class="section-entreprise">
@@ -62,7 +86,34 @@ $roles  = session('roles', []);
                 <label>Adresse</label>
                 <input type="text" name="adresse" value="<?= htmlspecialchars(old('adresse', $entreprise->adresse ?? '')) ?>">
             </div>
+        
+        
+         <!-- Messages -->
+            <?php if (session('success')): ?>
+                <div style="background:#eafaf1; color:#27ae60; padding:10px 15px; border-left:4px solid #27ae60; border-radius:5px; margin: 20px 0;">
+                    <?= session('success') ?>
+                </div>
+            <?php endif; ?>
+
+            <?php 
+            $erreurs = session('errors');
+            if ($erreurs && $erreurs->any()): 
+            ?>
+                <div style="background:#fdecea; color:#c0392b; padding:10px 15px; border-left:4px solid #c0392b; border-radius:5px; margin: 20px 0;">
+                    <ul style="margin:0; padding-left:15px;">
+                        <?php foreach ($erreurs->all() as $error): ?>
+                            <li><?= $error ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <!-- Bouton submit -->
+            <div style="margin-top: 20px; text-align: left;,padding-bottom:20px;">
+                <button type="submit"> Enregistrer les modifications</button>
+            </div>
         </div>
+                        </form>
 
  
         <?php 

@@ -41,7 +41,33 @@ $roles  = session('roles', []);
                 <label>Rôle(s)</label>
                 <input type="text" value="<?= htmlspecialchars(implode(', ', session('roles', []))) ?>" disabled style="background:#f0f0f0;color:#666;">
             </div>
+        
+        <!-- Messages -->
+            <?php if (session('success')): ?>
+                <div style="background:#eafaf1; color:#27ae60; padding:10px 15px; border-left:4px solid #27ae60; border-radius:5px; margin: 20px 0;">
+                    <?= session('success') ?>
+                </div>
+            <?php endif; ?>
+
+            <?php 
+            $erreurs = session('errors');
+            if ($erreurs && $erreurs->any()): 
+            ?>
+                <div style="background:#fdecea; color:#c0392b; padding:10px 15px; border-left:4px solid #c0392b; border-radius:5px; margin: 20px 0;">
+                    <ul style="margin:0; padding-left:15px;">
+                        <?php foreach ($erreurs->all() as $error): ?>
+                            <li><?= $error ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <!-- Bouton submit -->
+            <div style="margin-top: 20px; text-align: left;,padding-bottom:20px;">
+                <button type="submit"> Enregistrer les modifications</button>
+            </div>
         </div>
+        </form>
 
         <div class="modification">
             <h3>Modifier le mot de passe :</h3>

@@ -61,8 +61,8 @@ if (!function_exists('styleLien')) {
 
         <?php elseif ($role_actif === 'administrateur'): ?>
             <li><a href="/administrateur" <?= styleLien('administrateur', $pageCourante) ?>>Accueil</a></li>
-            <li><a href="/administrateur/validation" <?= styleLien('administrateur/validation', $pageCourante) ?>>Validation stages</a></li>
-            <li><a href="/administrateur/inscriptions" <?= styleLien('administrateur/inscriptions', $pageCourante) ?>>Inscription</a></li>
+            <li><a href="/administrateur/validation" <?= styleLien('stage', $pageCourante) ?>>Validation stages</a></li>
+            <li><a href="/administrateur/inscriptions" <?= styleLien('utilisateur', $pageCourante) ?>>Inscription</a></li>
             <li><a href="/administrateur/profil" <?= styleLien('administrateur/profil', $pageCourante) ?>>Mon profil</a></li>
 
 

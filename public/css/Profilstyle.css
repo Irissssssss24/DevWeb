@@ -47,24 +47,84 @@ h3 {
 }
 
 /* --- SECTION COORDONNEES --- */
+/* --- SECTION COORDONNEES --- */
 .coordonnees {
     background-color: #f9fbfc;
-    padding: 20px;
+    padding: 24px;
     border-left: 4px solid var(--bleu-cy);
-    border-radius: 5px;
+    border-radius: 8px;
     margin-bottom: 30px;
 }
 
-.coordonnees p {
-    margin: 10px 0;
-    font-size: 1rem;
+.coordonnees h3 {
+    color: var(--bleu-cy);
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0eaf3;
 }
 
-.coordonnees strong {
-    color: var(--bleu-cy);
-    font-weight: 600;
-    min-width: 80px;
+/* Ligne avec deux champs côte à côte */
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
 }
+
+.form-row .form-group {
+    flex: 1;
+}
+
+/* Groupe label + input */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--bleu-cy);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px 14px;
+    border: 1px solid var(--gris-bordure);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    background-color: white;
+    color: var(--texte-sombre);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--bleu-cy);
+    box-shadow: 0 0 0 3px rgba(0, 98, 173, 0.1);
+}
+
+.form-group input:disabled {
+    background-color: #f0f0f0;
+    color: #999;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
 
 /* --- SECTION CV --- */
 .cv {
@@ -96,6 +156,7 @@ h3 {
 
 /* --- SECTION MODIFICATION MOT DE PASSE --- */
 .modification {
+    margin-top: 20px;
     background-color: #f9fbfc;
     padding: 20px;
     border-left: 4px solid var(--bleu-cy);
@@ -201,5 +262,22 @@ button.valider:hover {
     box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
 }
 
+.section-entreprise {
+    background-color: #f9fbfc;
+    padding: 20px;
+    border-left: 4px solid var(--bleu-cy);
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
 
+.section-entreprise p {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+.section-entreprise strong {
+    color: var(--bleu-cy);
+    font-weight: 600;
+    min-width: 80px;
+}
 

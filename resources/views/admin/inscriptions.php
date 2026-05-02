@@ -9,7 +9,7 @@
 </head>
 <body>
 <?php
-$pageCourante = 'administrateur';
+$pageCourante = 'utilisateur';
 include resource_path('views/layouts/barre_nav.php');
 ?>
 
