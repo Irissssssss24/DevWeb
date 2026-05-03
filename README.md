@@ -68,6 +68,6 @@ ports:
 
 
 
-# Connexion 
+# Connexion aux mails
 
 aller sur http://localhost:8025 pour accéder au mail de vérification
