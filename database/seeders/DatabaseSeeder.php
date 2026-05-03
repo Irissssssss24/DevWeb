@@ -21,70 +21,96 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // ============================================================
-        // UTILISATEURS EXISTANTS 
+        // SUPERUSER (tous les rôles)
         // ============================================================
-
-        $userKillian = Utilisateur::firstOrCreate(
-            ['email' => 'killianrollet@gmail.com'],
-            ['nom' => 'Rollet', 'prenom' => 'Killian', 'mot_de_passe' => bcrypt('mdp_test')]
+        $superuser = Utilisateur::firstOrCreate(
+            ['email' => 'superuser@gmail.com'],
+            ['nom' => 'Super', 'prenom' => 'User', 'mot_de_passe' => bcrypt('superuser')]
         );
         Role::updateOrCreate(
-            ['id_utilisateur' => $userKillian->id_utilisateur],
+            ['id_utilisateur' => $superuser->id_utilisateur],
             ['etudiant' => 1, 'entreprise' => 1, 'administrateur' => 1, 'tuteur' => 1, 'jury' => 1]
         );
         Etudiant::firstOrCreate(
-            ['id_utilisateur' => $userKillian->id_utilisateur],
+            ['id_utilisateur' => $superuser->id_utilisateur],
             ['filiere' => 'GI', 'niveau' => 'ING1', 'cv' => '']
         );
         Entreprise::firstOrCreate(
-            ['id_utilisateur' => $userKillian->id_utilisateur],
-            ['nom_entreprise' => 'ROLLET & CO', 'adresse' => '9 Avenue Pierre Massé', 'secteur' => 'Informatique']
+            ['id_utilisateur' => $superuser->id_utilisateur],
+            ['nom_entreprise' => 'SuperCorp', 'adresse' => '1 Rue du Superuser', 'secteur' => 'Informatique']
         );
-        Administrateur::firstOrCreate(['id_utilisateur' => $userKillian->id_utilisateur]);
+        Administrateur::firstOrCreate(['id_utilisateur' => $superuser->id_utilisateur]);
         Tuteur::firstOrCreate(
-            ['id_utilisateur' => $userKillian->id_utilisateur],
-            ['specialite' => 'Programmation procédurale']
+            ['id_utilisateur' => $superuser->id_utilisateur],
+            ['specialite' => 'Toutes spécialités']
         );
-        Jury::firstOrCreate(['id_utilisateur' => $userKillian->id_utilisateur]);
+        Jury::firstOrCreate(['id_utilisateur' => $superuser->id_utilisateur]);
 
-        $userIris = Utilisateur::firstOrCreate(
-            ['email' => 'iris.geyer@etu.cyu.fr'],
-            ['nom' => 'Geyer', 'prenom' => 'Iris', 'mot_de_passe' => bcrypt('mdp_test')]
+        // ============================================================
+        // UTILISATEUR ENTREPRISE
+        // ============================================================
+        $userEntreprise = Utilisateur::firstOrCreate(
+            ['email' => 'entreprise@test.com'],
+            ['nom' => 'Dupont', 'prenom' => 'Marie', 'mot_de_passe' => bcrypt('mdp_test')]
         );
         Role::firstOrCreate(
-            ['id_utilisateur' => $userIris->id_utilisateur],
+            ['id_utilisateur' => $userEntreprise->id_utilisateur],
             ['entreprise' => 1]
         );
         Entreprise::firstOrCreate(
-            ['id_utilisateur' => $userIris->id_utilisateur],
-            ['nom_entreprise' => 'GEYER & CO', 'adresse' => '9 Avenue Pierre Massé', 'secteur' => 'Informatique', 'siret' => '123 123 123 12345']
+            ['id_utilisateur' => $userEntreprise->id_utilisateur],
+            ['nom_entreprise' => 'TechCorp', 'adresse' => '10 Rue de la Paix, Paris', 'secteur' => 'Informatique', 'siret' => '00000000000000']
         );
 
-        $userKillian2 = Utilisateur::firstOrCreate(
-            ['email' => 'killian.rollet@etu.cyu.fr'],
-            ['nom' => 'Rollet', 'prenom' => 'Killian', 'mot_de_passe' => bcrypt('mdp_test')]
+        // ============================================================
+        // UTILISATEUR ADMINISTRATEUR
+        // ============================================================
+        $userAdmin = Utilisateur::firstOrCreate(
+            ['email' => 'admin@test.com'],
+            ['nom' => 'Martin', 'prenom' => 'Jean', 'mot_de_passe' => bcrypt('mdp_test')]
         );
         Role::firstOrCreate(
-            ['id_utilisateur' => $userKillian2->id_utilisateur],
+            ['id_utilisateur' => $userAdmin->id_utilisateur],
             ['administrateur' => 1]
         );
-        Administrateur::firstOrCreate(['id_utilisateur' => $userKillian2->id_utilisateur]);
+        Administrateur::firstOrCreate(['id_utilisateur' => $userAdmin->id_utilisateur]);
 
-        $userSylia = Utilisateur::firstOrCreate(
-            ['email' => 'sylia.meddour@etu.cyu.fr'],
-            ['nom' => 'Meddour', 'prenom' => 'Sylia', 'mot_de_passe' => bcrypt('mdp_test')]
+        // ============================================================
+        // UTILISATEUR TUTEUR
+        // ============================================================
+        $userTuteur = Utilisateur::firstOrCreate(
+            ['email' => 'tuteur@test.com'],
+            ['nom' => 'Bernard', 'prenom' => 'Sophie', 'mot_de_passe' => bcrypt('mdp_test')]
         );
         Role::firstOrCreate(
-            ['id_utilisateur' => $userSylia->id_utilisateur],
+            ['id_utilisateur' => $userTuteur->id_utilisateur],
             ['tuteur' => 1]
         );
         Tuteur::firstOrCreate(
-            ['id_utilisateur' => $userSylia->id_utilisateur],
-            ['specialite' => 'Programmation procédurale']
+            ['id_utilisateur' => $userTuteur->id_utilisateur],
+            ['specialite' => 'Développement web']
         );
 
-        // Offres existantes
-        $entrepriseIris = Entreprise::where('id_utilisateur', $userIris->id_utilisateur)->first();
+        // ============================================================
+        // UTILISATEUR ETUDIANT
+        // ============================================================
+        $userEtudiant = Utilisateur::firstOrCreate(
+            ['email' => 'etudiant@test.com'],
+            ['nom' => 'Durand', 'prenom' => 'Lucas', 'mot_de_passe' => bcrypt('mdp_test')]
+        );
+        Role::firstOrCreate(
+            ['id_utilisateur' => $userEtudiant->id_utilisateur],
+            ['etudiant' => 1]
+        );
+        Etudiant::firstOrCreate(
+            ['id_utilisateur' => $userEtudiant->id_utilisateur],
+            ['filiere' => 'Génie Informatique', 'niveau' => 'ING2', 'cv' => '']
+        );
+
+        // ============================================================
+        // OFFRES DE STAGE
+        // ============================================================
+        $entreprise = Entreprise::where('id_utilisateur', $userEntreprise->id_utilisateur)->first();
 
         $offreDev = OffreStage::firstOrCreate(
             ['titre' => 'Développeur web fullstack'],
@@ -93,7 +119,7 @@ class DatabaseSeeder extends Seeder
                 'missions'      => 'Développer de nouvelles fonctionnalités, corriger des bugs, participer aux réunions d\'équipe.',
                 'competences'   => 'PHP, Laravel, PostgreSQL, HTML, CSS',
                 'duree'         => '3 mois',
-                'id_entreprise' => $entrepriseIris->id_entreprise,
+                'id_entreprise' => $entreprise->id_entreprise,
             ]
         );
 
@@ -104,16 +130,15 @@ class DatabaseSeeder extends Seeder
                 'missions'      => 'Analyser les données clients, créer des tableaux de bord, rédiger des rapports.',
                 'competences'   => 'Python, SQL, Excel, PowerBI',
                 'duree'         => '6 mois',
-                'id_entreprise' => $entrepriseIris->id_entreprise,
+                'id_entreprise' => $entreprise->id_entreprise,
             ]
         );
 
         // ============================================================
         // STAGE DE TEST
         // ============================================================
-
-        $etudiant = Etudiant::where('id_utilisateur', $userKillian->id_utilisateur)->first();
-        $tuteur   = Tuteur::where('id_utilisateur', $userSylia->id_utilisateur)->first();
+        $etudiant = Etudiant::where('id_utilisateur', $userEtudiant->id_utilisateur)->first();
+        $tuteur   = Tuteur::where('id_utilisateur', $userTuteur->id_utilisateur)->first();
 
         $stage = Stage::firstOrCreate(
             [
@@ -121,53 +146,47 @@ class DatabaseSeeder extends Seeder
                 'id_offre'    => $offreDev->id_offre,
             ],
             [
-                'id_tuteur'   => $tuteur->id_tuteur,
-                'statut'      => 'en_cours',
-                'date_debut'  => '2025-02-01 08:00:00',
-                'date_fin'    => '2025-04-30 18:00:00',
+                'id_tuteur'  => $tuteur->id_tuteur,
+                'statut'     => 'en_cours',
+                'date_debut' => '2025-02-01 08:00:00',
+                'date_fin'   => '2025-04-30 18:00:00',
             ]
         );
 
-        // ---- Documents ----
-        // Rapport de stage
+        // Documents
         Document::firstOrCreate(
             ['type' => 'rapport', 'id_stage' => $stage->id_stage],
-            ['fichier' => 'rapports/rapport_stage_killian_rollet.pdf']
+            ['fichier' => 'rapports/rapport_stage_test.pdf']
         );
-
-        // Convention de stage
         Document::firstOrCreate(
             ['type' => 'convention', 'id_stage' => $stage->id_stage],
-            ['fichier' => 'conventions/convention_killian_rollet.pdf']
+            ['fichier' => 'conventions/convention_test.pdf']
         );
 
-        // ---- Suivi (journal d'avancement) ----
+        // Suivi
         Suivi::firstOrCreate(
             ['id_stage' => $stage->id_stage, 'date' => '2025-02-07 10:00:00'],
             ['avancement' => 'Prise en main de l\'environnement de développement, installation des outils, lecture de la documentation interne.']
         );
-
         Suivi::firstOrCreate(
             ['id_stage' => $stage->id_stage, 'date' => '2025-02-28 10:00:00'],
             ['avancement' => 'Développement du module d\'authentification. Mise en place du système 2FA par email. Tests unitaires réalisés.']
         );
-
         Suivi::firstOrCreate(
             ['id_stage' => $stage->id_stage, 'date' => '2025-03-31 10:00:00'],
             ['avancement' => 'Intégration de l\'interface étudiant et entreprise. Correction de bugs sur le formulaire d\'inscription.']
         );
 
-        // ---- Remarques (tuteur + jury) ----
+        // Remarques
         Remarque::firstOrCreate(
-            ['id_stage' => $stage->id_stage, 'id_utilisateur' => $userSylia->id_utilisateur],
+            ['id_stage' => $stage->id_stage, 'id_utilisateur' => $userTuteur->id_utilisateur],
             [
-                'contenu' => 'Bon investissement dans le projet. L\'étudiant a fait preuve d\'autonomie et de rigueur. Quelques efforts à faire sur la documentation du code.',
+                'contenu' => 'Bon investissement dans le projet. L\'étudiant a fait preuve d\'autonomie et de rigueur.',
                 'date'    => '2025-04-15 14:00:00',
             ]
         );
-
         Remarque::firstOrCreate(
-            ['id_stage' => $stage->id_stage, 'id_utilisateur' => $userKillian2->id_utilisateur],
+            ['id_stage' => $stage->id_stage, 'id_utilisateur' => $userAdmin->id_utilisateur],
             [
                 'contenu' => 'Rapport de stage bien structuré. La soutenance a été claire et bien préparée. Note finale : 16/20.',
                 'date'    => '2025-04-28 10:00:00',
