@@ -39,20 +39,25 @@ docker-compose exec app composer install
 ```
 
 # Générer la clé de l'application 
-```bash 
+```
+bash 
 docker-compose exec app php artisan key:generate
 ```
 
 # Créer les tables et les données tests
 ```
 bash
-docker-compose exec app php artisan migrate --seed
+docker-compose exec app php artisan migrate:fresh --seed
 ```
 
 
 # Accéder au projet 
 
 Le projet est accesible sur http://localhost:8000
+
+# Connexion 
+
+aller sur http://localhost:8025 pour accéder au mail de vérification
 
 # Problème de port
 
@@ -68,6 +73,3 @@ ports:
 
 
 
-# Connexion 
-
-aller sur http://localhost:8025 pour accéder au mail de vérification
